@@ -1,10 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=4 format=3 uid="uid://2qvhwcgcgbqq"]
+
+[ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://icon.svg" id="1_a202f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_noarx"]
+albedo_texture = ExtResource("1_a202f")
 
 [sub_resource type="SphereMesh" id="SphereMesh_4xowi"]
+material = SubResource("StandardMaterial3D_noarx")
 
 [node name="Node3D" type="Node3D"]
 
 [node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="."]
+margin = 0.001
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionPolygon3D"]
+transform = Transform3D(-0.9333112, 0, 0.3590685, 0, 1, 0, -0.3590685, 0, -0.9333112, 0.02270186, 1.5633215, 1.078671)
 mesh = SubResource("SphereMesh_4xowi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CollisionPolygon3D/MeshInstance3D"]
+transform = Transform3D(0.742345, -0.020250207, -0.669712, 0.020250207, -0.99840844, 0.052635487, -0.669712, -0.05263549, -0.7407533, -2.7870731, 0, -7.1087165)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9662442, 1.3287721, 3.8401108)
