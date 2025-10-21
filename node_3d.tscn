@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://2qvhwcgcgbqq"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4xowi"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionPolygon3D"]
+mesh = SubResource("SphereMesh_4xowi")
