@@ -1,9 +1,9 @@
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_disabled,diffuse_toon,specular_toon;
 
-uniform vec4 albedo : source_color;
 uniform sampler2D color_gradient;
 uniform sampler2D fresnel_gradient;
+uniform sampler2D diffuse_texture;
 
 float fresnel(float amount, vec3 normal, vec3 view) {
 	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0)), amount);
@@ -15,7 +15,7 @@ void vertex() {
 
 void fragment() {
 	float basic_fresnel = fresnel(4.0, NORMAL, VIEW);
-	ALBEDO = albedo.rgb + (basic_fresnel * texture(fresnel_gradient, vec2(basic_fresnel, 0.0)).rgb * 1.0);
+	ALBEDO = texture(diffuse_texture, UV).rgb + (basic_fresnel * texture(fresnel_gradient, vec2(basic_fresnel, 0.0)).rgb * 1.0);
 }
 // The part that makes it cellshaded
 void light() {
