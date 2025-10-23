@@ -2,9 +2,9 @@ extends Camera3D
 
 @export var target: Node3D
 @export var mouse_sensitivity = 0.003
-@export var table_camera_radius = 13.0
+@export var table_camera_radius = 13.0 # dystans kamery od celu
 @export var ball_camera_radius = 5.0
-@export var camera_speed = 10
+@export var camera_lerp_speed = 10
 
 const MIN_PHI = 0.25
 const MAX_PHI = 1.45
@@ -14,7 +14,7 @@ var phi = 1.0
 var ball_list
 var camera_current_radius
 var camera_target_radius
-var current_target_index: int = -1
+var current_target_index: int = 0 # Biala bila
 var offset = Vector3(0.0, 0.0, 0.0)
 var pivot = Vector3.ZERO
 var animating = false
@@ -24,11 +24,11 @@ func _ready() -> void:
 	self.position = Vector3.ZERO
 	ball_list = get_tree().get_nodes_in_group("balls")
 	
-	camera_current_radius = table_camera_radius
+	camera_current_radius = ball_camera_radius
 	camera_target_radius = camera_current_radius
 
 func _process(delta: float) -> void:
-	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_speed * delta)
+	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	
 	var x = camera_current_radius * sin(phi) * cos(theta)
 	var y = camera_current_radius * cos(phi)
@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 		target_center = target.global_position
 		
 	if animating:
-		pivot = lerp(pivot, target_center, camera_speed * delta)
+		pivot = lerp(pivot, target_center, camera_lerp_speed * delta)
 
 		if pivot.distance_to(target_center) < 0.01:
 			animating = false
@@ -65,6 +65,8 @@ func _input(event):
 		current_target_index -= 1
 		update_camera_target()
 		
+# Kamera przechodzi po kulach w kolejnosci w jakiej zostaly dodane do listy
+#	zamiast tego powinno dac sie zmieniac pomiedzy najblizszymi kulami
 func update_camera_target():
 		var total_targets = ball_list.size() + 1
 		current_target_index = wrapi(current_target_index, 0, total_targets)

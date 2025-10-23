@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=19 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="1_a202f"]
-[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://camera_3d.gd" id="2_noarx"]
-[ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://ball_1.gd" id="3_r3fl7"]
+[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/camera.gd" id="2_noarx"]
+[ext_resource type="Shader" uid="uid://dgp2nyncsm5bt" path="res://shaders/wall.gdshader" id="2_r3fl7"]
+[ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scripts/player_ball.gd" id="3_r3fl7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0tk4"]
 cull_mode = 2
@@ -15,7 +16,14 @@ material = SubResource("StandardMaterial3D_a0tk4")
 [sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
 size = Vector3(21.54, 0.36, 31.36)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jka67"]
+render_priority = 0
+shader = ExtResource("2_r3fl7")
+shader_parameter/fade_start_distance = 5.0
+shader_parameter/fade_end_distance = 2.0
+
 [sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
+material = SubResource("ShaderMaterial_jka67")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r3fl7"]
 size = Vector3(1, 20.345, 31.37)
@@ -45,9 +53,10 @@ material = SubResource("StandardMaterial3D_a202f")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.9333113, -2.4843486e-10, 0.35906842, 0.28876635, -0.5943458, 0.75057805, 0.21341076, 0.8042098, 0.55470955, 0.07139218, 5.804604, 8.714066)
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
 script = ExtResource("2_noarx")
+target = NodePath("../PlayerBall")
 
 [node name="Table" type="Node" parent="."]
 
@@ -107,13 +116,22 @@ shape = SubResource("BoxShape3D_r3fl7")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_a202f")
 
-[node name="PlayerBall" type="RigidBody3D" parent="." groups=["balls"]]
+[node name="PlayerBall" type="RigidBody3D" parent="." node_paths=PackedStringArray("target_sprite") groups=["balls"]]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.09263587, 0.7649708, 10.218924)
 physics_material_override = SubResource("PhysicsMaterial_r3fl7")
 script = ExtResource("3_r3fl7")
+target_sprite = NodePath("MeshInstance3D/Target")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerBall"]
 mesh = SubResource("SphereMesh_jka67")
+
+[node name="Target" type="Sprite3D" parent="PlayerBall/MeshInstance3D"]
+modulate = Color(0.92577106, 0, 0.37224972, 1)
+pixel_size = 0.001
+billboard = 1
+shaded = true
+no_depth_test = true
+texture = ExtResource("1_a202f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerBall"]
 shape = SubResource("SphereShape3D_a0tk4")
