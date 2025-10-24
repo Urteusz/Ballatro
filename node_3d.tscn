@@ -82,7 +82,9 @@ stretch = true
 stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
 size = Vector2i(576, 324)
+render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
@@ -121,7 +123,7 @@ shape = SubResource("BoxShape3D_r3fl7")
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.046453476, -0.13216782, 15.715046)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
-transform = Transform3D(1, 0, 1.1368684e-13, 0, 1, 0, 0, 0, 23.27015, -0.019269943, 0.83349013, -0.0013456345)
+transform = Transform3D(1, 0, 1.1368684e-13, 0, 1, 0, 0, 0, 23.27015, -0.019269943, 0.61731124, -0.0013456345)
 mesh = SubResource("BoxMesh_a0tk4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
@@ -132,7 +134,7 @@ shape = SubResource("BoxShape3D_r3fl7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.295166, 0.46555376, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0, -0.13415861, 0)
 mesh = SubResource("BoxMesh_a0tk4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
@@ -142,7 +144,7 @@ shape = SubResource("BoxShape3D_r3fl7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.29156, 0.7327769, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0.123848915, 0, 0)
 mesh = SubResource("BoxMesh_a0tk4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
