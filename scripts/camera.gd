@@ -1,5 +1,8 @@
 extends Camera3D
 
+# do testow
+var points_popup = preload("res://scenes/points_popup.tscn")
+
 @export var target: Node3D
 @export var mouse_sensitivity = 0.003
 @export var table_camera_radius = 13.0 # dystans kamery od celu
@@ -64,6 +67,13 @@ func _input(event):
 	if event.is_action_pressed("previous_camera_target"):
 		current_target_index -= 1
 		update_camera_target()
+		
+	if event.is_action_pressed("left_mouse_click"):
+		print("left mouse clicked")
+		var popup_instance = points_popup.instantiate()
+		get_parent().add_child(popup_instance)
+		popup_instance.global_position = global_position
+		popup_instance.set_and_play(100)
 		
 # Kamera przechodzi po kulach w kolejnosci w jakiej zostaly dodane do listy
 #	zamiast tego powinno dac sie zmieniac pomiedzy najblizszymi kulami
