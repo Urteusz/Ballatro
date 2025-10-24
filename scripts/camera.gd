@@ -98,3 +98,7 @@ func update_camera_target():
 			target = ball_list[current_target_index]
 
 		animating = true
+		
+		
+func get_camera_theta() -> float:
+	return theta
