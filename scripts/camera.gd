@@ -60,21 +60,29 @@ func _input(event):
 		phi = clamp(phi, MIN_PHI, MAX_PHI)
 		theta += event.relative.x * mouse_sensitivity
 		
-	if event.is_action_pressed("next_camera_target"):
-		current_target_index += 1
-		update_camera_target()
-
-	if event.is_action_pressed("previous_camera_target"):
-		current_target_index -= 1
-		update_camera_target()
-		
-	if event.is_action_pressed("left_mouse_click"):
-		print("left mouse clicked")
-		var popup_instance = points_popup.instantiate()
-		get_parent().add_child(popup_instance)
-		popup_instance.global_position = global_position
-		popup_instance.set_and_play(100)
-		
+	#if event.is_action_pressed("next_camera_target"):
+		#current_target_index += 1
+		#update_camera_target()
+#
+	#if event.is_action_pressed("previous_camera_target"):
+		#current_target_index -= 1
+		#update_camera_target()
+	
+	# zakomentowalem tymczasowo te wyzej, zeby nie dalo sie patrzec na zwykle bile
+	if event.is_action_pressed("next_camera_target") || \
+		event.is_action_pressed("previous_camera_target"):
+			if current_target_index != 0:
+				current_target_index = 0
+			else:
+				current_target_index = ball_list.size()
+			update_camera_target()
+	
+	if event.is_action_pressed("toggle_mouse_capture"):
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			
 # Kamera przechodzi po kulach w kolejnosci w jakiej zostaly dodane do listy
 #	zamiast tego powinno dac sie zmieniac pomiedzy najblizszymi kulami
 func update_camera_target():
