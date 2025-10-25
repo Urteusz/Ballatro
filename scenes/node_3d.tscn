@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=37 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/camera.gd" id="1_oqwcg"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_a6664"]
@@ -10,6 +10,7 @@
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_cptob"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/walls.gd" id="9_b2yaj"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_1enmr"]
+[ext_resource type="PackedScene" uid="uid://ip5evxm3a6tt" path="res://models/room_colored.glb" id="11_aj7ea"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = 0
@@ -26,7 +27,7 @@ size = Vector2(2, 2)
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b2yaj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2yaj"]
-albedo_color = Color(0, 0.65, 0.4441667, 1)
+albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
 albedo_texture = ExtResource("3_cptob")
 albedo_texture_force_srgb = true
 uv1_scale = Vector3(11, 16, 33)
@@ -42,7 +43,7 @@ size = Vector3(21.54, 0.36, 31.36)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1enmr"]
 render_priority = 1
 shader = ExtResource("4_b2yaj")
-shader_parameter/albedo_color = Color(1, 1, 1, 1)
+shader_parameter/albedo_color = Color(0.21960784, 0.23921569, 0.25882354, 1)
 shader_parameter/fade_start_distance = 5.0
 shader_parameter/fade_end_distance = 2.0
 
@@ -75,7 +76,7 @@ shading_mode = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q712h"]
 render_priority = 1
 shader = ExtResource("8_cptob")
-shader_parameter/albedo_color = Color(1, 0.34901962, 0.40392157, 1)
+shader_parameter/albedo_color = Color(0.17254902, 0.13333334, 0.9098039, 1)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.0
 shader_parameter/invisible_distance = 5.618000266855
@@ -89,7 +90,7 @@ size = Vector3(36.285, 24.045, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b2yaj"]
 render_priority = 1
 shader = ExtResource("8_cptob")
-shader_parameter/albedo_color = Color(1, 0.35029554, 0.40332115, 1)
+shader_parameter/albedo_color = Color(0.21568628, 0.20784314, 0.7294118, 1)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.0
 shader_parameter/invisible_distance = 5.618000266855
@@ -98,16 +99,23 @@ shader_parameter/invisible_distance = 5.618000266855
 material = SubResource("ShaderMaterial_b2yaj")
 size = Vector3(31.49, 14.94, 1)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1enmr"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/flat")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
 shader = ExtResource("11_1enmr")
-shader_parameter/skyColor = Color(0.87717575, 0.95772165, 1.0147665, 1)
-shader_parameter/horizonColor = Color(0.7008032, 0.7043971, 0.71422863, 1)
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
 
 [sub_resource type="Sky" id="Sky_jka67"]
 sky_material = SubResource("ShaderMaterial_aj7ea")
 
 [sub_resource type="Environment" id="Environment_jka67"]
 background_mode = 2
+background_energy_multiplier = 1.34
 sky = SubResource("Sky_jka67")
 ambient_light_source = 3
 
@@ -121,11 +129,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 2
+stretch_shrink = 4
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(576, 324)
+size = Vector2i(288, 162)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
@@ -134,6 +142,7 @@ script = ExtResource("1_oqwcg")
 target = NodePath("../Table/PlayerBall")
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+visible = false
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 
@@ -222,7 +231,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.372567, -15.34833)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Front" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(11.734832, 0, 0, 0, -4.620302e-08, -6.0982575, 0, 1.057002, -2.665633e-07, -0.0052342415, -0.9279642, -0.011484146)
+transform = Transform3D(11.734832, 0, 0, 0, -4.620302e-08, -6.0982575, 0, 1.057002, -2.665633e-07, -0.012123585, -0.923357, -0.012406349)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_1enmr")
 script = ExtResource("9_b2yaj")
@@ -235,7 +244,7 @@ shape = SubResource("BoxShape3D_1enmr")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.900281, 15.303341)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Back" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0052342415, -0.9711666, 0.8248043)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03424883, -0.943511, 0.79844093)
 mesh = SubResource("BoxMesh_q712h")
 script = ExtResource("9_b2yaj")
 object_node = NodePath("../../../Table/PlayerBall")
@@ -266,6 +275,32 @@ object_node = NodePath("../../../Table/PlayerBall")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Right"]
 shape = SubResource("BoxShape3D_1enmr")
+
+[node name="Room" parent="SubViewportContainer/SubViewport" instance=ExtResource("11_aj7ea")]
+transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
+
+[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
+
+[node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(1.0339463, 0, -0.5762044, 0, 1.2774721, 0, 0.41793036, 0, 1.4255112, 12.16015, 6.5438347, -27.183935)
+texture = SubResource("ViewportTexture_aj7ea")
+
+[node name="flat2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(1.3649999, 0, 0, 0, 1.5, 0, 0, 0, 1.1, -3, 12.419871, -34.573807)
+texture = SubResource("ViewportTexture_1enmr")
+
+[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+size = Vector2i(1280, 720)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat"]
+transform = Transform3D(0.8786859, 0.23918666, -0.41315958, -0.15516026, 0.9615342, 0.22666548, 0.45148242, -0.13506182, 0.88199884, -8.448279, 10.041564, 20.506062)
+
+[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+size = Vector2i(640, 480)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt"]
+transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
+fov = 123.75
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
