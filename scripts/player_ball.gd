@@ -62,7 +62,10 @@ func _process(delta: float) -> void:
 				draw_aim_line(result.position)
 			else:
 				draw_aim_line(ray_target)
-	print("Linear velocity: {}", linear_velocity)
+	
+	# Nie wiem czy to jest dobry sposob na sprawdzanie czy kula sie nie rusza
+	#	Dobrze by bylo w podobny sprawdzac zanim pozwolimy na ladowanie strzalu
+	#	Ale do tego trzeba tez cos zrobic zeby kula szybciej sie zatrzymywala
 	if !sleeping and !linear_velocity.is_zero_approx():
 		if aim_line:
 			(aim_line.mesh as ImmediateMesh).clear_surfaces()
