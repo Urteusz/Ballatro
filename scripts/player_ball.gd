@@ -1,8 +1,6 @@
 extends RigidBody3D
 const COLLISION_SHAPE_PATH = "CollisionShape3D"
 
-@export var target_sprite: Node3D
-
 # Ustawienia uderzenia
 @export var max_charge_time = 3.0
 @export var max_impulse_strength = 30.0
@@ -20,6 +18,10 @@ var impulse_power
 @onready var charge_ring: MeshInstance3D = $ChargeRing
 var ring_material: StandardMaterial3D = null
 
+@onready var aim_line: MeshInstance3D = null
+var ray_query: PhysicsRayQueryParameters3D
+@export var aim_line_ray_range: float = 20.0
+
 var camera: Camera3D = null
 var radius = 0.0
 
@@ -32,38 +34,39 @@ func _ready() -> void:
 		set_process(false)
 		return
 	
-	if not target_sprite:
-		push_warning("Warning: 'target_sprite' not assigned.")
+	setup_charge_ring()
+	setup_aim_line()
 	
-	charge_ring.top_level = true
-	
-	if charge_ring.get_surface_override_material(0):
-		ring_material = charge_ring.get_surface_override_material(0).duplicate()
-		charge_ring.set_surface_override_material(0, ring_material)
-		
-		# Początkowy kolor ringa (niewidoczny)
-		var color = ring_material.albedo_color
-		color.a = 0.0
-		ring_material.albedo_color = color
-	else:
-		push_error("Error: ChargeRing has no material!")
-		return
-
 func _process(delta: float) -> void:
-	
-	# Ustaw pozycję pierścienia na pozycję kuli
-	#charge_ring.global_position = global_position - Vector3(0.0, 0.0, -2.0)
-	#if camera:
-		#charge_ring.global_rotation_degrees = Vector3(90, rad_to_deg(-camera.get_camera_theta()) + 90, 0)
-	
 	if charging:
+		if aim_line:
+			(aim_line.mesh as ImmediateMesh).clear_surfaces()
+		
 		charge_timer += delta
 		var ratio = clamp(charge_timer / max_charge_time, 0.0, 1.0)
 		if ring_material:
 			var current_color = get_charge_color(ratio)
 			current_color.a = 0.7  # Alpha może rosnąć z ratio ale teraz ustawiam na stałe
 			ring_material.albedo_color = current_color
+	else:
+		if camera.current_target_index == 0:
+			var direction_to_camera = (camera.global_position - global_position)
+			direction_to_camera.y = 0.0
+			direction_to_camera = direction_to_camera.normalized()
+			
+			var ray_origin = global_position
+			var ray_target = ray_origin - direction_to_camera * aim_line_ray_range
+			var space_state = get_world_3d().direct_space_state
+			var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
+			query.exclude = [self]
+			var result = space_state.intersect_ray(query)
+			
+			if result:
+				draw_aim_line(result.position)
+			else:
+				draw_aim_line(ray_target)
 
+	
 func get_charge_color(ratio: float) -> Color:
 	# Gradient: czerwony -> żółty -> zielony
 	if ratio < 0.5:
@@ -145,3 +148,36 @@ func push_ball(impulse_strength):
 	print("Pushed ball with force: ",impulse_strength)
 	
 	apply_impulse(-impulse_vector, impulse_position)
+	
+func setup_charge_ring():
+	if charge_ring.get_surface_override_material(0):
+		ring_material = charge_ring.get_surface_override_material(0).duplicate()
+		charge_ring.set_surface_override_material(0, ring_material)
+		# Początkowy kolor ringa (niewidoczny)
+		var color = ring_material.albedo_color
+		color.a = 0.0
+		ring_material.albedo_color = color
+	else:
+		push_error("Error: ChargeRing has no material!")
+		return
+
+# Jesli wycelujemy i ustawimy kamere w jednym miejscu a potem przelaczymy na srodek
+#	to przy powrocie lepiej by bylo gdyby kamera najpierw wrocila na miejsce w ktorym ja zostawilismy
+#	i dopiero potem oddala kontrole
+#	bo teraz nie mozna przycelowac spojrzec jak to wyglada i wrocic, bo przy powrocie sie zmienia
+func draw_aim_line(to: Vector3):
+	if !aim_line or !aim_line.mesh:
+			return
+	var mesh := aim_line.mesh as ImmediateMesh
+	mesh.clear_surfaces()
+	mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+	mesh.surface_add_vertex(Vector3.ZERO) 
+	mesh.surface_add_vertex(aim_line.to_local(to))
+	
+	mesh.surface_end()
+
+func setup_aim_line():
+	var mesh := ImmediateMesh.new()
+	aim_line = MeshInstance3D.new()
+	aim_line.mesh = mesh
+	add_child(aim_line)

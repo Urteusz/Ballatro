@@ -65,6 +65,8 @@ rings = 4
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_cptob"]
+rings = 10
+ring_segments = 5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q712h"]
 render_priority = 5
@@ -98,7 +100,6 @@ material = SubResource("ShaderMaterial_b2yaj")
 size = Vector3(31.49, 14.94, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3fl7"]
-sky_curve = 0.1500001
 energy_multiplier = 6.0
 
 [sub_resource type="Sky" id="Sky_jka67"]
@@ -107,7 +108,6 @@ sky_material = SubResource("ProceduralSkyMaterial_r3fl7")
 [sub_resource type="Environment" id="Environment_jka67"]
 background_mode = 2
 sky = SubResource("Sky_jka67")
-ambient_light_color = Color(1, 1, 1, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -200,7 +200,7 @@ ball_scene = ExtResource("6_q712h")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.09263587, 0.7649708, 10.218924)
 physics_material_override = SubResource("PhysicsMaterial_r3fl7")
 script = ExtResource("3_10v3s")
-max_charge_time = 1.0
+max_charge_time = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/PlayerBall"]
 mesh = SubResource("SphereMesh_jka67")
@@ -209,8 +209,7 @@ mesh = SubResource("SphereMesh_jka67")
 shape = SubResource("SphereShape3D_a0tk4")
 
 [node name="ChargeRing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/PlayerBall"]
-transform = Transform3D(-0.6, -5.2453668e-08, 2.2928227e-15, 0, -2.6226834e-08, -0.6, 5.2453668e-08, -0.6, 2.6226834e-08, 0.09263587, 0.7649708, 10.916049)
-top_level = true
+transform = Transform3D(0.6, 0, 0, 0, -2.6226834e-08, -0.6, 0, 0.6, -2.6226834e-08, 5.9604645e-08, 0, -0.69712543)
 mesh = SubResource("TorusMesh_cptob")
 surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
 
