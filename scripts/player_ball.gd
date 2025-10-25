@@ -6,6 +6,7 @@ const COLLISION_SHAPE_PATH = "CollisionShape3D"
 # Ustawienia uderzenia
 @export var max_charge_time = 3.0
 @export var max_impulse_strength = 30.0
+var hit_position: Vector3 # Pozycja kamery w momencie jak zaczelismy ladowac strzal, nie wiem jak nazwac lepiej :(
 var charging = false
 var charge_timer = 0.0
 var impulse_power
@@ -51,9 +52,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	# Ustaw pozycję pierścienia na pozycję kuli
-	charge_ring.global_position = global_position
-	if camera:
-				charge_ring.global_rotation_degrees = Vector3(90, rad_to_deg(-camera.get_camera_theta())+90, 0)
+	#charge_ring.global_position = global_position - Vector3(0.0, 0.0, -2.0)
+	#if camera:
+		#charge_ring.global_rotation_degrees = Vector3(90, rad_to_deg(-camera.get_camera_theta()) + 90, 0)
 	
 	if charging:
 		charge_timer += delta
@@ -76,11 +77,18 @@ func get_charge_color(ratio: float) -> Color:
 
 func _input(event):
 	if event.is_action_pressed("push_ball") && camera.current_target_index == 0:
+		hit_position = camera.global_position
 		start_charging()
 	elif event.is_action_released("push_ball"):
 		release_push()
 
 func start_charging():
+	if camera:
+		charge_ring.global_rotation_degrees = Vector3(90, rad_to_deg(-camera.get_camera_theta()) + 90, 0)
+		var direction_to_camera = camera.global_position - global_position
+		direction_to_camera.y = 0
+		direction_to_camera = direction_to_camera.normalized()
+		charge_ring.global_position = global_position + direction_to_camera * 1.0
 	charging = true
 	charge_timer = 0.0
 	if ring_material:
@@ -128,7 +136,7 @@ func push_ball(impulse_strength):
 		print("Error: No active Camera3D found.")
 		return
 	
-	var camera_position = camera.global_position
+	var camera_position = hit_position
 	var ball_position = global_position
 	var direction_to_camera = (camera_position - ball_position).normalized()
 	

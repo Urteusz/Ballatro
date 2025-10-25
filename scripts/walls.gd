@@ -17,7 +17,7 @@ func _ready():
 		print_debug("Fade shader warning: No ShaderMaterial found on surface 0.")
 
 
-func _process(delta):
+func _process(_delta):
 	if object_node and _material:
 		var object_pos = object_node.global_position
 		_material.set_shader_parameter("object_position", object_pos)
