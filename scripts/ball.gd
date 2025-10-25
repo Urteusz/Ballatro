@@ -10,6 +10,7 @@ func on_hit(points, hit_position):
 	popup_instance.global_position = hit_position
 	popup_instance.set_and_play(points)
 	print("on hit")
+	points_scored.emit(points, hit_position)
 
 func _on_body_entered(body: Node3D):
 	var points = 100

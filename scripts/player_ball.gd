@@ -39,36 +39,47 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	if charging:
+		if camera:
+			hit_position = camera.global_position
+			charge_ring.global_rotation_degrees = Vector3(90, rad_to_deg(-camera.get_camera_theta()) + 90, 0)
+			var direction_to_camera = camera.global_position - global_position
+			direction_to_camera.y = 0
+			direction_to_camera = direction_to_camera.normalized()
+			charge_ring.global_position = global_position + direction_to_camera * 1.0
 		charge_timer += delta
 		var ratio = clamp(charge_timer / max_charge_time, 0.0, 1.0)
 		if ring_material:
 			var current_color = get_charge_color(ratio)
 			current_color.a = 0.7  # Alpha może rosnąć z ratio ale teraz ustawiam na stałe
 			ring_material.albedo_color = current_color
-	else:
-		if camera.current_target_index == 0:
-			var direction_to_camera = (camera.global_position - global_position)
-			direction_to_camera.y = 0.0
-			direction_to_camera = direction_to_camera.normalized()
-			
-			var ray_origin = global_position
-			var ray_target = ray_origin - direction_to_camera * aim_line_ray_range
-			var space_state = get_world_3d().direct_space_state
-			var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
-			query.exclude = [self]
-			var result = space_state.intersect_ray(query)
-			
-			if result:
-				draw_aim_line(result.position)
-			else:
-				draw_aim_line(ray_target)
 	
-	# Nie wiem czy to jest dobry sposob na sprawdzanie czy kula sie nie rusza
+		# Nie wiem czy to jest dobry sposob na sprawdzanie czy kula sie nie rusza
 	#	Dobrze by bylo w podobny sprawdzac zanim pozwolimy na ladowanie strzalu
 	#	Ale do tego trzeba tez cos zrobic zeby kula szybciej sie zatrzymywala
 	if !sleeping and !linear_velocity.is_zero_approx():
 		if aim_line:
 			(aim_line.mesh as ImmediateMesh).clear_surfaces()
+		return  # WAŻNE - nie rysuj linii gdy kulka się rusza
+	
+	if camera.current_target_index == 0:
+		var direction_to_camera = (camera.global_position - global_position)
+		direction_to_camera.y = 0.0
+		direction_to_camera = direction_to_camera.normalized()
+			
+		var ray_origin = global_position
+		var ray_target = ray_origin - direction_to_camera * aim_line_ray_range
+		var space_state = get_world_3d().direct_space_state
+		var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
+		query.exclude = [self]
+		var result = space_state.intersect_ray(query)
+			
+		if result:
+			draw_aim_line(result.position)
+		else:
+			draw_aim_line(ray_target)
+	
+	
+
 
 	
 func get_charge_color(ratio: float) -> Color:
@@ -84,18 +95,11 @@ func get_charge_color(ratio: float) -> Color:
 
 func _input(event):
 	if event.is_action_pressed("push_ball") && camera.current_target_index == 0:
-		hit_position = camera.global_position
 		start_charging()
 	elif event.is_action_released("push_ball"):
 		release_push()
 
 func start_charging():
-	if camera:
-		charge_ring.global_rotation_degrees = Vector3(90, rad_to_deg(-camera.get_camera_theta()) + 90, 0)
-		var direction_to_camera = camera.global_position - global_position
-		direction_to_camera.y = 0
-		direction_to_camera = direction_to_camera.normalized()
-		charge_ring.global_position = global_position + direction_to_camera * 1.0
 	charging = true
 	charge_timer = 0.0
 	if ring_material:
