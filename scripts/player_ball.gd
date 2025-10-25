@@ -1,6 +1,6 @@
 extends RigidBody3D
 const COLLISION_SHAPE_PATH = "CollisionShape3D"
-
+const MOVEMENT_THRESHOLD = Vector3(0.03, 0.03, 0.03)
 # Ustawienia uderzenia
 @export var max_charge_time = 3.0
 @export var max_impulse_strength = 30.0
@@ -39,9 +39,6 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	if charging:
-		if aim_line:
-			(aim_line.mesh as ImmediateMesh).clear_surfaces()
-		
 		charge_timer += delta
 		var ratio = clamp(charge_timer / max_charge_time, 0.0, 1.0)
 		if ring_material:
@@ -65,6 +62,10 @@ func _process(delta: float) -> void:
 				draw_aim_line(result.position)
 			else:
 				draw_aim_line(ray_target)
+	print("Linear velocity: {}", linear_velocity)
+	if !sleeping and !linear_velocity.is_zero_approx():
+		if aim_line:
+			(aim_line.mesh as ImmediateMesh).clear_surfaces()
 
 	
 func get_charge_color(ratio: float) -> Color:
@@ -178,6 +179,12 @@ func draw_aim_line(to: Vector3):
 
 func setup_aim_line():
 	var mesh := ImmediateMesh.new()
+	
+	var line_material := StandardMaterial3D.new()
+	line_material.albedo_color = Color(1.0, 1.0, 1.0, 0.7)
+	line_material.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
+	
 	aim_line = MeshInstance3D.new()
 	aim_line.mesh = mesh
+	aim_line.material_override = line_material
 	add_child(aim_line)
