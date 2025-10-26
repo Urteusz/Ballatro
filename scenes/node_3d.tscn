@@ -237,6 +237,7 @@ mesh = SubResource("TorusMesh_cptob")
 surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
+visible = false
 process_material = SubResource("ParticleProcessMaterial_1enmr")
 draw_pass_1 = SubResource("SphereMesh_aj7ea")
 
