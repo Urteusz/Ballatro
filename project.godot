@@ -15,6 +15,10 @@ run/main_scene="uid://2qvhwcgcgbqq"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://textures/icon.svg"
 
+[global_group]
+
+floor="Hit without points"
+
 [input]
 
 next_camera_target={

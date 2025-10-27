@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=37 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/camera.gd" id="1_oqwcg"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_a6664"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/ball.tscn" id="6_q712h"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_cptob"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/walls.gd" id="9_b2yaj"]
+[ext_resource type="Script" uid="uid://q4qjp7ppjw3i" path="res://scenes/green_ball.gd" id="9_umdqk"]
+[ext_resource type="PackedScene" uid="uid://8bulgk0htrao" path="res://scenes/green_ball.tscn" id="10_aj7ea"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_1enmr"]
 [ext_resource type="Script" uid="uid://bx3yeygfw7ttj" path="res://scripts/ShopUI.gd" id="11_aj7ea"]
 
@@ -140,7 +142,7 @@ mesh = SubResource("QuadMesh_4arys")
 
 [node name="Table" type="Node" parent="SubViewportContainer/SubViewport"]
 
-[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["floor"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 
@@ -216,6 +218,10 @@ transform = Transform3D(-0.6, -5.2453668e-08, 2.2928227e-15, 0, -2.6226834e-08, 
 top_level = true
 mesh = SubResource("TorusMesh_cptob")
 surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
+
+[node name="green ball" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("10_aj7ea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.575454, 1.2645898, 0)
+script = ExtResource("9_umdqk")
 
 [node name="Walls" type="Node" parent="SubViewportContainer/SubViewport"]
 
