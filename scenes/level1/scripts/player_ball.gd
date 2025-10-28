@@ -1,13 +1,16 @@
 extends RigidBody3D
 const COLLISION_SHAPE_PATH = "CollisionShape3D"
 const MOVEMENT_THRESHOLD = Vector3(0.03, 0.03, 0.03)
+
 # Ustawienia uderzenia
 @export var max_charge_time = 3.0
 @export var max_impulse_strength = 30.0
+
 var hit_position: Vector3 # Pozycja kamery w momencie jak zaczelismy ladowac strzal, nie wiem jak nazwac lepiej :(
 var charging = false
 var charge_timer = 0.0
 var impulse_power
+var ratio
 
 # Kolorki
 @export var weak_color: Color = Color(0.0, 1.0, 0.0, 1.0)
@@ -47,7 +50,7 @@ func _process(delta: float) -> void:
 			direction_to_camera = direction_to_camera.normalized()
 			charge_ring.global_position = global_position + direction_to_camera * 1.0
 		charge_timer += delta
-		var ratio = clamp(charge_timer / max_charge_time, 0.0, 1.0)
+		ratio = clamp(charge_timer / max_charge_time, 0.0, 1.0)
 		if ring_material:
 			var current_color = get_charge_color(ratio)
 			current_color.a = 0.7  # Alpha może rosnąć z ratio ale teraz ustawiam na stałe
@@ -195,3 +198,6 @@ func setup_aim_line():
 	aim_line.mesh = mesh
 	aim_line.material_override = line_material
 	add_child(aim_line)
+	
+func get_hit_velocity_ratio():
+	return impulse_power/max_impulse_strength

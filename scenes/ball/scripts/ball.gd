@@ -1,8 +1,11 @@
 extends RigidBody3D
+class_name BallParent
 
 signal points_scored(points, world_position)
 
-var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
+var points_popup = preload("res://scenes/points_popup.tscn")
+@export var speed_max: float = 30.0
+@export var points: int = 100
 
 func on_hit(points, hit_position):
 	var popup_instance = points_popup.instantiate()
@@ -13,11 +16,24 @@ func on_hit(points, hit_position):
 	points_scored.emit(points, hit_position)
 
 func _on_body_entered(body: Node3D):
-	var points = 100
+	print("=== COLLISION DEBUG ===")
+	print("Ball class: ", get_class())
+	print("Current speed_max: ", speed_max)
+	if body.is_in_group("floor"):
+		return
+	if body.has_method("get_hit_velocity_ratio"):
+		var velocity_ratio = body.get_hit_velocity_ratio()
+		var bounce_direction = (global_position - body.global_position).normalized()
+		var bounce_force = velocity_ratio * speed_max
+		apply_central_impulse(bounce_direction * bounce_force)
 	on_hit(points, global_position)
 
-func _ready() -> void:
-	body_entered.connect(_on_body_entered)
+# ball.gd (BallParent)
 
-func _process(delta: float) -> void:
-	pass
+func _ready():
+	print("BallParent _ready() called for: ", name)
+	var error = body_entered.connect(_on_body_entered)
+	if error != OK:
+		print("BŁĄD PODŁĄCZENIA body_entered dla:", name, " Error:", error)
+	else:
+		print("SUKCES: Podłączono body_entered dla:", name) # <--- Sprawdź ten log!
