@@ -16,6 +16,7 @@ var vsync_modes = {
 # razem z rozdzielczoscia powinien zmieniac sie strech shrink, chyba
 #	(opcja na subviewport containerach, ktora daje efekt ze jest rozpikselwoane)
 # 	inaczej gra bedzie roznie wygladala na roznych rozdzielczosciach
+# rozdzielczosc 'telewizorow' (poziom 1) tez powinna byc od tego zalezna
 # rozdzielczosc projektu to 1280x720, czyli dla takiej rozdzieloczosci zrobione jest ui
 #	nie wiem czy przez to ui nie bedzie rozmazane na wyzszych rozdzielczosciach
 # 	Ustawilem, 'keep_aspect_ratio' na false, to tez moze sie psuc, np na steamdecku
@@ -25,6 +26,7 @@ var resolutions = [
 	Vector2i(640, 480), # anbernic
 	Vector2i(1280, 720),
 	Vector2i(1280, 800), # steamdeck
+	Vector2i(1680, 720), # do testow
 	Vector2i(1600, 900),
 	Vector2i(1920, 1080),
 	Vector2i(2560, 1440)
