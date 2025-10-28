@@ -15,6 +15,11 @@ run/main_scene="uid://b0a6ch7y3umcj"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://textures/icon.svg"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [input]
 
 next_camera_target={

@@ -1,17 +1,21 @@
-[gd_scene load_steps=39 format=3 uid="uid://b0a6ch7y3umcj"]
+[gd_scene load_steps=30 format=3 uid="uid://b0a6ch7y3umcj"]
 
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/main_menu.gd" id="1_l6cm7"]
-[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/camera.gd" id="2_flqon"]
+[ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/main_menu_camera.gd" id="2_jk1qb"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_rcqid"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_1ajci"]
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="5_7b55j"]
-[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scripts/ball_spawner.gd" id="6_5pajh"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/ball.tscn" id="7_j7ex8"]
-[ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scripts/player_ball.gd" id="8_a8gd2"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="9_hstxw"]
-[ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/walls.gd" id="10_8egab"]
-[ext_resource type="PackedScene" uid="uid://ip5evxm3a6tt" path="res://models/room_colored.glb" id="11_gw5y6"]
+[ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/main_menu_ball.gd" id="9_jk1qb"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="12_svtp6"]
+
+[sub_resource type="Theme" id="Theme_5dd4i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgwnu"]
+bg_color = Color(0.54901963, 0.6039216, 1, 1)
+
+[sub_resource type="Theme" id="Theme_jk1qb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -53,38 +57,6 @@ material = SubResource("ShaderMaterial_1enmr")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r3fl7"]
 size = Vector3(1, 20.345, 31.37)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r3fl7"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]
-diffuse_mode = 3
-specular_mode = 1
-
-[sub_resource type="SphereMesh" id="SphereMesh_jka67"]
-material = SubResource("StandardMaterial3D_r3fl7")
-radial_segments = 8
-rings = 4
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
-
-[sub_resource type="TorusMesh" id="TorusMesh_cptob"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q712h"]
-render_priority = 5
-transparency = 1
-shading_mode = 0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1enmr"]
-gravity = Vector3(0, 0, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1enmr"]
-transparency = 1
-albedo_color = Color(0.29411766, 0.25882354, 1, 0.5019608)
-
-[sub_resource type="SphereMesh" id="SphereMesh_aj7ea"]
-material = SubResource("StandardMaterial3D_1enmr")
-radial_segments = 8
-rings = 4
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q712h"]
 render_priority = 1
@@ -128,201 +100,241 @@ ambient_light_source = 3
 
 [node name="Node" type="Node"]
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_5dd4i")
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
 z_index = 1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -658.0
+offset_right = 488.0
+offset_bottom = 678.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lgwnu")
 script = ExtResource("1_l6cm7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer"]
 layout_mode = 2
+theme = SubResource("Theme_jk1qb")
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Nie ballatro"
 horizontal_alignment = 1
 
-[node name="PlayButton" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Play"
 
-[node name="OptionsButton" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Options
 "
 
-[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="Control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit
 "
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 13.200001
+anchor_right = 31.975002
+offset_right = -0.00012207031
+offset_bottom = 727.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 8
+stretch = true
+stretch_shrink = 3
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(250, 242)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
-script = ExtResource("2_flqon")
-target = NodePath("../Table/PlayerBall")
+[node name="Camera3D" type="Camera3D" parent="Control/SubViewportContainer/SubViewport"]
+transform = Transform3D(0.8496837, -0.32316923, 0.41665247, -0.029516201, 0.7597836, 0.64950573, -0.52646595, -0.5641724, 0.63603705, 2.9905348, 3.8118358, 1.4249115)
+fov = 55.4
+script = ExtResource("2_jk1qb")
 
-[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Camera3D"]
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 
-[node name="Table" type="Node" parent="SubViewportContainer/SubViewport"]
+[node name="Table" type="Node" parent="Control/SubViewportContainer/SubViewport"]
 
-[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Base" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Table"]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Base"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Table/Base"]
 transform = Transform3D(0.99986196, 0.016614765, 0, -0.016614765, 0.99986196, 0, 0, 0, 1, -0.070275314, 0.0657096, 0.016898632)
 mesh = SubResource("PlaneMesh_a202f")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Base"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Table/Base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
 shape = SubResource("BoxShape3D_noarx")
 
-[node name="Top" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Top" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Table"]
 transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.33140755, -0.26433563, -15.392893)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Top"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Table/Top"]
 transform = Transform3D(1, 0, 1.1368684e-13, 0, 1, 0, 0, 0, 23.27015, -0.019269943, 0.83349013, -0.0013456345)
 mesh = SubResource("BoxMesh_a0tk4")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Top"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Table/Top"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019269943, 0.83349013, -0.0013456345)
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="Bottom" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Bottom" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Table"]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.046453476, -0.13216782, 15.715046)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Table/Bottom"]
 transform = Transform3D(1, 0, 1.1368684e-13, 0, 1, 0, 0, 0, 23.27015, -0.019269943, 0.61731124, -0.0013456345)
 mesh = SubResource("BoxMesh_a0tk4")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Table/Bottom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019269943, 0.83349013, -0.0013456345)
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="RightSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="RightSide" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Table"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.295166, 0.46555376, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Table/RightSide"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0, -0.13415861, 0)
 mesh = SubResource("BoxMesh_a0tk4")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Table/RightSide"]
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="LeftSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="LeftSide" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Table"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.29156, 0.7327769, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Table/LeftSide"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0.123848915, 0, 0)
 mesh = SubResource("BoxMesh_a0tk4")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Table/LeftSide"]
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
-script = ExtResource("6_5pajh")
-ball_scene = ExtResource("7_j7ex8")
+[node name="Walls" type="Node" parent="Control/SubViewportContainer/SubViewport"]
 
-[node name="PlayerBall" type="RigidBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["balls"]]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.09263587, 0.7649708, 10.218924)
-physics_material_override = SubResource("PhysicsMaterial_r3fl7")
-script = ExtResource("8_a8gd2")
-max_charge_time = 1.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-mesh = SubResource("SphereMesh_jka67")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-shape = SubResource("SphereShape3D_a0tk4")
-
-[node name="ChargeRing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-transform = Transform3D(-0.6, -5.2453668e-08, 2.2928227e-15, 0, -2.6226834e-08, -0.6, 5.2453668e-08, -0.6, 2.6226834e-08, 0.09263587, 0.7649708, 10.916049)
-top_level = true
-mesh = SubResource("TorusMesh_cptob")
-surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-visible = false
-process_material = SubResource("ParticleProcessMaterial_1enmr")
-draw_pass_1 = SubResource("SphereMesh_aj7ea")
-
-[node name="Walls" type="Node" parent="SubViewportContainer/SubViewport"]
-
-[node name="Front" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Front" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Walls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.372567, -15.34833)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Front" node_paths=PackedStringArray("object_node")]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Walls/Front"]
 transform = Transform3D(11.744708, 0, 0, 0, -4.6241905e-08, -6.1033897, 0, 1.0578915, -2.6678762e-07, -0.012123585, -0.923357, -0.012406349)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_1enmr")
-script = ExtResource("10_8egab")
-object_node = NodePath("../../../Table/PlayerBall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Front"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Walls/Front"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Back" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Back" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Walls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.900281, 15.303341)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Back" node_paths=PackedStringArray("object_node")]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Walls/Back"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02970457, -0.943511, 0.8005848)
 mesh = SubResource("BoxMesh_q712h")
-script = ExtResource("10_8egab")
-object_node = NodePath("../../../Table/PlayerBall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Back"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Walls/Back"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Left" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Left" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Walls"]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -13.040909, 5.4943943, 0.00860405)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Left" node_paths=PackedStringArray("object_node")]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Walls/Left"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0052342946, 0.021252632, 1.2122936)
 mesh = SubResource("BoxMesh_q712h")
-script = ExtResource("10_8egab")
-object_node = NodePath("../../../Table/PlayerBall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Left"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Walls/Left"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Right" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Right" type="StaticBody3D" parent="Control/SubViewportContainer/SubViewport/Walls"]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.231203, 7.9887886, 1.2355814)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Right" node_paths=PackedStringArray("object_node")]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/Walls/Right"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0052342415, 0.021252632, -0.011484146)
 mesh = SubResource("BoxMesh_q712h")
-script = ExtResource("10_8egab")
-object_node = NodePath("../../../Table/PlayerBall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Right"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Control/SubViewportContainer/SubViewport/Walls/Right"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Room" parent="SubViewportContainer/SubViewport" instance=ExtResource("11_gw5y6")]
-transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Control/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_jka67")
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/PlayButton" to="PanelContainer" method="_on_play_button_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/OptionsButton" to="PanelContainer" method="_on_options_button_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/QuitButton" to="PanelContainer" method="_on_quit_button_pressed"]
+[node name="Balls" type="Node" parent="Control/SubViewportContainer/SubViewport"]
+
+[node name="Ball1" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-0.7070943, -0.21776049, -0.67275405, 4.6499824e-08, 0.9514011, -0.30795446, 0.7071192, -0.21775289, -0.6727303, 0, 0.48252046, -0.66541624)
+script = ExtResource("9_jk1qb")
+
+[node name="Ball2" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, -0.4792326, 0.483, -1.488207)
+script = null
+
+[node name="Ball3" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, 0.55276734, 0.483, -1.4892074)
+script = null
+
+[node name="Ball4" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.48252046, -2.365305)
+script = null
+
+[node name="Ball5" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 0.48252046, -2.365305)
+script = null
+
+[node name="Ball6" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -1, 0.48252046, -2.365305)
+script = null
+
+[node name="Ball7" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, 0.5207674, 0.483, -3.1779747)
+script = null
+
+[node name="Ball8" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, 1.5527673, 0.483, -3.178975)
+script = null
+
+[node name="Ball9" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, -1.4792325, 0.483, -3.1779747)
+script = null
+
+[node name="Ball10" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, -0.44723272, 0.483, -3.178975)
+script = null
+
+[node name="Ball11" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.48252046, -4)
+script = null
+
+[node name="Ball12" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 0.48252046, -4)
+script = null
+
+[node name="Ball13" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -1, 0.48252046, -4)
+script = null
+
+[node name="Ball14" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 2, 0.48252046, -4)
+script = null
+
+[node name="Ball15" parent="Control/SubViewportContainer/SubViewport/Balls" instance=ExtResource("7_j7ex8")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -2, 0.48252046, -4)
+script = null
+
+[connection signal="pressed" from="Control/PanelContainer/VBoxContainer/PlayButton" to="Control/PanelContainer" method="_on_play_button_pressed"]
+[connection signal="pressed" from="Control/PanelContainer/VBoxContainer/OptionsButton" to="Control/PanelContainer" method="_on_options_button_pressed"]
+[connection signal="pressed" from="Control/PanelContainer/VBoxContainer/QuitButton" to="Control/PanelContainer" method="_on_quit_button_pressed"]
