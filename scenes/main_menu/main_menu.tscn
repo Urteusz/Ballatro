@@ -1,5 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://b0a6ch7y3umcj"]
+[gd_scene load_steps=21 format=3 uid="uid://b0a6ch7y3umcj"]
 
+[ext_resource type="Texture2D" uid="uid://d4byitgb3b5ws" path="res://textures/main_menu2.png" id="1_4xg86"]
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/main_menu/scripts/main_menu.gd" id="1_5seab"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_thkx5"]
@@ -10,8 +11,8 @@
 
 [sub_resource type="Theme" id="Theme_5dd4i"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgwnu"]
-bg_color = Color(0.54901963, 0.6039216, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4xg86"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="Theme" id="Theme_jk1qb"]
 
@@ -66,7 +67,21 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_5dd4i")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+top_level = true
+z_index = 1
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_4xg86")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+z_index = 1
 layout_direction = 2
 layout_mode = 1
 anchors_preset = 15
@@ -77,10 +92,10 @@ grow_vertical = 2
 theme_override_constants/separation = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
-z_index = 1
-custom_minimum_size = Vector2(500, 0)
+z_index = 35
+custom_minimum_size = Vector2(448.67, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_lgwnu")
+theme_override_styles/panel = SubResource("StyleBoxFlat_4xg86")
 script = ExtResource("1_5seab")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
@@ -116,7 +131,7 @@ stretch_shrink = 3
 
 [node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(260, 240)
+size = Vector2i(277, 240)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport"]
