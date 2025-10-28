@@ -3,7 +3,7 @@ class_name BallParent
 
 signal points_scored(points, world_position)
 
-var points_popup = preload("res://scenes/points_popup.tscn")
+var points_popup = preload("res://scenes/points_popup/points_popup.tscn")
 @export var speed_max: float = 30.0
 @export var points: int = 100
 
