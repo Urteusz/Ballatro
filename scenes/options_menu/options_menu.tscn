@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://72pi8chpke0y"]
+
+[ext_resource type="Script" uid="uid://b1glugmu2j1dd" path="res://scenes/options_menu/options_menu.gd" id="1_sglii"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sglii")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Resolution" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Resolution"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionButton" type="OptionButton" parent="PanelContainer/VBoxContainer/Resolution"]
+layout_mode = 2
+
+[node name="VSync" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VSync"]
+layout_mode = 2
+text = "VSync"
+
+[node name="VSyncButton" type="OptionButton" parent="PanelContainer/VBoxContainer/VSync"]
+layout_mode = 2
+
+[node name="FullscreenButton" type="CheckButton" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ApplyButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Apply"
+
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/ApplyButton" to="PanelContainer" method="_on_apply_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/QuitButton" to="PanelContainer" method="_on_quit_pressed"]

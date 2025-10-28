@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bf6yg67ewccka"]
 
-[ext_resource type="Script" uid="uid://d2eeup2hc26uy" path="res://scripts/points_popup.gd" id="1_myqyq"]
+[ext_resource type="Script" uid="uid://d2eeup2hc26uy" path="res://scenes/points_popup/scripts/points_popup.gd" id="1_myqyq"]
 
 [sub_resource type="Animation" id="Animation_3mxxr"]
 resource_name = "PointsPopupAnimation"

@@ -1,7 +1,7 @@
 extends Camera3D
 
 # do testow
-var points_popup = preload("res://scenes/points_popup.tscn")
+var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 @export var target: Node3D
 @export var mouse_sensitivity = 0.003
@@ -83,6 +83,9 @@ func _input(event):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			
+	if event.is_action_pressed("reload_scene"):
+		reload_current_scene()
+			
 # Kamera przechodzi po kulach w kolejnosci w jakiej zostaly dodane do listy
 #	zamiast tego powinno dac sie zmieniac pomiedzy najblizszymi kulami
 func update_camera_target():
@@ -102,3 +105,8 @@ func update_camera_target():
 		
 func get_camera_theta() -> float:
 	return theta
+
+func reload_current_scene() -> void:
+	var error_code = get_tree().reload_current_scene()
+	if error_code != OK:
+		print("Error reloading scene: ", error_code)
