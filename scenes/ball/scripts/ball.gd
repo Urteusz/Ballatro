@@ -2,7 +2,7 @@ extends RigidBody3D
 
 signal points_scored(points, world_position)
 
-var points_popup = preload("res://scenes/points_popup.tscn")
+var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 func on_hit(points, hit_position):
 	var popup_instance = points_popup.instantiate()

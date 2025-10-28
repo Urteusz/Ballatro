@@ -1,9 +1,7 @@
 extends PanelContainer
 
-const GAME = preload("res://scenes/node_3d.tscn")
-
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_packed(GAME)
+	LoadManager.load_scene(ScenePaths.LEVEL1_PATH)
 
 func _on_options_button_pressed() -> void:
 	pass # Replace with function body.

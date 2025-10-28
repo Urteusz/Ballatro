@@ -1,7 +1,7 @@
 extends Camera3D
 
 # do testow
-var points_popup = preload("res://scenes/points_popup.tscn")
+var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 @export var target: Node3D
 @export var mouse_sensitivity = 0.003
