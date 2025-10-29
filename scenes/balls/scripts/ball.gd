@@ -19,7 +19,7 @@ func _on_body_entered(body: Node3D):
 	print("=== COLLISION DEBUG ===")
 	print("Ball class: ", get_class())
 	print("Current speed_max: ", speed_max)
-	if body.is_in_group("floor"):
+	if body.is_in_group("table"):
 		return
 	if body.has_method("get_hit_velocity_ratio"):
 		var velocity_ratio = body.get_hit_velocity_ratio()

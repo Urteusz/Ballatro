@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=44 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -86,6 +86,16 @@ material = SubResource("StandardMaterial3D_1enmr")
 radial_segments = 8
 rings = 4
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0em4h"]
+render_priority = 2
+transparency = 1
+albedo_color = Color(0.99999994, 0.2150447, 0.52947974, 0.33333334)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jw3ls"]
+material = SubResource("StandardMaterial3D_0em4h")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q712h"]
 render_priority = 1
 shader = ExtResource("8_n1moy")
@@ -160,7 +170,7 @@ mesh = SubResource("QuadMesh_4arys")
 
 [node name="Table" type="Node" parent="SubViewportContainer/SubViewport"]
 
-[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 
@@ -172,7 +182,7 @@ mesh = SubResource("PlaneMesh_a202f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
 shape = SubResource("BoxShape3D_noarx")
 
-[node name="Top" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Top" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.33140755, -0.26433563, -15.392893)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Top"]
@@ -183,7 +193,7 @@ mesh = SubResource("BoxMesh_a0tk4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019269943, 0.83349013, -0.0013456345)
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="Bottom" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Bottom" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.046453476, -0.13216782, 15.715046)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
@@ -194,7 +204,7 @@ mesh = SubResource("BoxMesh_a0tk4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019269943, 0.83349013, -0.0013456345)
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="RightSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="RightSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.295166, 0.46555376, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
@@ -204,7 +214,7 @@ mesh = SubResource("BoxMesh_a0tk4")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
 shape = SubResource("BoxShape3D_r3fl7")
 
-[node name="LeftSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="LeftSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.29156, 0.7327769, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
@@ -242,9 +252,18 @@ visible = false
 process_material = SubResource("ParticleProcessMaterial_1enmr")
 draw_pass_1 = SubResource("SphereMesh_aj7ea")
 
+[node name="Pocket" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, -14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Pocket"]
+mesh = SubResource("BoxMesh_jw3ls")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pocket"]
+shape = SubResource("BoxShape3D_k3l6j")
+
 [node name="Walls" type="Node" parent="SubViewportContainer/SubViewport"]
 
-[node name="Front" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Front" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls" groups=["table"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.372567, -15.34833)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Front" node_paths=PackedStringArray("object_node")]
@@ -257,7 +276,7 @@ object_node = NodePath("../../../Table/PlayerBall")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Front"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Back" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Back" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls" groups=["table"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.900281, 15.303341)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Back" node_paths=PackedStringArray("object_node")]
@@ -269,7 +288,7 @@ object_node = NodePath("../../../Table/PlayerBall")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Back"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Left" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Left" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls" groups=["table"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -13.040909, 5.4943943, 0.00860405)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Left" node_paths=PackedStringArray("object_node")]
@@ -281,7 +300,7 @@ object_node = NodePath("../../../Table/PlayerBall")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Left"]
 shape = SubResource("BoxShape3D_1enmr")
 
-[node name="Right" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
+[node name="Right" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls" groups=["table"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.231203, 7.9887886, 1.2355814)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Right" node_paths=PackedStringArray("object_node")]
