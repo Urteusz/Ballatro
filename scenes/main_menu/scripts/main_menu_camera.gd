@@ -8,7 +8,7 @@ extends Camera3D
 var current_angle: float = 0.0
 
 func _ready() -> void:
-	pass
+	current_angle = randf_range(0.0, PI * 2)
 
 func _process(delta: float) -> void:
 	current_angle += rotation_speed * delta
