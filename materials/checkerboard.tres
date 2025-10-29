@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://r75o11788wli"]
+
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="1_48hl4"]
+
+[resource]
+albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
+albedo_texture = ExtResource("1_48hl4")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(0.465, 0.465, 0.465)
+uv1_offset = Vector3(3.545, 0, 0)
+texture_filter = 0
