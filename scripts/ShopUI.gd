@@ -1,4 +1,9 @@
 extends Control
+
+@onready var shop_camera = $SubViewportContainer/SubViewport/Camera3D
+@onready var shop_balls = $SubViewportContainer/SubViewport/ShopBalls
+var shop_positions_set := false
+
 @export var points: int = 100
 var shop_open := false
 
@@ -49,10 +54,19 @@ func _process(delta):
 func _toggle_shop():
 	shop_open = !shop_open
 	$HBoxContainer.visible = shop_open
-	
+	if shop_balls:
+		for shop_ball in shop_balls.get_children():
+			shop_ball.visible = shop_open
 	if shop_open:
 		mouse_filter = Control.MOUSE_FILTER_STOP 
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		if not shop_positions_set:
+			align_shop_items()
+			shop_positions_set = true
 	else:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func align_shop_items():
+	await get_tree().process_frame
+	
