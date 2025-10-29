@@ -6,14 +6,18 @@ signal points_scored(points, world_position)
 var points_popup = preload("res://scenes/points_popup/points_popup.tscn")
 @export var speed_max: float = 30.0
 @export var points: int = 100
+var current_score_total: int = 0
 
 func on_hit(points, hit_position):
 	var popup_instance = points_popup.instantiate()
 	get_parent().add_child(popup_instance)
 	popup_instance.global_position = hit_position
 	popup_instance.set_and_play(points)
-	print("on hit")
-	points_scored.emit(points, hit_position)
+	# dobrze by bylo gdzies wyswietlac ten potencjalne punkty do zdobycia
+	#	wszystkie razem lub dla kazdej kuli osobno
+	#	albo pokazywac w jakis sposob ze kula jest wiecej warta
+	current_score_total += points
+	print(name, ": +", points, " total: ", current_score_total)
 
 func _on_body_entered(body: Node3D):
 	#print("=== COLLISION DEBUG ===")
@@ -31,6 +35,7 @@ func _on_body_entered(body: Node3D):
 
 func pocketed():
 	print("Kieszen")
+	points_scored.emit(points, global_position)
 	# mozliwe ze to psuje kod ktory pozwalal na zmiane celu na kule
 	#	ale teraz tego nie uzywamy
 	queue_free()
