@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="3_3ks25"]
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="4_70mfr"]
 [ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner.gd" id="5_eaqp3"]
-[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/ball/ball.tscn" id="6_y6x3d"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
 [ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scenes/level1/scripts/player_ball.gd" id="7_miol0"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scenes/level1/scripts/walls.gd" id="9_wi5kd"]

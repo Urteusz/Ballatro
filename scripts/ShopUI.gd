@@ -7,6 +7,8 @@ var shop_positions_set := false
 @export var points: int = 100
 var shop_open := false
 
+# JAK COS BEDZIE LAGOWAC TO JA BYM NAJPIERW SPRAWDZIL ZIELONA KULE W SKLEPIE
+# BO JUZ SIE DLUZEJ LADUJE PO TYM JAK JA DODALEM
 func _ready():
 	$Label.text = "Punkty: %d" % points
 	$HBoxContainer.visible = false
