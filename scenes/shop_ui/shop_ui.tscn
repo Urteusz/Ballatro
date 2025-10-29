@@ -99,6 +99,7 @@ text = "Kulka Ciemna"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
 z_index = -1
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
