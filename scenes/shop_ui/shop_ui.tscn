@@ -107,12 +107,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 stretch = true
-stretch_shrink = 3
+stretch_shrink = 4
 
 [node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(426, 240)
+size = Vector2i(320, 180)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Control/SubViewportContainer/SubViewport"]

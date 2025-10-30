@@ -1,13 +1,19 @@
-[gd_scene load_steps=21 format=3 uid="uid://b0a6ch7y3umcj"]
+[gd_scene load_steps=28 format=3 uid="uid://b0a6ch7y3umcj"]
 
-[ext_resource type="Texture2D" uid="uid://d4byitgb3b5ws" path="res://textures/main_menu2.png" id="1_4xg86"]
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/main_menu/scripts/main_menu.gd" id="1_5seab"]
+[ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/main_menu3.png" id="1_x2yjq"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
+[ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/Button2.png" id="3_rrgl4"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_thkx5"]
+[ext_resource type="Texture2D" uid="uid://df3852wwkdble" path="res://textures/Button.png" id="3_x2yjq"]
+[ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/Button2_pressed.png" id="4_dn3lk"]
+[ext_resource type="Texture2D" uid="uid://dio5dc6p87rq0" path="res://textures/Button_pressed.png" id="4_lqpn7"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_x2yjq"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="5_lqpn7"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_qel0l"]
+[ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/Button2_quit.png" id="7_dn3lk"]
 [ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/main_menu/scripts/main_menu_ball.gd" id="7_rrgl4"]
+[ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/Button2_quit_pressed.png" id="8_4ujhu"]
 
 [sub_resource type="Theme" id="Theme_5dd4i"]
 
@@ -15,6 +21,8 @@
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="Theme" id="Theme_jk1qb"]
+
+[sub_resource type="Theme" id="Theme_qel0l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -78,7 +86,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_4xg86")
+texture = ExtResource("1_x2yjq")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 z_index = 1
@@ -100,24 +108,87 @@ script = ExtResource("1_5seab")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 0
 theme = SubResource("Theme_jk1qb")
 
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 0.45, 0.45, 1)
+layout_mode = 2
+
+[node name="PlayButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.81
+texture_normal = ExtResource("3_rrgl4")
+texture_pressed = ExtResource("4_dn3lk")
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="OptionsButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.45
+texture_normal = ExtResource("3_rrgl4")
+texture_pressed = ExtResource("4_dn3lk")
+
+[node name="HSeparator3" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("3_x2yjq")
+texture_pressed = ExtResource("4_lqpn7")
+
+[node name="QuitButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+texture_filter = 1
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
+texture_normal = ExtResource("7_dn3lk")
+texture_pressed = ExtResource("8_4ujhu")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(1.015, 0)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
 [node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Nie ballatro"
 horizontal_alignment = 1
 
 [node name="PlayButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
+theme = SubResource("Theme_qel0l")
 text = "Play"
 
 [node name="OptionsButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Options
 "
 
 [node name="QuitButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Quit
 "
@@ -131,7 +202,7 @@ stretch_shrink = 3
 
 [node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(277, 240)
+size = Vector2i(256, 240)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport"]
@@ -222,6 +293,9 @@ script = null
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -2, 0.48252046, -4)
 script = null
 
+[connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/PlayButtonTextured" to="HBoxContainer/PanelContainer" method="_on_play_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/OptionsButtonTextured" to="HBoxContainer/PanelContainer" method="_on_options_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/QuitButtonTextured" to="HBoxContainer/PanelContainer" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/PlayButton" to="HBoxContainer/PanelContainer" method="_on_play_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/OptionsButton" to="HBoxContainer/PanelContainer" method="_on_options_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/QuitButton" to="HBoxContainer/PanelContainer" method="_on_quit_button_pressed"]
