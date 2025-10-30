@@ -12,6 +12,8 @@ var charge_timer = 0.0
 var impulse_power
 var ratio
 
+var cant_move := false
+
 # Kolorki
 @export var weak_color: Color = Color(0.0, 1.0, 0.0, 1.0)
 @export var medium_color: Color = Color(1.0, 1.0, 0.0, 1.0)
@@ -40,6 +42,12 @@ func _ready() -> void:
 	setup_charge_ring()
 	setup_aim_line()
 	
+	var control_gameplay = get_node("/root/Node3D/GameplayUI/ControlGameplay")
+	control_gameplay.connect("player_died", _on_player_died)
+func _on_player_died():
+	print("Player dead in his script")
+	cant_move = true
+
 func _process(delta: float) -> void:
 	if charging:
 		if camera:
@@ -97,9 +105,9 @@ func get_charge_color(ratio: float) -> Color:
 		return medium_color.lerp(strong_color, local_ratio)
 
 func _input(event):
-	if event.is_action_pressed("push_ball") && camera.current_target_index == 0:
+	if event.is_action_pressed("push_ball") && camera.current_target_index == 0 && !cant_move:
 		start_charging()
-	elif event.is_action_released("push_ball"):
+	elif event.is_action_released("push_ball") && !cant_move:
 		release_push()
 
 func start_charging():
