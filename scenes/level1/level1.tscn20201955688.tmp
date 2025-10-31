@@ -1,8 +1,9 @@
-[gd_scene load_steps=37 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=39 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="3_3ks25"]
+[ext_resource type="AudioStream" uid="uid://co4y5edrt3iq5" path="res://sounds/on_hit.wav" id="3_06ugt"]
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="4_70mfr"]
 [ext_resource type="ArrayMesh" uid="uid://crrciwqwo8nu0" path="res://models/table_base.obj" id="4_u8udk"]
 [ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner.gd" id="5_eaqp3"]
@@ -88,6 +89,8 @@ viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
 [sub_resource type="ViewportTexture" id="ViewportTexture_1enmr"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/flat")
 
+[sub_resource type="BoxMesh" id="BoxMesh_06ugt"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
 shader = ExtResource("11_uj67f")
 shader_parameter/skyColor = Color(1, 1, 1, 1)
@@ -116,13 +119,11 @@ stretch_shrink = 3
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-audio_listener_enable_3d = true
 size = Vector2i(426, 240)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
-doppler_tracking = 2
 current = true
 script = ExtResource("1_j4hya")
 target = NodePath("../Table/PlayerBall")
@@ -220,6 +221,14 @@ size = Vector2i(160, 110)
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt"]
 transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
 fov = 123.75
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.77249336, 7.1917734)
+mesh = SubResource("BoxMesh_06ugt")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/MeshInstance3D"]
+stream = ExtResource("3_06ugt")
+autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")

@@ -153,6 +153,7 @@ func start_charging():
 func release_push():
 	if !charging:
 		return
+		
 	charging = false
 	charge_ring.visible = false
 	

@@ -29,9 +29,12 @@ func on_hit(points, hit_position):
 func _on_body_entered(body: Node3D):
 	#print_debug("=== COLLISION DEBUG ===")
 	#print("Ball class: ", get_class())
+	$AudioStreamPlayer3D.play()
+	
 	#print("Current speed_max: ", speed_max)
 	if body.is_in_group("table"):
 		return
+		
 	# moze przydaloby sie tu sprawdzac czy jest w grupie od kul
 	#if body.has_method("get_hit_velocity_ratio"):
 		#var velocity_ratio = body.get_hit_velocity_ratio()
