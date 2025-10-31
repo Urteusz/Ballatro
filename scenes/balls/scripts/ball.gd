@@ -26,11 +26,11 @@ func _on_body_entered(body: Node3D):
 	if body.is_in_group("table"):
 		return
 	# moze przydaloby sie tu sprawdzac czy jest w grupie od kul
-	if body.has_method("get_hit_velocity_ratio"):
-		var velocity_ratio = body.get_hit_velocity_ratio()
-		var bounce_direction = (global_position - body.global_position).normalized()
-		var bounce_force = velocity_ratio * speed_max
-		apply_central_impulse(bounce_direction * bounce_force)
+	#if body.has_method("get_hit_velocity_ratio"):
+		#var velocity_ratio = body.get_hit_velocity_ratio()
+		#var bounce_direction = (global_position - body.global_position).normalized()
+		#var bounce_force = velocity_ratio * speed_max
+		#apply_central_impulse(bounce_direction * bounce_force)
 	on_hit(points, global_position)
 
 func pocketed():
