@@ -67,7 +67,7 @@ func _process(delta: float) -> void:
 		# Nie wiem czy to jest dobry sposob na sprawdzanie czy kula sie nie rusza
 	#	Dobrze by bylo w podobny sprawdzac zanim pozwolimy na ladowanie strzalu
 	#	Ale do tego trzeba tez cos zrobic zeby kula szybciej sie zatrzymywala
-	if !sleeping and !linear_velocity.is_zero_approx():
+	if !is_stopped():
 		if aim_line:
 			(aim_line.mesh as ImmediateMesh).clear_surfaces()
 		return  # WAŻNE - nie rysuj linii gdy kulka się rusza
@@ -89,10 +89,6 @@ func _process(delta: float) -> void:
 		else:
 			draw_aim_line(ray_target)
 	
-	
-
-
-	
 func get_charge_color(ratio: float) -> Color:
 	# Gradient: czerwony -> żółty -> zielony
 	if ratio < 0.5:
@@ -105,10 +101,11 @@ func get_charge_color(ratio: float) -> Color:
 		return medium_color.lerp(strong_color, local_ratio)
 
 func _input(event):
-	if event.is_action_pressed("push_ball") && camera.current_target_index == 0 && !cant_move:
-		start_charging()
-	elif event.is_action_released("push_ball") && !cant_move:
-		release_push()
+	if is_stopped():
+		if event.is_action_pressed("push_ball") && camera.current_target_index == 0:
+			start_charging()
+		elif event.is_action_released("push_ball"):
+			release_push()
 
 func start_charging():
 	charging = true
@@ -209,3 +206,6 @@ func setup_aim_line():
 	
 func get_hit_velocity_ratio():
 	return impulse_power/max_impulse_strength
+
+func is_stopped() -> bool:
+	return sleeping or linear_velocity.is_zero_approx()
