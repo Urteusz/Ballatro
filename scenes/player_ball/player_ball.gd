@@ -1,4 +1,5 @@
 extends RigidBody3D
+
 const COLLISION_SHAPE_PATH = "CollisionShape3D"
 const MOVEMENT_THRESHOLD = Vector3(0.03, 0.03, 0.03)
 
@@ -29,6 +30,8 @@ var ray_query: PhysicsRayQueryParameters3D
 
 var camera: Camera3D = null
 var radius = 0.0
+
+signal ball_pushed
 
 func _ready() -> void:
 	camera = get_viewport().get_camera_3d()
@@ -121,11 +124,11 @@ func release_push():
 	if !charging:
 		return
 	charging = false
-
 	charge_ring.visible = false	
 	
 	impulse_power = clamp(charge_timer / max_charge_time, 0.0, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
+	emit_signal("ball_pushed")
 
 func get_ball_radius() -> float:
 	var collision_shape_node = get_node_or_null(COLLISION_SHAPE_PATH)

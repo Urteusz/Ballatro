@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=37 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -7,13 +7,13 @@
 [ext_resource type="ArrayMesh" uid="uid://crrciwqwo8nu0" path="res://models/table_base.obj" id="4_u8udk"]
 [ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner.gd" id="5_eaqp3"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
-[ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scenes/level1/scripts/player_ball.gd" id="7_miol0"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scenes/level1/pocket.gd" id="8_0em4h"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scenes/level1/scripts/walls.gd" id="9_wi5kd"]
 [ext_resource type="PackedScene" uid="uid://ip5evxm3a6tt" path="res://models/room_colored.glb" id="10_3j5si"]
 [ext_resource type="ArrayMesh" uid="uid://cjg16fg5a31w4" path="res://models/table_walls.obj" id="10_8sww4"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
+[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table_rim.obj" id="14_jw3ls"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
@@ -71,124 +71,6 @@ shader_parameter/invisible_distance = 6.7490003205775
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_u8udk"]
 data = PackedVector3Array(1.7964, 0.1273, -2.3562999, -1.8123, 0.1114, -2.373, 1.7964, 1.7587, -2.3562999, 1.7964, 1.7587, -2.3562999, -1.8123, 0.1114, -2.373, -1.8123, 1.7428, -2.373, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 1.7428, -2.373, -1.8123, 1.7428, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 1.7428, 2.6362, 1.8123, 1.7428, 2.6362, 1.8123, 0.1114, 2.6362, 1.7964, 1.7587, -2.3562999, 1.7964, 1.7587, -2.3562999, 1.8123, 0.1114, 2.6362, 1.7964, 0.1273, -2.3562999, -1.8123, 1.7428, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 1.7428, 2.6362, 1.8123, 1.7428, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_06ugt"]
-friction = 0.0
-bounce = 0.45
-absorbent = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]
-diffuse_mode = 3
-specular_mode = 1
-
-[sub_resource type="SphereMesh" id="SphereMesh_jka67"]
-material = SubResource("StandardMaterial3D_r3fl7")
-radial_segments = 8
-rings = 4
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
-
-[sub_resource type="TorusMesh" id="TorusMesh_cptob"]
-inner_radius = 0.25
-outer_radius = 0.5
-rings = 8
-ring_segments = 4
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q712h"]
-render_priority = 5
-transparency = 1
-shading_mode = 0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1enmr"]
-gravity = Vector3(0, 0, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1enmr"]
-transparency = 1
-albedo_color = Color(0.29411766, 0.25882354, 1, 0.5019608)
-
-[sub_resource type="SphereMesh" id="SphereMesh_aj7ea"]
-material = SubResource("StandardMaterial3D_1enmr")
-radial_segments = 8
-rings = 4
-
-[sub_resource type="Animation" id="Animation_06ugt"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ChargeRing:scale:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0.6, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ChargeRing:scale:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0.6, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ChargeRing:scale:z")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0.6, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="Animation" id="Animation_e4fnj"]
-resource_name = "charge"
-length = 0.5
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ChargeRing:scale:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(1, 1),
-"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, 0, 0, 0, 0),
-"times": PackedFloat32Array(0.01, 0.5)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ChargeRing:scale:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(1, 1),
-"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, 0, 0, 0, 0),
-"times": PackedFloat32Array(0.01, 0.5)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ChargeRing:scale:z")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(1, 1),
-"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, 0, 0, 0, 0),
-"times": PackedFloat32Array(0.01, 0.5)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_5prdx"]
-_data = {
-&"RESET": SubResource("Animation_06ugt"),
-&"charge": SubResource("Animation_e4fnj")
-}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0em4h"]
 render_priority = 2
@@ -296,36 +178,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
 script = ExtResource("5_eaqp3")
 ball_scene = ExtResource("6_y6x3d")
 
-[node name="PlayerBall" type="RigidBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["balls"]]
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.7649708, 10.218924)
-physics_material_override = SubResource("PhysicsMaterial_06ugt")
-continuous_cd = true
-linear_damp = 0.5
-angular_damp = 0.5
-script = ExtResource("7_miol0")
-max_charge_time = 1.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-mesh = SubResource("SphereMesh_jka67")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-shape = SubResource("SphereShape3D_a0tk4")
-
-[node name="ChargeRing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-transform = Transform3D(-0.6, -9.059749e-08, 3.960142e-15, 0, -2.6226834e-08, -0.6, 9.059749e-08, -0.6, 2.6226834e-08, 0.09263587, 0.7649708, 10.916049)
-top_level = true
-mesh = SubResource("TorusMesh_cptob")
-surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-visible = false
-process_material = SubResource("ParticleProcessMaterial_1enmr")
-draw_pass_1 = SubResource("SphereMesh_aj7ea")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-libraries = {
-&"": SubResource("AnimationLibrary_5prdx")
-}
 
 [node name="Pocket" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.802314, 0.46561527, -13.429248)
@@ -369,3 +223,7 @@ environment = SubResource("Environment_jka67")
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
 
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
+
+[connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
+
+[editable path="GameplayUI"]

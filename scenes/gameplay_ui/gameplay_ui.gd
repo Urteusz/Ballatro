@@ -10,11 +10,8 @@ func _ready():
 	$VBoxContainer/Count.text = "%d" % moves_left
 	$VBoxContainer/Label_count.text = "Moves left"
 	$HBoxContainer.visible = false
-	
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	
 	$HBoxContainer/Button_again.pressed.connect(_on_try_again)
 	$HBoxContainer/Button_exit.pressed.connect(_on_main_menu)
 	
@@ -33,11 +30,6 @@ func _on_try_again():
 
 func _on_main_menu():
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
-
-func _process(delta):
-	#tymaczosow tu bedzie cos innego trzeba zrobić poki co sciaga w
-	if Input.is_action_just_pressed("push_ball") && !dead_screen:
-		_on_move()
 
 func _toggle_death():
 	dead_screen = !dead_screen
