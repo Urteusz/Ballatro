@@ -70,3 +70,7 @@ cancel_charging={
 
 3d_render/layer_1="Main"
 3d_render/layer_2="ShopUI"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
