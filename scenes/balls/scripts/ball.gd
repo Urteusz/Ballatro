@@ -40,6 +40,9 @@ func pocketed():
 	#	ale teraz tego nie uzywamy
 	queue_free()
 
+func _on_round_ended():
+	print("Round ended signal received")
+
 # ball.gd (BallParent)
 
 func _ready():

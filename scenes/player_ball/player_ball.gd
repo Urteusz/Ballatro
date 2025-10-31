@@ -31,7 +31,13 @@ var ray_query: PhysicsRayQueryParameters3D
 var camera: Camera3D = null
 var radius = 0.0
 
+enum Phase { AIMING, MOVING }
+var current_phase: Phase = Phase.AIMING
+var stop_timer: float = 0.0
+const STOP_DELAY: float = 0.3
+
 signal ball_pushed
+signal round_ended
 
 func _ready() -> void:
 	camera = get_viewport().get_camera_3d()
@@ -51,6 +57,7 @@ func _ready() -> void:
 	
 	var control_gameplay = get_node("/root/Node3D/GameplayUI/ControlGameplay")
 	control_gameplay.connect("player_died", _on_player_died)
+	
 func _on_player_died():
 	print("Player dead in his script")
 	cant_move = true
@@ -72,9 +79,18 @@ func _process(delta: float) -> void:
 				ring_material.albedo_color = current_color
 	
 	if !is_stopped():
+		stop_timer = 0.0
 		if aim_line:
 			(aim_line.mesh as ImmediateMesh).clear_surfaces()
+		if current_phase == Phase.AIMING:
+			current_phase = Phase.MOVING
 		return  # WAŻNE - nie rysuj linii gdy kulka się rusza
+	
+	if current_phase == Phase.MOVING:
+		stop_timer += delta
+		if stop_timer >= STOP_DELAY:
+			emit_signal("round_ended")
+			current_phase = Phase.AIMING
 	
 	if camera.current_target_index == 0:
 		var direction_to_camera = (camera.global_position - global_position)
@@ -109,11 +125,10 @@ func _input(event):
 		if event.is_action_pressed("cancel_charging"):
 			charge_ring.visible = false
 			charging = false
-	if is_stopped():
-		if event.is_action_pressed("push_ball") && camera.current_target_index == 0:
-			start_charging()
-		elif event.is_action_released("push_ball"):
-			release_push()
+	if event.is_action_pressed("push_ball") && current_phase == Phase.AIMING && camera.current_target_index == 0:
+		start_charging()
+	elif event.is_action_released("push_ball"):
+		release_push()
 
 func start_charging():
 	charging = true
@@ -129,6 +144,7 @@ func release_push():
 	impulse_power = clamp(charge_timer / max_charge_time, 0.0, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
 	emit_signal("ball_pushed")
+	current_phase = Phase.MOVING
 
 func get_ball_radius() -> float:
 	var collision_shape_node = get_node_or_null(COLLISION_SHAPE_PATH)
@@ -207,6 +223,5 @@ func setup_aim_line():
 func get_hit_velocity_ratio():
 	return impulse_power/max_impulse_strength
 	
-# Nie wiem czy to jest dobry sposob na sprawdzanie czy kula sie nie rusza
 func is_stopped() -> bool:
-	return sleeping or linear_velocity.is_zero_approx()
+	return sleeping or linear_velocity.length() < 0.1
