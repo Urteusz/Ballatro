@@ -102,6 +102,10 @@ func get_charge_color(ratio: float) -> Color:
 		return medium_color.lerp(strong_color, local_ratio)
 
 func _input(event):
+	if charging:
+		if event.is_action_pressed("cancel_charging"):
+			charge_ring.visible = false
+			charging = false
 	if is_stopped():
 		if event.is_action_pressed("push_ball") && camera.current_target_index == 0:
 			start_charging()
@@ -111,22 +115,14 @@ func _input(event):
 func start_charging():
 	charging = true
 	charge_timer = 0.0
-	if ring_material:
-		var color = ring_material.albedo_color
-		color.a = 0.0
-		ring_material.albedo_color = color
-		print("Started charging")
+	charge_ring.visible = true
 
 func release_push():
 	if !charging:
 		return
 	charging = false
-	
-	if ring_material:
-		var color = ring_material.albedo_color
-		color.a = 0.0
-		ring_material.albedo_color = color
-		print("Released charge")
+
+	charge_ring.visible = false	
 	
 	impulse_power = clamp(charge_timer / max_charge_time, 0.0, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
