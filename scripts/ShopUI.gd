@@ -56,6 +56,7 @@ func _process(delta):
 func _toggle_shop():
 	shop_open = !shop_open
 	$HBoxContainer.visible = shop_open
+	$QuitButton.visible = shop_open
 	if shop_balls:
 		for shop_ball in shop_balls.get_children():
 			shop_ball.visible = shop_open
@@ -72,3 +73,5 @@ func _toggle_shop():
 func align_shop_items():
 	await get_tree().process_frame
 	
+func _on_quit_button_pressed() -> void:
+	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)

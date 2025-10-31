@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=49 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -89,6 +89,10 @@ rings = 4
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_cptob"]
+inner_radius = 0.25
+outer_radius = 0.5
+rings = 8
+ring_segments = 4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q712h"]
 render_priority = 5
@@ -106,6 +110,85 @@ albedo_color = Color(0.29411766, 0.25882354, 1, 0.5019608)
 material = SubResource("StandardMaterial3D_1enmr")
 radial_segments = 8
 rings = 4
+
+[sub_resource type="Animation" id="Animation_e4fnj"]
+resource_name = "charge"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ChargeRing:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(1, 1),
+"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, 0, 0, 0, 0),
+"times": PackedFloat32Array(0.01, 0.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ChargeRing:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(1, 1),
+"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, 0, 0, 0, 0),
+"times": PackedFloat32Array(0.01, 0.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChargeRing:scale:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(1, 1),
+"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, 0, 0, 0, 0),
+"times": PackedFloat32Array(0.01, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_06ugt"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ChargeRing:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.6, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ChargeRing:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.6, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChargeRing:scale:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.6, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5prdx"]
+_data = {
+&"RESET": SubResource("Animation_06ugt"),
+&"charge": SubResource("Animation_e4fnj")
+}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0em4h"]
 render_priority = 2
@@ -229,7 +312,7 @@ mesh = SubResource("SphereMesh_jka67")
 shape = SubResource("SphereShape3D_a0tk4")
 
 [node name="ChargeRing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-transform = Transform3D(-0.6, -5.2453668e-08, 2.2928227e-15, 0, -2.6226834e-08, -0.6, 5.2453668e-08, -0.6, 2.6226834e-08, 0.09263587, 0.7649708, 10.916049)
+transform = Transform3D(-0.6, -9.059749e-08, 3.960142e-15, 0, -2.6226834e-08, -0.6, 9.059749e-08, -0.6, 2.6226834e-08, 0.09263587, 0.7649708, 10.916049)
 top_level = true
 mesh = SubResource("TorusMesh_cptob")
 surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
@@ -238,6 +321,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
 visible = false
 process_material = SubResource("ParticleProcessMaterial_1enmr")
 draw_pass_1 = SubResource("SphereMesh_aj7ea")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
+libraries = {
+&"": SubResource("AnimationLibrary_5prdx")
+}
 
 [node name="Pocket" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.802314, 0.46561527, -13.429248)
