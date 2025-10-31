@@ -11,8 +11,11 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 const MIN_PHI = 0.25
 const MAX_PHI = 1.45
+const MIN_CURSOR_PHI = 0.2
+const MAX_CURSOR_PHI = 1.8
 var theta = PI / 2
 var phi = 1.0
+var cursor_phi = 1.0
 
 var ball_list
 var camera_current_radius
@@ -21,6 +24,7 @@ var current_target_index: int = 0 # Biala bila
 var offset = Vector3(0.0, 0.0, 0.0)
 var pivot = Vector3.ZERO
 var animating = false
+var cursor_position := Vector3.ZERO
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -32,10 +36,20 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
+	cursor_phi = clamp(cursor_phi, MIN_CURSOR_PHI, MAX_CURSOR_PHI)
+	print_debug("Cursor phi: ", cursor_phi)
 	
-	var x = camera_current_radius * sin(phi) * cos(theta)
-	var y = camera_current_radius * cos(phi)
-	var z = camera_current_radius * sin(phi) * sin(theta)
+	# na szybko to napisalem
+	var x = camera_current_radius * sin(cursor_phi) * cos(theta)
+	var y = camera_current_radius * cos(cursor_phi)
+	var z = camera_current_radius * sin(cursor_phi) * sin(theta)
+	
+	var cursor_offset = Vector3(x, y, z)
+	phi = clamp(cursor_phi, MIN_PHI, MAX_PHI)
+	
+	x = camera_current_radius * sin(phi) * cos(theta)
+	y = camera_current_radius * cos(phi)
+	z = camera_current_radius * sin(phi) * sin(theta)
 	offset = Vector3(x, y, z)
 	
 	var target_center = Vector3.ZERO
@@ -51,13 +65,13 @@ func _process(delta: float) -> void:
 	else:
 		pivot = target_center
 
+	cursor_position = pivot + cursor_offset
 	global_position = pivot + offset
 	look_at(pivot)
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		phi += event.relative.y * mouse_sensitivity
-		phi = clamp(phi, MIN_PHI, MAX_PHI)
+		cursor_phi += event.relative.y * mouse_sensitivity
 		theta += event.relative.x * mouse_sensitivity
 		
 	#if event.is_action_pressed("next_camera_target"):

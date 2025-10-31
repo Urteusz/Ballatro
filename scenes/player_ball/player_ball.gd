@@ -66,10 +66,10 @@ func _on_player_died():
 func _process(delta: float) -> void:
 	if charging:
 		if camera:
-			hit_position = camera.global_position
-			var direction_to_camera = (camera.global_position - global_position).normalized()
+			hit_position = camera.cursor_position
+			var direction_to_camera = (camera.cursor_position - global_position).normalized()
 			charge_ring.global_position = global_position + direction_to_camera * 1.0
-			charge_ring.look_at(camera.global_position, Vector3.UP)
+			charge_ring.look_at(camera.cursor_position, Vector3.UP)
 			charge_ring.rotate_object_local(Vector3.RIGHT, deg_to_rad(90.0))
 		charge_timer += delta
 		ratio = clamp(charge_timer / max_charge_time, 0.0, 1.0)
@@ -146,6 +146,7 @@ func _input(event):
 		release_push()
 
 func start_charging():
+	camera.cursor_phi = camera.phi # zmien na funkcje zamiast globalnego phi
 	charging = true
 	charge_timer = 0.0
 	charge_ring.visible = true
