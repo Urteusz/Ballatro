@@ -11,7 +11,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 const MIN_PHI = 0.25
 const MAX_PHI = 1.45
-var theta = 0.0
+var theta = PI / 2
 var phi = 1.0
 
 var ball_list
