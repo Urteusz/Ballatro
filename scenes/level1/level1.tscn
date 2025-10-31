@@ -16,6 +16,7 @@
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table_rim.obj" id="14_jw3ls"]
+[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -278,3 +279,5 @@ fov = 123.75
 environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
+
+[node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
