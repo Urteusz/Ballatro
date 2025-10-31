@@ -3,21 +3,27 @@ class_name BallParent
 
 signal points_scored(points, world_position)
 
-var points_popup = preload("res://scenes/points_popup/points_popup.tscn")
+var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
+
 @export var speed_max: float = 30.0
 @export var points: int = 100
 var current_score_total: int = 0
+var current_bounces: int = 0
 
 func on_hit(points, hit_position):
-	var popup_instance = points_popup.instantiate()
-	get_parent().add_child(popup_instance)
-	popup_instance.global_position = hit_position
-	popup_instance.set_and_play(points)
 	# dobrze by bylo gdzies wyswietlac ten potencjalne punkty do zdobycia
 	#	wszystkie razem lub dla kazdej kuli osobno
 	#	albo pokazywac w jakis sposob ze kula jest wiecej warta
-	current_score_total += points
-	print(name, ": +", points, " total: ", current_score_total)
+	# przenies do oddzielnej funkcji, 
+	current_bounces += 1
+	var final_points = points * current_bounces
+	current_score_total += final_points
+	print_debug(name, ": + ", final_points, "points, total_points:  ", current_score_total, "bounces: ", current_bounces)
+
+	var popup_instance = points_popup.instantiate()
+	get_parent().add_child(popup_instance)
+	popup_instance.global_position = hit_position
+	popup_instance.set_and_play(final_points)
 
 func _on_body_entered(body: Node3D):
 	#print("=== COLLISION DEBUG ===")
@@ -41,7 +47,7 @@ func pocketed():
 	queue_free()
 
 func _on_round_ended():
-	print("Round ended signal received")
+	current_bounces = 0
 
 # ball.gd (BallParent)
 

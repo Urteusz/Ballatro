@@ -31,7 +31,7 @@ var ray_query: PhysicsRayQueryParameters3D
 var camera: Camera3D = null
 var radius = 0.0
 
-enum Phase { AIMING, MOVING }
+enum Phase {AIMING, MOVING}
 var current_phase: Phase = Phase.AIMING
 var stop_timer: float = 0.0
 const STOP_DELAY: float = 0.3
@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
 		if charge_ring:
 			if ring_material:
 				var current_color = get_charge_color(ratio)
-				current_color.a = 0.7  # Alpha może rosnąć z ratio ale teraz ustawiam na stałe
+				current_color.a = 0.7 # Alpha może rosnąć z ratio ale teraz ustawiam na stałe
 				ring_material.albedo_color = current_color
 	
 	if !is_stopped():
@@ -84,7 +84,7 @@ func _process(delta: float) -> void:
 			(aim_line.mesh as ImmediateMesh).clear_surfaces()
 		if current_phase == Phase.AIMING:
 			current_phase = Phase.MOVING
-		return  # WAŻNE - nie rysuj linii gdy kulka się rusza
+		return # WAŻNE - nie rysuj linii gdy kulka się rusza
 	
 	if current_phase == Phase.MOVING:
 		stop_timer += delta
@@ -113,11 +113,11 @@ func get_charge_color(ratio: float) -> Color:
 	# Gradient: czerwony -> żółty -> zielony
 	if ratio < 0.5:
 		# 0.0 - 0.5: czerwony -> żółty
-		var local_ratio = ratio * 2.0  # 0.0 - 1.0
+		var local_ratio = ratio * 2.0 # 0.0 - 1.0
 		return weak_color.lerp(medium_color, local_ratio)
 	else:
 		# 0.5 - 1.0: żółty -> zielony
-		var local_ratio = (ratio - 0.5) * 2.0  # 0.0 - 1.0
+		var local_ratio = (ratio - 0.5) * 2.0 # 0.0 - 1.0
 		return medium_color.lerp(strong_color, local_ratio)
 
 func _input(event):
@@ -139,7 +139,7 @@ func release_push():
 	if !charging:
 		return
 	charging = false
-	charge_ring.visible = false	
+	charge_ring.visible = false
 	
 	impulse_power = clamp(charge_timer / max_charge_time, 0.0, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
@@ -175,9 +175,9 @@ func push_ball(impulse_strength):
 	var ball_position = global_position
 	var direction_to_camera = (camera_position - ball_position).normalized()
 	
-	var impulse_position = -direction_to_camera * radius
+	var impulse_position = - direction_to_camera * radius
 	var impulse_vector = direction_to_camera * impulse_strength
-	print("Pushed ball with force: ",impulse_strength)
+	print("Pushed ball with force: ", impulse_strength)
 	
 	apply_impulse(-impulse_vector, impulse_position)
 	
@@ -203,7 +203,7 @@ func draw_aim_line(to: Vector3):
 	var mesh := aim_line.mesh as ImmediateMesh
 	mesh.clear_surfaces()
 	mesh.surface_begin(Mesh.PRIMITIVE_LINES)
-	mesh.surface_add_vertex(Vector3.ZERO) 
+	mesh.surface_add_vertex(Vector3.ZERO)
 	mesh.surface_add_vertex(aim_line.to_local(to))
 	
 	mesh.surface_end()
@@ -221,7 +221,7 @@ func setup_aim_line():
 	add_child(aim_line)
 	
 func get_hit_velocity_ratio():
-	return impulse_power/max_impulse_strength
+	return impulse_power / max_impulse_strength
 	
 func is_stopped() -> bool:
 	return sleeping or linear_velocity.length() < 0.1

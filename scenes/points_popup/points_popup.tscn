@@ -77,6 +77,7 @@ _data = {
 }
 
 [sub_resource type="SystemFont" id="SystemFont_myqyq"]
+subpixel_positioning = 0
 
 [node name="PointsPopup" type="Node3D"]
 script = ExtResource("1_myqyq")
