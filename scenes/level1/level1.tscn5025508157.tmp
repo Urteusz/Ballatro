@@ -126,6 +126,10 @@ doppler_tracking = 2
 current = true
 script = ExtResource("1_j4hya")
 target = NodePath("../Table/PlayerBall")
+mouse_sensitivity = null
+table_camera_radius = null
+ball_camera_radius = null
+camera_lerp_speed = null
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 extra_cull_margin = 16384.0
@@ -228,7 +232,6 @@ environment = SubResource("Environment_jka67")
 
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
-[connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
 [connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
 
 [editable path="GameplayUI"]

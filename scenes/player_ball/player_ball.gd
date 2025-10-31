@@ -242,3 +242,8 @@ func get_hit_velocity_ratio():
 	
 func is_stopped() -> bool:
 	return sleeping or linear_velocity.length() < 0.1
+
+
+func _on_camera_3d_targetting_center() -> void:
+	charging = false
+	charge_ring.visible = false

@@ -7,7 +7,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 @export var mouse_sensitivity = 0.003
 @export var table_camera_radius = 13.0 # dystans kamery od celu
 @export var ball_camera_radius = 5.0
-@export var camera_lerp_speed = 10
+@export var camera_lerp_speed: float = 10.0
 
 const MIN_PHI = 0.25
 const MAX_PHI = 1.45
@@ -16,6 +16,7 @@ const MAX_CURSOR_PHI = 1.8
 var theta = PI / 2
 var phi = 1.0
 var cursor_phi = 1.0
+var previous_theta = theta
 
 var ball_list
 var camera_current_radius
@@ -25,6 +26,8 @@ var offset = Vector3(0.0, 0.0, 0.0)
 var pivot = Vector3.ZERO
 var animating = false
 var cursor_position := Vector3.ZERO
+
+signal targetting_center
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -58,7 +61,6 @@ func _process(delta: float) -> void:
 		
 	if animating:
 		pivot = lerp(pivot, target_center, camera_lerp_speed * delta)
-
 		if pivot.distance_to(target_center) < 0.01:
 			animating = false
 			pivot = target_center
@@ -86,8 +88,10 @@ func _input(event):
 	if event.is_action_pressed("next_camera_target") || \
 		event.is_action_pressed("previous_camera_target"):
 			if current_target_index != 0:
+				theta = previous_theta
 				current_target_index = 0
 			else:
+				previous_theta = theta
 				current_target_index = ball_list.size()
 			update_camera_target()
 	
@@ -109,13 +113,13 @@ func update_camera_target():
 		# Scene center
 		if current_target_index == ball_list.size():
 			camera_target_radius = table_camera_radius
+			emit_signal("targetting_center")
 			target = null
 		else:
 			camera_target_radius = ball_camera_radius
 			target = ball_list[current_target_index]
 
 		animating = true
-		
 		
 func get_camera_theta() -> float:
 	return theta
