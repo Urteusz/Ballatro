@@ -5,9 +5,13 @@ extends Node3D
 # aby dzialalo to z edge detection shaderem ustawilem render priority label3d na 127 i 126
 
 func set_and_play(value):
-	print("set and play called")
+	print_debug("set_and_play() called")
 	%Label3D.text = str(value)
 	%AnimationPlayer.play("PointsPopupAnimation")
+
+func total_points(value):
+	%Label3D.text = str(value)
+	%AnimationPlayer.play("TotalPointsAnimation")
 
 func remove():
 	queue_free()

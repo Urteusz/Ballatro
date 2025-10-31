@@ -4,7 +4,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_06ugt"]
 friction = 0.0
-bounce = 0.45
+bounce = 0.25
 absorbent = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]

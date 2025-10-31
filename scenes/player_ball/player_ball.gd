@@ -27,6 +27,7 @@ var ring_material: StandardMaterial3D = null
 @onready var aim_line: MeshInstance3D = null
 var ray_query: PhysicsRayQueryParameters3D
 @export var aim_line_ray_range: float = 20.0
+var currently_aimed_ball: BallParent = null
 
 var camera: Camera3D = null
 var radius = 0.0
@@ -80,6 +81,9 @@ func _process(delta: float) -> void:
 	
 	if !is_stopped():
 		stop_timer = 0.0
+		if currently_aimed_ball:
+			currently_aimed_ball.stop_being_aimed_at()
+			currently_aimed_ball = null
 		if aim_line:
 			(aim_line.mesh as ImmediateMesh).clear_surfaces()
 		if current_phase == Phase.AIMING:
@@ -93,6 +97,8 @@ func _process(delta: float) -> void:
 			current_phase = Phase.AIMING
 	
 	if camera.current_target_index == 0:
+		var new_aimed_ball: BallParent = null
+
 		var direction_to_camera = (camera.global_position - global_position)
 		direction_to_camera.y = 0.0
 		direction_to_camera = direction_to_camera.normalized()
@@ -106,8 +112,17 @@ func _process(delta: float) -> void:
 			
 		if result:
 			draw_aim_line(result.position)
+			var collider = result.collider
+			if collider is BallParent:
+				new_aimed_ball = collider
 		else:
 			draw_aim_line(ray_target)
+		if currently_aimed_ball != new_aimed_ball:
+			if currently_aimed_ball:
+				currently_aimed_ball.stop_being_aimed_at()
+			if new_aimed_ball:
+				new_aimed_ball.start_being_aimed_at()
+			currently_aimed_ball = new_aimed_ball
 	
 func get_charge_color(ratio: float) -> Color:
 	# Gradient: czerwony -> żółty -> zielony

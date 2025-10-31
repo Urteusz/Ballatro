@@ -9,6 +9,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 @export var points: int = 100
 var current_score_total: int = 0
 var current_bounces: int = 0
+var total_score_popup_instance = null
 
 func on_hit(points, hit_position):
 	# dobrze by bylo gdzies wyswietlac ten potencjalne punkty do zdobycia
@@ -26,7 +27,7 @@ func on_hit(points, hit_position):
 	popup_instance.set_and_play(final_points)
 
 func _on_body_entered(body: Node3D):
-	#print("=== COLLISION DEBUG ===")
+	#print_debug("=== COLLISION DEBUG ===")
 	#print("Ball class: ", get_class())
 	#print("Current speed_max: ", speed_max)
 	if body.is_in_group("table"):
@@ -38,6 +39,20 @@ func _on_body_entered(body: Node3D):
 		#var bounce_force = velocity_ratio * speed_max
 		#apply_central_impulse(bounce_direction * bounce_force)
 	on_hit(points, global_position)
+
+func start_being_aimed_at():
+	print_debug(name, " POINTS: ", current_score_total)
+	if !total_score_popup_instance:
+		total_score_popup_instance = points_popup.instantiate()
+		get_parent().add_child(total_score_popup_instance)
+		total_score_popup_instance.global_position = global_position
+		total_score_popup_instance.total_points(current_score_total)
+	
+func stop_being_aimed_at():
+	if total_score_popup_instance:
+		total_score_popup_instance.remove()
+		total_score_popup_instance = null
+	print_debug(name, " stopped getting aimed at")
 
 func pocketed():
 	print("Kieszen")
