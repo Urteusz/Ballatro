@@ -3,6 +3,8 @@ extends RigidBody3D
 const COLLISION_SHAPE_PATH = "CollisionShape3D"
 const MOVEMENT_THRESHOLD = Vector3(0.03, 0.03, 0.03)
 
+signal ball_pushed(impulse_power: float)
+
 # Ustawienia uderzenia
 @export var max_charge_time: float = 3.0
 @export var max_impulse_strength: float = 30.0
@@ -37,7 +39,6 @@ var current_phase: Phase = Phase.AIMING
 var stop_timer: float = 0.0
 const STOP_DELAY: float = 0.3
 
-signal ball_pushed
 signal round_ended
 
 func _ready() -> void:
@@ -160,7 +161,6 @@ func release_push():
 	
 	impulse_power = clamp(charge_timer / max_charge_time, 0.0, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
-	emit_signal("ball_pushed")
 	current_phase = Phase.MOVING
 
 func get_ball_radius() -> float:
@@ -197,6 +197,7 @@ func push_ball(impulse_strength):
 	print("Pushed ball with force: ", impulse_strength)
 	
 	apply_impulse(-impulse_vector, impulse_position)
+	emit_signal("ball_pushed",impulse_power)
 	
 func setup_charge_ring():
 	if charge_ring.get_surface_override_material(0):

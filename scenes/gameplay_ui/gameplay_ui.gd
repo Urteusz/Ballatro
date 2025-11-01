@@ -1,10 +1,12 @@
 extends Control
 
-@export var moves_left=10
+
+@export var default_level_moves = 10
 @onready var player_ball = get_node("/root/Node3D/SubViewportContainer/SubViewport/Table/PlayerBall")
 
 signal player_died
 
+var moves_left = default_level_moves
 var dead_screen := false
 
 func _ready():
@@ -31,7 +33,7 @@ func _on_ball_pushed(impulse_power: float):
 
 
 func _on_try_again():
-	moves_left = 10
+	moves_left = default_level_moves
 	LoadManager.load_scene(ScenePaths.LEVEL1_PATH)
 
 func _on_main_menu():
