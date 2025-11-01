@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=46 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]

@@ -6,6 +6,8 @@ const MOVEMENT_THRESHOLD = Vector3(0.03, 0.03, 0.03)
 @export var max_charge_time = 3.0
 @export var max_impulse_strength = 30.0
 
+signal ball_pushed(impulse_power: float)
+
 var hit_position: Vector3 # Pozycja kamery w momencie jak zaczelismy ladowac strzal, nie wiem jak nazwac lepiej :(
 var charging = false
 var charge_timer = 0.0
@@ -31,6 +33,7 @@ var camera: Camera3D = null
 var radius = 0.0
 
 func _ready() -> void:
+	
 	camera = get_viewport().get_camera_3d()
 	radius = get_ball_radius()
 	
@@ -44,6 +47,8 @@ func _ready() -> void:
 	
 	var control_gameplay = get_node("/root/Node3D/GameplayUI/ControlGameplay")
 	control_gameplay.connect("player_died", _on_player_died)
+	
+
 func _on_player_died():
 	print("Player dead in his script")
 	cant_move = true
@@ -164,6 +169,7 @@ func push_ball(impulse_strength):
 	print("Pushed ball with force: ",impulse_strength)
 	
 	apply_impulse(-impulse_vector, impulse_position)
+	emit_signal("ball_pushed", impulse_strength)
 	
 func setup_charge_ring():
 	if charge_ring.get_surface_override_material(0):
