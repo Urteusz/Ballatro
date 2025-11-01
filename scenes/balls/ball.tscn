@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://br6fw3sedv0yn"]
+[gd_scene load_steps=7 format=3 uid="uid://br6fw3sedv0yn"]
 
 [ext_resource type="Script" uid="uid://dcowhvvavoqf5" path="res://scenes/balls/scripts/ball.gd" id="1_cxlvu"]
 [ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="2_f7cbr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
+bounce = 0.35
+absorbent = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a202f"]
 albedo_texture = ExtResource("2_f7cbr")
@@ -15,9 +19,10 @@ rings = 4
 
 [node name="Ball1" type="RigidBody3D" groups=["balls"]]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_svc1m")
 continuous_cd = true
 contact_monitor = true
-max_contacts_reported = 1
+max_contacts_reported = 6
 linear_damp = 0.5
 angular_damp = 0.5
 script = ExtResource("1_cxlvu")
@@ -29,3 +34,10 @@ mesh = SubResource("SphereMesh_noarx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030393125, 0, 0)
 shape = SubResource("SphereShape3D_a0tk4")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1228056, 0)
+volume_db = -14.545
+pitch_scale = 1.7
+max_polyphony = 3
+doppler_tracking = 2

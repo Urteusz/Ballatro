@@ -13,11 +13,8 @@ func _ready():
 	$VBoxContainer/Count.text = "%d" % moves_left
 	$VBoxContainer/Label_count.text = "Moves left"
 	$HBoxContainer.visible = false
-	
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	
 	$HBoxContainer/Button_again.pressed.connect(_on_try_again)
 	$HBoxContainer/Button_exit.pressed.connect(_on_main_menu)
 
