@@ -40,7 +40,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, MIN_CURSOR_PHI, MAX_CURSOR_PHI)
-	print_debug("Cursor phi: ", cursor_phi)
+	#print_debug("Cursor phi: ", cursor_phi)
 	
 	# na szybko to napisalem
 	var x = camera_current_radius * sin(cursor_phi) * cos(theta)

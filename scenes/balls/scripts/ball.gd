@@ -27,8 +27,6 @@ func on_hit(points, hit_position):
 	popup_instance.set_and_play(final_points)
 
 func _on_body_entered(body: Node3D):
-	#print_debug("=== COLLISION DEBUG ===")
-	#print("Ball class: ", get_class())
 	$AudioStreamPlayer3D.play()
 	
 	#print("Current speed_max: ", speed_max)
