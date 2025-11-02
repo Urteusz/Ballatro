@@ -7,7 +7,7 @@ extends Control
 @onready var moves_title_label: Label = $"MovesLeftHUD/MovesTitleLabel"
 @onready var moves_count_label: Label = $"MovesLeftHUD/MovesCountLabel"
 @onready var game_over_window := $"GameOverWindow"
-@onready var again_button: Button = $"GameOverWindow/ExitButton"
+@onready var again_button: Button = $"GameOverWindow/AgainButton"
 @onready var exit_button: Button = $"GameOverWindow/ExitButton"
 
 signal player_died
