@@ -71,7 +71,6 @@ func _process(delta: float) -> void:
 		if current_phase == Phase.MOVING:
 			stop_timer += delta
 			if stop_timer >= STOP_DELAY:
-				sleeping = true
 				emit_signal("round_ended")
 				current_phase = Phase.AIMING
 		if camera.is_looking_at_player():
@@ -143,10 +142,12 @@ func push_ball(impulse_power: float) -> void:
 	var ball_position = global_position
 	var direction_to_camera = (camera_position - ball_position).normalized()
 
+	print_debug("Impulse power: ", impulse_power)
 	var impulse_position = -direction_to_camera * ball_radius
 	var impulse_vector = direction_to_camera * impulse_power
 	#print_debug("Pushed ball with force: ", impulse_power)
 
+	print_debug("Impulse_vector: ", impulse_vector)
 	apply_impulse(-impulse_vector, impulse_position)
 	emit_signal("ball_pushed", impulse_power)
 
