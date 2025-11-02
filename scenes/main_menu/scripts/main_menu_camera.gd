@@ -7,22 +7,23 @@ extends Camera3D
 
 var current_angle: float = 0.0
 
+
 func _ready() -> void:
 	current_angle = randf_range(0.0, PI * 2)
 
+
 func _process(delta: float) -> void:
 	current_angle += rotation_speed * delta
-	
-	
+
 	var offset_x = radius * cos(current_angle)
 	var offset_z = radius * sin(current_angle)
-	
+
 	var final_height = (sin(current_angle * 0.5) * 0.5 + 1.0) * height
-	
+
 	global_position = Vector3(
 		pivot_point.x + offset_x,
 		pivot_point.y + final_height,
-		pivot_point.z + offset_z
+		pivot_point.z + offset_z,
 	)
-	
+
 	look_at(pivot_point)

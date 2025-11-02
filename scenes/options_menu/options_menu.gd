@@ -9,7 +9,7 @@ var vsync_modes = {
 	"Disabled": DisplayServer.VSYNC_DISABLED,
 	"Enabled": DisplayServer.VSYNC_ENABLED,
 	"Adaptive": DisplayServer.VSYNC_ADAPTIVE,
-	"Mailbox": DisplayServer.VSYNC_MAILBOX
+	"Mailbox": DisplayServer.VSYNC_MAILBOX,
 }
 
 # dodaj wiecej
@@ -29,14 +29,16 @@ var resolutions = [
 	Vector2i(1680, 720), # do testow
 	Vector2i(1600, 900),
 	Vector2i(1920, 1080),
-	Vector2i(2560, 1440)
+	Vector2i(2560, 1440),
 ]
+
 
 func _ready():
 	populate_vsync_options()
 	populate_resolution_options()
-	
+
 	load_current_settings()
+
 
 func populate_vsync_options():
 	vsync_button.clear()
@@ -44,11 +46,13 @@ func populate_vsync_options():
 		var mode_id = vsync_modes[text]
 		vsync_button.add_item(text, mode_id)
 
+
 func populate_resolution_options():
 	resolution_button.clear()
 	for i in range(resolutions.size()):
 		var res = resolutions[i]
 		resolution_button.add_item("%d x %d" % [res.x, res.y], i)
+
 
 func load_current_settings():
 	var vsync_mode = SettingsManager.get_setting("graphics", "vsync_mode")
@@ -59,31 +63,33 @@ func load_current_settings():
 		if vsync_button.get_item_id(i) == vsync_mode:
 			vsync_button.select(i)
 			break
-			
+
 	for i in range(resolution_button.item_count):
 		if resolutions[i] == resolution:
 			resolution_button.select(i)
 			break
-	
+
 	fullscreen_button.button_pressed = fullscreen
+
 
 func _on_apply_pressed():
 	var res_id = resolution_button.get_selected_id()
 	var new_resolution = resolutions[res_id]
-	
+
 	var vsync_id = vsync_button.get_selected_id()
 	var new_vsync_mode = vsync_button.get_item_id(vsync_id)
-	
+
 	var new_fullscreen = fullscreen_button.button_pressed
-	
+
 	SettingsManager.set_setting("graphics", "resolution", new_resolution)
 	SettingsManager.set_setting("graphics", "vsync_mode", new_vsync_mode)
 	SettingsManager.set_setting("graphics", "fullscreen", new_fullscreen)
-	
+
 	SettingsManager.apply_graphics_settings()
 	SettingsManager.save_settings()
-	
+
 	print("Settings Applied and Saved!")
-	
+
+
 func _on_quit_pressed():
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)

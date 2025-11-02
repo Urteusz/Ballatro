@@ -4,8 +4,8 @@ extends MeshInstance3D
 
 var _material: ShaderMaterial
 
+
 func _ready():
-	
 	# Get the shader material from this MeshInstance3D
 	# Assumes the material is in surface 0
 	_material = self.get_active_material(0)

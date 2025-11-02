@@ -3,9 +3,10 @@ extends Marker3D
 @export var ball_scene: PackedScene
 @export var player_ball: RigidBody3D
 
-@export var spread: float = 1.0 
-@export var depth: float = 1.0 
+@export var spread: float = 1.0
+@export var depth: float = 1.0
 @export var height: float = 1.0
+
 
 func _ready():
 	if !ball_scene:
@@ -15,7 +16,7 @@ func _ready():
 	if !player_ball:
 		push_error("Error: 'Player Ball' not set in Ball Spawner")
 		return
-	
+
 	var base_transform = global_transform
 	var base_position = base_transform.origin
 	var right = base_transform.basis.x

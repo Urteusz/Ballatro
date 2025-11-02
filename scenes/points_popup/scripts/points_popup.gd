@@ -9,9 +9,11 @@ func set_and_play(value):
 	%Label3D.text = str(value)
 	%AnimationPlayer.play("PointsPopupAnimation")
 
+
 func total_points(value):
 	%Label3D.text = str(value)
 	%AnimationPlayer.play("TotalPointsAnimation")
+
 
 func remove():
 	queue_free()
