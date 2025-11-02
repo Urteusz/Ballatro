@@ -1,16 +1,23 @@
-[gd_scene load_steps=40 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=38 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="3_3ks25"]
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="4_70mfr"]
+[ext_resource type="ArrayMesh" uid="uid://crrciwqwo8nu0" path="res://models/table/table_base.obj" id="4_u8udk"]
 [ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner.gd" id="5_eaqp3"]
-[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/ball/ball.tscn" id="6_y6x3d"]
-[ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scenes/level1/scripts/player_ball.gd" id="7_miol0"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
+[ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scenes/level1/scripts/pocket.gd" id="8_0em4h"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scenes/level1/scripts/walls.gd" id="9_wi5kd"]
 [ext_resource type="PackedScene" uid="uid://ip5evxm3a6tt" path="res://models/room_colored.glb" id="10_3j5si"]
+[ext_resource type="ArrayMesh" uid="uid://cjg16fg5a31w4" path="res://models/table/table_walls.obj" id="10_8sww4"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
+[ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="12_06ugt"]
+[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
+[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
+[ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table/table_rim.obj" id="14_jw3ls"]
+[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -25,91 +32,56 @@ flip_faces = true
 size = Vector2(2, 2)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b2yaj"]
+friction = 0.4
+rough = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2yaj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06ugt"]
 albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
 albedo_texture = ExtResource("3_3ks25")
-albedo_texture_force_srgb = true
-uv1_scale = Vector3(11, 16, 33)
+uv1_scale = Vector3(4.515, 4.515, 4.515)
+uv1_triplanar = true
 texture_filter = 0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_a202f"]
-material = SubResource("StandardMaterial3D_b2yaj")
-size = Vector2(22, 32)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_e4fnj"]
+data = PackedVector3Array(-1.8123, -0.1114, 2.6362, -1.8123, -0.1114, -2.373, 1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.6362, -1.8123, -0.1114, -2.373, 1.7964, -0.1273, -2.3562999)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
-size = Vector3(21.54, 0.36, 31.36)
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u8udk"]
+friction = 0.1
+bounce = 0.3
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1enmr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
 render_priority = 1
 shader = ExtResource("4_70mfr")
-shader_parameter/albedo_color = Color(0.21960784, 0.23921569, 0.25882354, 1)
+shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0
 shader_parameter/fade_end_distance = 2.0
 
-[sub_resource type="BoxMesh" id="BoxMesh_a0tk4"]
-material = SubResource("ShaderMaterial_1enmr")
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_06ugt"]
+data = PackedVector3Array(1.7964, 0.1273, -2.6243, 1.7964, -0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 1.7964, -0.1273, -2.6243, 2.0509999, -0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 2.0509999, -0.1273, -2.6243, 2.0509999, 0.1273, -2.3562999, 2.0509999, 0.1273, -2.3562999, 2.0509999, -0.1273, -2.6243, 2.0509999, -0.1273, -2.3562999, 2.0509999, -0.1273, -2.6243, 1.7964, -0.1273, -2.6243, 2.0509999, -0.1273, -2.3562999, 2.0509999, -0.1273, -2.3562999, 1.7964, -0.1273, -2.6243, 1.7964, -0.1273, -2.3562999, 1.7964, 0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 1.7964, 0.1273, -2.3562999, 1.7964, 0.1273, -2.3562999, 2.0509999, 0.1273, -2.6243, 2.0509999, 0.1273, -2.3562999, -1.8123, 0.1114, -2.6076, 1.7964, 0.1273, -2.6243, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, -2.373, 1.7964, 0.1273, -2.6243, 1.7964, 0.1273, -2.3562999, 1.7964, 0.1273, -2.6243, -1.8123, 0.1114, -2.6076, 1.7964, -0.1273, -2.6243, 1.7964, -0.1273, -2.6243, -1.8123, 0.1114, -2.6076, -1.8123, -0.1114, -2.6076, -1.8123, 0.1114, -2.373, 1.7964, 0.1273, -2.3562999, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.373, 1.7964, 0.1273, -2.3562999, 1.7964, -0.1273, -2.3562999, 1.7964, 0.1273, -2.3562999, 2.0509999, 0.1273, -2.3562999, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 2.0509999, 0.1273, -2.3562999, 2.0351, 0.1114, 2.6362, 2.0351, -0.1114, 2.6362, 2.0509999, -0.1273, -2.3562999, 1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.6362, 2.0509999, -0.1273, -2.3562999, 1.7964, -0.1273, -2.3562999, 2.0509999, 0.1273, -2.3562999, 2.0509999, -0.1273, -2.3562999, 2.0351, 0.1114, 2.6362, 2.0351, 0.1114, 2.6362, 2.0509999, -0.1273, -2.3562999, 2.0351, -0.1114, 2.6362, -2.0351, -0.1114, -2.6076, -1.8123, -0.1114, -2.6076, -2.0351, 0.1114, -2.6076, -2.0351, 0.1114, -2.6076, -1.8123, -0.1114, -2.6076, -1.8123, 0.1114, -2.6076, -2.0351, -0.1114, -2.373, -2.0351, -0.1114, -2.6076, -2.0351, 0.1114, -2.373, -2.0351, 0.1114, -2.373, -2.0351, -0.1114, -2.6076, -2.0351, 0.1114, -2.6076, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.6076, -2.0351, -0.1114, -2.373, -2.0351, -0.1114, -2.373, -1.8123, -0.1114, -2.6076, -2.0351, -0.1114, -2.6076, -2.0351, 0.1114, -2.373, -2.0351, 0.1114, -2.6076, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, -2.373, -2.0351, 0.1114, -2.6076, -1.8123, 0.1114, -2.6076, 1.7964, -0.1273, -2.6243, -1.8123, -0.1114, -2.6076, 1.7964, -0.1273, -2.3562999, 1.7964, -0.1273, -2.3562999, -1.8123, -0.1114, -2.6076, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.373, -2.0351, -0.1114, -2.373, -1.8123, -0.1114, 2.6362, -1.8123, -0.1114, 2.6362, -2.0351, -0.1114, -2.373, -2.0351, -0.1114, 2.6362, -2.0351, -0.1114, 2.6362, -1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.6362, -2.0351, -0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -2.0351, -0.1114, 2.6362, -2.0351, 0.1114, -2.373, -1.8123, 0.1114, -2.373, -2.0351, 0.1114, 2.6362, -2.0351, 0.1114, 2.6362, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, 2.6362, 2.0351, -0.1114, 2.8708, 1.8123, -0.1114, 2.8708, 2.0351, 0.1114, 2.8708, 2.0351, 0.1114, 2.8708, 1.8123, -0.1114, 2.8708, 1.8123, 0.1114, 2.8708, 2.0351, -0.1114, 2.6362, 2.0351, -0.1114, 2.8708, 2.0351, 0.1114, 2.6362, 2.0351, 0.1114, 2.6362, 2.0351, -0.1114, 2.8708, 2.0351, 0.1114, 2.8708, 1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.8708, 2.0351, -0.1114, 2.6362, 2.0351, -0.1114, 2.6362, 1.8123, -0.1114, 2.8708, 2.0351, -0.1114, 2.8708, 2.0351, 0.1114, 2.6362, 2.0351, 0.1114, 2.8708, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 2.0351, 0.1114, 2.8708, 1.8123, 0.1114, 2.8708, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.8708, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.8708, -1.8123, 0.1114, 2.8708, 1.8123, -0.1114, 2.8708, 1.8123, -0.1114, 2.6362, -1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.8708, 1.8123, -0.1114, 2.6362, -1.8123, -0.1114, 2.6362, -1.8123, 0.1114, 2.8708, 1.8123, 0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.8708, 1.8123, 0.1114, 2.8708, 1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.6362, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, -0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 1.8123, -0.1114, 2.6362, 1.7964, -0.1273, -2.3562999, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 1.7964, -0.1273, -2.3562999, 1.7964, 0.1273, -2.3562999, -1.8123, 0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -2.0351, -0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -2.0351, -0.1114, 2.8708, -2.0351, 0.1114, 2.6362, -2.0351, 0.1114, 2.6362, -2.0351, -0.1114, 2.8708, -2.0351, -0.1114, 2.6362, -1.8123, 0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, 2.6362, -2.0351, 0.1114, 2.8708, -2.0351, 0.1114, 2.6362, -2.0351, -0.1114, -2.373, -2.0351, 0.1114, -2.373, -2.0351, -0.1114, 2.6362, -2.0351, -0.1114, 2.6362, -2.0351, 0.1114, -2.373, -2.0351, 0.1114, 2.6362, -1.8123, -0.1114, 2.6362, -1.8123, 0.1114, 2.6362, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, -2.373)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_r3fl7"]
-size = Vector3(1, 20.345, 31.37)
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e4fnj"]
+bounce = 0.1
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r3fl7"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]
-diffuse_mode = 3
-specular_mode = 1
-
-[sub_resource type="SphereMesh" id="SphereMesh_jka67"]
-material = SubResource("StandardMaterial3D_r3fl7")
-radial_segments = 8
-rings = 4
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
-
-[sub_resource type="TorusMesh" id="TorusMesh_cptob"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q712h"]
-render_priority = 5
-transparency = 1
-shading_mode = 0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1enmr"]
-gravity = Vector3(0, 0, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1enmr"]
-transparency = 1
-albedo_color = Color(0.29411766, 0.25882354, 1, 0.5019608)
-
-[sub_resource type="SphereMesh" id="SphereMesh_aj7ea"]
-material = SubResource("StandardMaterial3D_1enmr")
-radial_segments = 8
-rings = 4
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_q712h"]
-render_priority = 1
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u8udk"]
+render_priority = 0
 shader = ExtResource("8_n1moy")
 shader_parameter/albedo_color = Color(0.17254902, 0.13333334, 0.9098039, 1)
 shader_parameter/object_position = Vector3(0, 0, 0)
-shader_parameter/visible_distance = 0.0
-shader_parameter/invisible_distance = 5.618000266855
+shader_parameter/visible_distance = 0.690000032775
+shader_parameter/invisible_distance = 6.7490003205775
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_1enmr"]
-material = SubResource("ShaderMaterial_q712h")
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_u8udk"]
+data = PackedVector3Array(1.7964, 0.1273, -2.3562999, -1.8123, 0.1114, -2.373, 1.7964, 1.7587, -2.3562999, 1.7964, 1.7587, -2.3562999, -1.8123, 0.1114, -2.373, -1.8123, 1.7428, -2.373, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 1.7428, -2.373, -1.8123, 1.7428, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 1.7428, 2.6362, 1.8123, 1.7428, 2.6362, 1.8123, 0.1114, 2.6362, 1.7964, 1.7587, -2.3562999, 1.7964, 1.7587, -2.3562999, 1.8123, 0.1114, 2.6362, 1.7964, 0.1273, -2.3562999, -1.8123, 1.7428, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 1.7428, 2.6362, 1.8123, 1.7428, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1enmr"]
-size = Vector3(36.285, 24.045, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0em4h"]
+render_priority = 2
+transparency = 1
+albedo_color = Color(0.99999994, 0.2150447, 0.52947974, 0.33333334)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2yaj"]
-render_priority = 1
-shader = ExtResource("8_n1moy")
-shader_parameter/albedo_color = Color(0.21568628, 0.20784314, 0.7294118, 1)
-shader_parameter/object_position = Vector3(0, 0, 0)
-shader_parameter/visible_distance = 0.0
-shader_parameter/invisible_distance = 5.618000266855
+[sub_resource type="BoxMesh" id="BoxMesh_jw3ls"]
+material = SubResource("StandardMaterial3D_0em4h")
 
-[sub_resource type="BoxMesh" id="BoxMesh_q712h"]
-material = SubResource("ShaderMaterial_b2yaj")
-size = Vector3(31.49, 14.94, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
@@ -141,15 +113,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 3
+stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(426, 240)
+audio_listener_enable_3d = true
+size = Vector2i(640, 360)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
+doppler_tracking = 2
+current = true
 script = ExtResource("1_j4hya")
 target = NodePath("../Table/PlayerBall")
 
@@ -159,138 +134,70 @@ mesh = SubResource("QuadMesh_4arys")
 
 [node name="Table" type="Node" parent="SubViewportContainer/SubViewport"]
 
-[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Base"]
-transform = Transform3D(0.99986196, 0.016614765, 0, -0.016614765, 0.99986196, 0, 0, 0, 1, -0.070275314, 0.0657096, 0.016898632)
-mesh = SubResource("PlaneMesh_a202f")
+[node name="TableBase" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Base"]
+transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
+mesh = ExtResource("4_u8udk")
+surface_material_override/0 = SubResource("StandardMaterial3D_06ugt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
-shape = SubResource("BoxShape3D_noarx")
+transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
+shape = SubResource("ConcavePolygonShape3D_e4fnj")
 
-[node name="Top" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
-transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.33140755, -0.26433563, -15.392893)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Top"]
-transform = Transform3D(1, 0, 1.1368684e-13, 0, 1, 0, 0, 0, 23.27015, -0.019269943, 0.83349013, -0.0013456345)
-mesh = SubResource("BoxMesh_a0tk4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Top"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019269943, 0.83349013, -0.0013456345)
-shape = SubResource("BoxShape3D_r3fl7")
-
-[node name="Bottom" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.046453476, -0.13216782, 15.715046)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
-transform = Transform3D(1, 0, 1.1368684e-13, 0, 1, 0, 0, 0, 23.27015, -0.019269943, 0.61731124, -0.0013456345)
-mesh = SubResource("BoxMesh_a0tk4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Bottom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019269943, 0.83349013, -0.0013456345)
-shape = SubResource("BoxShape3D_r3fl7")
-
-[node name="RightSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.295166, 0.46555376, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0, -0.13415861, 0)
-mesh = SubResource("BoxMesh_a0tk4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/RightSide"]
-shape = SubResource("BoxShape3D_r3fl7")
-
-[node name="LeftSide" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Rim" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.29156, 0.7327769, 0)
+physics_material_override = SubResource("PhysicsMaterial_u8udk")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 31.126593, 0.123848915, 0, 0)
-mesh = SubResource("BoxMesh_a0tk4")
+[node name="TableRim" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Rim"]
+transform = Transform3D(5.99, 0, 0, 0, 5.99, 0, 0, 0, 5.99, 11.29156, -0.31067014, 0)
+mesh = ExtResource("14_jw3ls")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = SubResource("ShaderMaterial_jw3ls")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/LeftSide"]
-shape = SubResource("BoxShape3D_r3fl7")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Rim"]
+transform = Transform3D(5.99, 0, 0, 0, 5.99, 0, 0, 0, 5.99, 11.29156, -0.31067014, 0)
+shape = SubResource("ConcavePolygonShape3D_06ugt")
 
-[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table"]
+[node name="Walls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.168132, 16.172523)
+physics_material_override = SubResource("PhysicsMaterial_e4fnj")
+
+[node name="TableWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" node_paths=PackedStringArray("object_node")]
+transform = Transform3D(-6.225, 0, 5.442068e-07, 0, 6.225, 0, -5.442068e-07, 0, -6.225, -1.4138469e-06, -9.019197, 16.172523)
+mesh = ExtResource("10_8sww4")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_u8udk")
+script = ExtResource("9_wi5kd")
+object_node = NodePath("../../PlayerBall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Walls"]
+transform = Transform3D(-6.225, 0, 5.442068e-07, 0, 6.225, 0, -5.442068e-07, 0, -6.225, -1.4138469e-06, -9.019197, 16.172523)
+shape = SubResource("ConcavePolygonShape3D_u8udk")
+
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
 script = ExtResource("5_eaqp3")
 ball_scene = ExtResource("6_y6x3d")
+player_ball = NodePath("../PlayerBall")
 
-[node name="PlayerBall" type="RigidBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["balls"]]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.09263587, 0.7649708, 10.218924)
-physics_material_override = SubResource("PhysicsMaterial_r3fl7")
-script = ExtResource("7_miol0")
-max_charge_time = 1.0
+[node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_06ugt")]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.21682703, 0.2331419, 2.2595236)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-mesh = SubResource("SphereMesh_jka67")
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-shape = SubResource("SphereShape3D_a0tk4")
+[node name="Pocket" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.802314, 0.46561527, -13.429248)
+script = ExtResource("8_0em4h")
 
-[node name="ChargeRing" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-transform = Transform3D(-0.6, -5.2453668e-08, 2.2928227e-15, 0, -2.6226834e-08, -0.6, 5.2453668e-08, -0.6, 2.6226834e-08, 0.09263587, 0.7649708, 10.916049)
-top_level = true
-mesh = SubResource("TorusMesh_cptob")
-surface_material_override/0 = SubResource("StandardMaterial3D_q712h")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Pocket"]
+mesh = SubResource("BoxMesh_jw3ls")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="SubViewportContainer/SubViewport/Table/PlayerBall"]
-visible = false
-process_material = SubResource("ParticleProcessMaterial_1enmr")
-draw_pass_1 = SubResource("SphereMesh_aj7ea")
-
-[node name="Walls" type="Node" parent="SubViewportContainer/SubViewport"]
-
-[node name="Front" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.372567, -15.34833)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Front" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(11.744708, 0, 0, 0, -4.6241905e-08, -6.1033897, 0, 1.0578915, -2.6678762e-07, -0.012123585, -0.923357, -0.012406349)
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_1enmr")
-script = ExtResource("9_wi5kd")
-object_node = NodePath("../../../Table/PlayerBall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Front"]
-shape = SubResource("BoxShape3D_1enmr")
-
-[node name="Back" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.900281, 15.303341)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Back" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02970457, -0.943511, 0.8005848)
-mesh = SubResource("BoxMesh_q712h")
-script = ExtResource("9_wi5kd")
-object_node = NodePath("../../../Table/PlayerBall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Back"]
-shape = SubResource("BoxShape3D_1enmr")
-
-[node name="Left" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -13.040909, 5.4943943, 0.00860405)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Left" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0052342946, 0.021252632, 1.2122936)
-mesh = SubResource("BoxMesh_q712h")
-script = ExtResource("9_wi5kd")
-object_node = NodePath("../../../Table/PlayerBall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Left"]
-shape = SubResource("BoxShape3D_1enmr")
-
-[node name="Right" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Walls"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.231203, 7.9887886, 1.2355814)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Walls/Right" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0052342415, 0.021252632, -0.011484146)
-mesh = SubResource("BoxMesh_q712h")
-script = ExtResource("9_wi5kd")
-object_node = NodePath("../../../Table/PlayerBall")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Walls/Right"]
-shape = SubResource("BoxShape3D_1enmr")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pocket"]
+shape = SubResource("BoxShape3D_k3l6j")
 
 [node name="Room" parent="SubViewportContainer/SubViewport" instance=ExtResource("10_3j5si")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
@@ -320,3 +227,15 @@ fov = 123.75
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
+
+[node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
+
+[node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
+
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("player_ball")]
+player_ball = NodePath("../../SubViewportContainer/SubViewport/Table/PlayerBall")
+
+[connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
+[connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
+
+[editable path="GameplayUI"]
