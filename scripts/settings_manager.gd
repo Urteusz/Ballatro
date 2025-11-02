@@ -47,7 +47,6 @@ func save_settings():
 func apply_graphics_settings():
 	var gfx = settings_data["graphics"]
 
-	# Set VSync
 	DisplayServer.window_set_vsync_mode(gfx["vsync_mode"])
 
 	if gfx["fullscreen"]:

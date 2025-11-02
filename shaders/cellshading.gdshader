@@ -11,17 +11,13 @@ float fresnel(float amount, vec3 normal, vec3 view) {
              amount);
 }
 
-void vertex() {
-  // Called for every vertex the material is visible on.
-}
-
 void fragment() {
   float basic_fresnel = fresnel(4.0, NORMAL, VIEW);
   ALBEDO = texture(diffuse_texture, UV).rgb +
            (basic_fresnel *
             texture(fresnel_gradient, vec2(basic_fresnel, 0.0)).rgb * 1.0);
 }
-// The part that makes it cellshaded
+
 void light() {
   float dotproduct = clamp(dot(NORMAL, LIGHT), -0.9, 0.9);
   float sample = clamp((dotproduct + 1.0) * ATTENUATION / 2.1, 0.05, 0.95);

@@ -1,30 +1,34 @@
 extends Camera3D
 
-# do testow
+const BALLS_GROUP = "balls"
+
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 @export var target: Node3D
-@export var mouse_sensitivity = 0.003
-@export var table_camera_radius = 13.0 # dystans kamery od celu
-@export var ball_camera_radius = 5.0
+@export var mouse_sensitivity: float = 0.003
+@export var table_camera_radius: float = 13.0 # dystans kamery od celu gdy patrzy sie na srodek
+@export var ball_camera_radius: float = 5.0  #		i gdy patrzy sie na kule
 @export var camera_lerp_speed: float = 10.0
 
-const MIN_PHI = 0.25
-const MAX_PHI = 1.45
-const MIN_CURSOR_PHI = 0.2
-const MAX_CURSOR_PHI = 1.8
+@export var min_phi: float = 0.25 # max wysokosc kamery
+@export var max_phi: float = 1.45 #		min wysokosc, albo na odwrot nie pamietam
+@export var min_cursor_phi: float = 0.2 # min/max wysokosc 'celownika'
+@export var max_cursor_phi: float = 1.8
+
+# do obliczania pozycji kamery/celownika
 var theta = PI / 2
 var phi = 1.0
 var cursor_phi = 1.0
-var previous_theta = theta
+# kamera patrzy sie w tym sammy kierunku po powrocie do bili, co przed przelaczeniem kamery na srodek
+var previous_theta = theta 
 
 var ball_list
-var camera_current_radius
-var camera_target_radius
+var camera_current_radius: float = 0.0
+var camera_target_radius: float = 0.0
 var current_target_index: int = 0 # Biala bila
-var offset = Vector3(0.0, 0.0, 0.0)
-var pivot = Vector3.ZERO
-var animating = false
+var offset := Vector3(0.0, 0.0, 0.0) # Przesuniecie kamery od celu
+var pivot := Vector3.ZERO # Punkt wokol ktorego kamera sie obraca
+var animating: bool = false # czy jest w trakcie lerp
 var cursor_position := Vector3.ZERO
 
 signal targetting_center
@@ -33,31 +37,30 @@ signal targetting_center
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	self.position = Vector3.ZERO
-	ball_list = get_tree().get_nodes_in_group("balls")
+	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
 
 	camera_current_radius = ball_camera_radius
 	camera_target_radius = camera_current_radius
 
 
+# do podzielenia na mniejsze funkcje
 func _process(delta: float) -> void:
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
-	cursor_phi = clamp(cursor_phi, MIN_CURSOR_PHI, MAX_CURSOR_PHI)
-	print_debug("Cursor phi: ", cursor_phi)
+	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
 
-	# na szybko to napisalem
-	var x = camera_current_radius * sin(cursor_phi) * cos(theta)
-	var y = camera_current_radius * cos(cursor_phi)
-	var z = camera_current_radius * sin(cursor_phi) * sin(theta)
+	var x: float = camera_current_radius * sin(cursor_phi) * cos(theta)
+	var y: float = camera_current_radius * cos(cursor_phi)
+	var z: float = camera_current_radius * sin(cursor_phi) * sin(theta)
 
-	var cursor_offset = Vector3(x, y, z)
-	phi = clamp(cursor_phi, MIN_PHI, MAX_PHI)
+	var cursor_offset := Vector3(x, y, z)
+	phi = clamp(cursor_phi, min_phi, max_phi)
 
 	x = camera_current_radius * sin(phi) * cos(theta)
 	y = camera_current_radius * cos(phi)
 	z = camera_current_radius * sin(phi) * sin(theta)
 	offset = Vector3(x, y, z)
 
-	var target_center = Vector3.ZERO
+	var target_center := Vector3.ZERO
 	if target:
 		target_center = target.global_position
 
@@ -74,22 +77,12 @@ func _process(delta: float) -> void:
 	look_at(pivot)
 
 
-func _input(event):
+func _input(event) -> void:
 	if event is InputEventMouseMotion:
 		cursor_phi += event.relative.y * mouse_sensitivity
 		theta += event.relative.x * mouse_sensitivity
 
-	#if event.is_action_pressed("next_camera_target"):
-	#current_target_index += 1
-	#update_camera_target()
-	#
-	#if event.is_action_pressed("previous_camera_target"):
-	#current_target_index -= 1
-	#update_camera_target()
-
-	# zakomentowalem tymczasowo te wyzej, zeby nie dalo sie patrzec na zwykle bile
-	if event.is_action_pressed("next_camera_target") || \
-	event.is_action_pressed("previous_camera_target"):
+	if event.is_action_pressed("next_camera_target") || event.is_action_pressed("previous_camera_target"):
 		if current_target_index != 0:
 			theta = previous_theta
 			current_target_index = 0
@@ -105,16 +98,15 @@ func _input(event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	if event.is_action_pressed("reload_scene"):
-		reload_current_scene()
+		_reload_current_scene()
 
 
-# Kamera przechodzi po kulach w kolejnosci w jakiej zostaly dodane do listy
-#	zamiast tego powinno dac sie zmieniac pomiedzy najblizszymi kulami
-func update_camera_target():
-	var total_targets = ball_list.size() + 1
+# do przepisania, nie powinno uzywac ball_list array w taki sposob
+#	chyba ze chcemy wykorzystac mozliwosc patrzenia na inne bile (niz biala)
+func update_camera_target() -> void:
+	var total_targets: int = ball_list.size() + 1
 	current_target_index = wrapi(current_target_index, 0, total_targets)
 
-	# Scene center
 	if current_target_index == ball_list.size():
 		camera_target_radius = table_camera_radius
 		emit_signal("targetting_center")
@@ -126,11 +118,7 @@ func update_camera_target():
 	animating = true
 
 
-func get_camera_theta() -> float:
-	return theta
-
-
-func reload_current_scene() -> void:
+func _reload_current_scene() -> void:
 	var error_code = get_tree().reload_current_scene()
 	if error_code != OK:
 		print("Error reloading scene: ", error_code)

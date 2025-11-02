@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kgdaj")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ControlGameplay"]
+[node name="MovesLeftHUD" type="VBoxContainer" parent="ControlGameplay"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -31,19 +31,19 @@ offset_right = 100.0
 offset_bottom = 100.0
 grow_horizontal = 2
 
-[node name="Label_count" type="Label" parent="ControlGameplay/VBoxContainer"]
+[node name="MovesTitleLabel" type="Label" parent="ControlGameplay/MovesLeftHUD"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Count" type="Label" parent="ControlGameplay/VBoxContainer"]
+[node name="MovesCountLabel" type="Label" parent="ControlGameplay/MovesLeftHUD"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlGameplay"]
+[node name="GameOverWindow" type="HBoxContainer" parent="ControlGameplay"]
 process_mode = 3
 layout_mode = 1
 anchors_preset = 8
@@ -58,13 +58,13 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button_again" type="Button" parent="ControlGameplay/HBoxContainer"]
+[node name="AgainButton" type="Button" parent="ControlGameplay/GameOverWindow"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Try again"
 
-[node name="Button_exit" type="Button" parent="ControlGameplay/HBoxContainer"]
+[node name="ExitButton" type="Button" parent="ControlGameplay/GameOverWindow"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
