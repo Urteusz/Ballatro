@@ -7,7 +7,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 @export var target: Node3D
 @export var mouse_sensitivity: float = 0.003
 @export var table_camera_radius: float = 13.0 # dystans kamery od celu gdy patrzy sie na srodek
-@export var ball_camera_radius: float = 5.0  #		i gdy patrzy sie na kule
+@export var ball_camera_radius: float = 5.0 #		i gdy patrzy sie na kule
 @export var camera_lerp_speed: float = 10.0
 
 @export var min_phi: float = 0.25 # max wysokosc kamery
@@ -20,7 +20,7 @@ var theta = PI / 2
 var phi = 1.0
 var cursor_phi = 1.0
 # kamera patrzy sie w tym sammy kierunku po powrocie do bili, co przed przelaczeniem kamery na srodek
-var previous_theta = theta 
+var previous_theta = theta
 
 var ball_list
 var camera_current_radius: float = 0.0
@@ -116,6 +116,18 @@ func update_camera_target() -> void:
 		target = ball_list[current_target_index]
 
 	animating = true
+
+
+func is_looking_at_player() -> bool:
+	return current_target_index == 0
+
+
+func is_looking_at_center() -> bool:
+	if ball_list:
+		return current_target_index == ball_list.size() + 1
+	else:
+		push_error("Error: camera.ball_list is null")
+		return false
 
 
 func _reload_current_scene() -> void:

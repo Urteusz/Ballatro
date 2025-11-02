@@ -7,9 +7,8 @@ signal points_scored(points, world_position)
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 # Bazowa ilosc punktow za zderzenie
-@export var base_value: int = 100 
+@export var base_value: int = 100
 #@export var point_multiplier: int = 1
-
 
 var total_points: int = 0 # Suma punktow jaka sie dostanie za wbicie kuli
 var total_bounces_round: int = 0 # Suma odbic w jednej rundzie (do momentu zatrzymania sie bialej bili)
@@ -21,7 +20,7 @@ func pocketed() -> void:
 	# mozliwe ze to psuje kod ktory pozwalal na zmiane celu na kule
 	#	ale teraz tego nie uzywamy
 	queue_free() # Podobnie jak z wyswietlaniem punktow mozliwe ze przy wiekszej ilosci lepiej bedzie zaimplementowac 'object pool'
-	
+
 
 func on_hit() -> void:
 	total_bounces_round += 1
@@ -32,15 +31,18 @@ func on_hit() -> void:
 
 	_show_popup(global_position, points_gained) # global_position -> miejsce kuli w momencie zderzenia
 
+
 # Inne kule zmienialyby implementacje tego
 func _calculate_points() -> int:
 	return base_value * total_bounces_round
-	
+
+
 func _show_popup(hit_position: Vector3, points_gained: int) -> void:
 	var popup_instance = points_popup.instantiate()
 	get_parent().add_child(popup_instance)
 	popup_instance.global_position = hit_position
 	popup_instance.set_and_play(points_gained)
+
 
 func _on_body_entered(body: Node3D) -> void:
 	$AudioStreamPlayer3D.play() # Narazie nie ma zadnego dzwieku ustawionego
@@ -72,5 +74,5 @@ func _ready() -> void:
 	var error = body_entered.connect(_on_body_entered)
 	if error != OK:
 		push_error("BŁĄD PODŁĄCZENIA body_entered dla:", name, " Error:", error)
-	#else:
+		#else:
 		#print_debug("SUKCES: Podłączono body_entered dla:", name)

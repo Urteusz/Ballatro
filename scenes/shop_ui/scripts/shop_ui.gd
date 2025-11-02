@@ -10,7 +10,7 @@ var shop_open := false
 
 # JAK COS BEDZIE LAGOWAC TO JA BYM NAJPIERW SPRAWDZIL ZIELONA KULE W SKLEPIE
 # BO JUZ SIE DLUZEJ LADUJE PO TYM JAK JA DODALEM
-func _ready():
+func _ready() -> void:
 	$Label.text = "Punkty: %d" % points
 	$HBoxContainer.visible = false
 
@@ -24,13 +24,13 @@ func _ready():
 		item_button.connect("pressed", Callable(self, "_on_item_pressed").bind(item_button.text))
 
 
-func _on_points_scored(points_earned: int, world_pos: Vector3):
+func _on_points_scored(points_earned: int, world_pos: Vector3) -> void:
 	points += points_earned
 	$Label.text = "Punkty: %d" % points
 	print("Zdobyto punkty:", points_earned, "Suma:", points)
 
 
-func _on_item_pressed(item_name: String):
+func _on_item_pressed(item_name: String) -> void:
 	print("Kliknięto przycisk:", item_name)
 	match item_name:
 		"Kulka Czerwona":
@@ -45,21 +45,21 @@ func _on_item_pressed(item_name: String):
 			_buy_item(item_name, 40)
 
 
-func _buy_item(item_name: String, cost: int):
+func _buy_item(item_name: String, cost: int) -> void:
 	if points >= cost:
 		points -= cost
 		$Label.text = "Punkty: %d" % points
-		print("Kupiono:", item_name)
+		print_debug("Kupiono:", item_name)
 	else:
-		print("Za mało punktów na", item_name)
+		print_debug("Za mało punktów na", item_name)
 
 
-func _process(delta):
+func _process(delta) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		_toggle_shop()
 
 
-func _toggle_shop():
+func _toggle_shop() -> void:
 	shop_open = !shop_open
 	$HBoxContainer.visible = shop_open
 	$QuitButton.visible = shop_open

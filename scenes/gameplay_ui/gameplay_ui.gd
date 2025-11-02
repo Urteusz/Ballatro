@@ -20,6 +20,7 @@ func _ready() -> void:
 	player_ball.connect("ball_pushed", _on_ball_pushed)
 	_setup_ui()
 
+
 func _setup_ui() -> void:
 	moves_count_label.text = "%d" % moves_left
 	moves_title_label.text = "Moves left"
@@ -28,12 +29,14 @@ func _setup_ui() -> void:
 	exit_button.pressed.connect(_on_main_menu)
 	_ignore_mouse()
 
+
 func _on_ball_pushed(impulse_power: float) -> void:
 	if !game_over:
 		if (moves_left - 1) > 0:
 			moves_left -= 1
 			moves_count_label.text = "%d" % moves_left
 		else:
+			# powinno czekac az kula sie zatrzyma a nie dawac od razu game over
 			_on_game_over()
 			moves_count_label.text = ""
 			moves_title_label.text = "You died"
@@ -55,13 +58,13 @@ func _on_game_over():
 	game_over_window.visible = true
 	emit_signal("player_died")
 	_enable_mouse()
-	
-# jesli bedzie gdzies potrzebne to mozna to przeniesc gdzies do scripts/utils.gd czy cos
+
+
 func _ignore_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	
+
+
 func _enable_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

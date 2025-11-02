@@ -126,7 +126,6 @@ continuous_cd = true
 linear_damp = 0.5
 angular_damp = 0.5
 script = ExtResource("1_655g4")
-max_charge_time = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_jka67")

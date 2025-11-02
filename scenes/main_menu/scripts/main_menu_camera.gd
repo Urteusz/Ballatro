@@ -8,8 +8,9 @@ extends Camera3D
 var current_angle: float = 0.0
 
 
+# kamera zaczyna z losowym katem
 func _ready() -> void:
-	current_angle = randf_range(0.0, PI * 2)
+	current_angle = randf_range(0.0, TAU) # TAU -> 2 * PI
 
 
 func _process(delta: float) -> void:
