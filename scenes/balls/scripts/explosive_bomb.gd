@@ -7,12 +7,11 @@ class_name ExplosiveBomb
 
 func _ready():
 	super._ready()
-	speed_max += extra_speed
-	points = 500
+	base_value = 500
 	
-func on_hit(points, hit_position):
+func on_hit():
 	print("points")
-	super.on_hit(points, hit_position)
+	super.on_hit()
 	explode()
 
 func explode():
