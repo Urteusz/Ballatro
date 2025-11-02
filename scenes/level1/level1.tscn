@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=38 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://ip5evxm3a6tt" path="res://models/room_colored.glb" id="10_3j5si"]
 [ext_resource type="ArrayMesh" uid="uid://cjg16fg5a31w4" path="res://models/table/table_walls.obj" id="10_8sww4"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
+[ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="12_06ugt"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table/table_rim.obj" id="14_jw3ls"]
@@ -181,6 +182,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
 script = ExtResource("5_eaqp3")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
+
+[node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_06ugt")]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.21682703, 0.2331419, 2.2595236)
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
