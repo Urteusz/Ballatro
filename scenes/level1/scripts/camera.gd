@@ -5,10 +5,14 @@ const BALLS_GROUP = "balls"
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 @export var target: Node3D
-@export var mouse_sensitivity: float = 0.003
 @export var table_camera_radius: float = 13.0 # dystans kamery od celu gdy patrzy sie na srodek
 @export var ball_camera_radius: float = 5.0 #		i gdy patrzy sie na kule
 @export var camera_lerp_speed: float = 10.0
+
+@export var mouse_sensitivity: float = 0.003
+@export var controller_sensitivity: float = 1.5
+@export var touch_sensitivity: float = 0.2
+@export var controller_deadzone: float = 0.15
 
 @export var min_phi: float = 0.25 # max wysokosc kamery
 @export var max_phi: float = 1.45 #		min wysokosc, albo na odwrot nie pamietam
@@ -35,7 +39,9 @@ signal targetting_center
 
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if OS.has_feature("desktop"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	self.position = Vector3.ZERO
 	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
 
@@ -45,6 +51,15 @@ func _ready() -> void:
 
 # do podzielenia na mniejsze funkcje
 func _process(delta: float) -> void:
+	var controller_input_horizontal: float = Input.get_axis("camera_look_left", "camera_look_right")
+	var controller_input_vertical: float = Input.get_axis("camera_look_up", "camera_look_down")
+	
+	if abs(controller_input_horizontal) > controller_deadzone:
+		theta += controller_input_horizontal * controller_sensitivity * delta
+		
+	if abs(controller_input_horizontal) > controller_deadzone:
+		cursor_phi += controller_input_vertical * controller_sensitivity * delta
+	
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
 
@@ -78,10 +93,11 @@ func _process(delta: float) -> void:
 
 
 func _input(event) -> void:
-	if event is InputEventMouseMotion:
-		cursor_phi += event.relative.y * mouse_sensitivity
-		theta += event.relative.x * mouse_sensitivity
-
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		_handle_camera_rotation_relative(event.relative, mouse_sensitivity)
+	elif event is InputEventScreenDrag:
+		_handle_camera_rotation_relative(event.relative, touch_sensitivity)
+	
 	if event.is_action_pressed("next_camera_target") || event.is_action_pressed("previous_camera_target"):
 		if current_target_index != 0:
 			theta = previous_theta
@@ -100,6 +116,9 @@ func _input(event) -> void:
 	if event.is_action_pressed("reload_scene"):
 		_reload_current_scene()
 
+func _handle_camera_rotation_relative(relative_motion: Vector2, sensitivity: float) -> void:
+	cursor_phi += relative_motion.y * sensitivity
+	theta += relative_motion.x * sensitivity
 
 # do przepisania, nie powinno uzywac ball_list array w taki sposob
 #	chyba ze chcemy wykorzystac mozliwosc patrzenia na inne bile (niz biala)
