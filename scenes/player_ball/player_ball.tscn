@@ -122,6 +122,7 @@ _data = {
 
 [node name="PlayerBall" type="RigidBody3D" groups=["balls"]]
 physics_material_override = SubResource("PhysicsMaterial_06ugt")
+can_sleep = false
 continuous_cd = true
 linear_damp = 0.5
 angular_damp = 0.5
