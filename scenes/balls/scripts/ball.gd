@@ -3,6 +3,8 @@ extends RigidBody3D
 class_name BallParent
 
 signal points_scored(points, world_position)
+signal ball_pocketed(ball)
+
 
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
@@ -17,8 +19,7 @@ var total_score_popup_instance = null
 
 func pocketed() -> void:
 	points_scored.emit(total_points, global_position)
-	# mozliwe ze to psuje kod ktory pozwalal na zmiane celu na kule
-	#	ale teraz tego nie uzywamy
+	emit_signal("ball_pocketed",self)
 	queue_free() # Podobnie jak z wyswietlaniem punktow mozliwe ze przy wiekszej ilosci lepiej bedzie zaimplementowac 'object pool'
 
 
