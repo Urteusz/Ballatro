@@ -20,6 +20,7 @@ func _ready() -> void:
 	player_ball.connect("ball_pushed", _on_ball_pushed)
 	_setup_ui()
 
+
 func _setup_ui() -> void:
 	moves_count_label.text = "%d" % moves_left
 	moves_title_label.text = "Moves left"

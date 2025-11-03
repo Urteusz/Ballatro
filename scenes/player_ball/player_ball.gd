@@ -60,7 +60,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if charging and camera and charge_ring:
-		sleeping = false
 		_animate_charge_ring(delta)
 
 	if !is_stopped():
@@ -134,7 +133,8 @@ func release_push() -> void:
 	charging = false
 	charge_ring.visible = false
 
-	var impulse_power: float = clamp(charge_timer / max_charge_duration, 0.2, 1.0) * max_impulse_strength
+	charge_timer = clamp(charge_timer, 0.0, max_charge_duration)
+	var impulse_power: float = clamp(charge_timer / max_charge_duration, MIN_IMPULSE, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
 	current_phase = Phase.MOVING
 
