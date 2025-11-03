@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Ballatro"
-run/main_scene="uid://2qvhwcgcgbqq"
+run/main_scene="uid://b5a13kvrknbec"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://textures/icon.svg"
 
@@ -28,6 +28,10 @@ window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/proton_scatter/plugin.cfg")
 
 [filesystem]
 
@@ -74,3 +78,7 @@ cancel_charging={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+occlusion_culling/use_occlusion_culling=true
