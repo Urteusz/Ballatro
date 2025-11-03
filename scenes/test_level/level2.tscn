@@ -1,0 +1,348 @@
+[gd_scene load_steps=62 format=3 uid="uid://b5a13kvrknbec"]
+
+[ext_resource type="Script" uid="uid://c23ibcx8fc5lr" path="res://scenes/test_level/scripts/camera.gd" id="1_a011w"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_55rpr"]
+[ext_resource type="ArrayMesh" uid="uid://crrciwqwo8nu0" path="res://models/table/table_base.obj" id="3_kdd1l"]
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_4xp18"]
+[ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table/table_rim.obj" id="5_wvnfy"]
+[ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="6_ab27k"]
+[ext_resource type="ArrayMesh" uid="uid://cjg16fg5a31w4" path="res://models/table/table_walls.obj" id="7_vhnq8"]
+[ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_8kiot"]
+[ext_resource type="Script" uid="uid://br25362bs1nk1" path="res://scenes/test_level/scripts/walls.gd" id="9_y23ad"]
+[ext_resource type="Script" uid="uid://dfxmpl5xehr64" path="res://scenes/test_level/scripts/ball_spawner.gd" id="10_m7tqf"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_g17d5"]
+[ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="12_tt57p"]
+[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="13_tqcv8"]
+[ext_resource type="Script" uid="uid://besewdip7yowg" path="res://scenes/test_level/scripts/pocket.gd" id="14_86b77"]
+[ext_resource type="PackedScene" uid="uid://ol8wxw86cov5" path="res://models/room_colored_no_walls.glb" id="15_gd3k5"]
+[ext_resource type="ArrayMesh" uid="uid://db45xddkffhuq" path="res://models/room_colored_no_wall.obj" id="16_uo8j6"]
+[ext_resource type="PackedScene" uid="uid://3dlo2rnowj3b" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="17_ars84"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="17_k511w"]
+[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="18_glfrj"]
+[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/gameplay_ui/gameplay_ui.tscn" id="19_rlab5"]
+[ext_resource type="Script" uid="uid://c0qh2y3ksgptg" path="res://addons/proton_scatter/src/scatter.gd" id="20_xx8bh"]
+[ext_resource type="Script" uid="uid://dsd8f1pyp2swh" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="21_bqyld"]
+[ext_resource type="Script" uid="uid://cn48wbln4ohev" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="22_ars84"]
+[ext_resource type="Script" uid="uid://bf4b8ae1akxjs" path="res://addons/proton_scatter/src/modifiers/create_inside_grid.gd" id="23_3jov0"]
+[ext_resource type="Script" uid="uid://6dkhjx330a1x" path="res://addons/proton_scatter/src/modifiers/randomize_rotation.gd" id="24_e17oh"]
+[ext_resource type="Script" uid="uid://cl8g83y6nllor" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="25_u3oke"]
+[ext_resource type="Script" uid="uid://dvh7tvbdpgpgk" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="26_ie8sg"]
+[ext_resource type="Script" uid="uid://coeovgfc0fefr" path="res://addons/proton_scatter/src/scatter_item.gd" id="27_phyij"]
+[ext_resource type="Shader" uid="uid://cer3jtnpbsnts" path="res://scenes/test_level/grass.gdshader" id="28_bqyld"]
+[ext_resource type="Script" uid="uid://dleq6poocehu1" path="res://addons/proton_scatter/src/scatter_shape.gd" id="28_nlyyg"]
+[ext_resource type="Script" uid="uid://cfeuulmiugkdp" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="29_e8iiy"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bruj82f7v2h0a" path="res://scenes/test_level/level2.occ" id="32_3jov0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("2_55rpr")
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.7
+
+[sub_resource type="QuadMesh" id="QuadMesh_4arys"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b2yaj"]
+friction = 0.4
+rough = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06ugt"]
+albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
+albedo_texture = ExtResource("4_4xp18")
+uv1_scale = Vector3(4.515, 4.515, 4.515)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_e4fnj"]
+data = PackedVector3Array(-1.8123, -0.1114, 2.6362, -1.8123, -0.1114, -2.373, 1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.6362, -1.8123, -0.1114, -2.373, 1.7964, -0.1273, -2.3562999)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u8udk"]
+friction = 0.1
+bounce = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
+render_priority = 1
+shader = ExtResource("6_ab27k")
+shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
+shader_parameter/fade_start_distance = 5.0
+shader_parameter/fade_end_distance = 2.0
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_06ugt"]
+data = PackedVector3Array(1.7964, 0.1273, -2.6243, 1.7964, -0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 1.7964, -0.1273, -2.6243, 2.0509999, -0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 2.0509999, -0.1273, -2.6243, 2.0509999, 0.1273, -2.3562999, 2.0509999, 0.1273, -2.3562999, 2.0509999, -0.1273, -2.6243, 2.0509999, -0.1273, -2.3562999, 2.0509999, -0.1273, -2.6243, 1.7964, -0.1273, -2.6243, 2.0509999, -0.1273, -2.3562999, 2.0509999, -0.1273, -2.3562999, 1.7964, -0.1273, -2.6243, 1.7964, -0.1273, -2.3562999, 1.7964, 0.1273, -2.6243, 2.0509999, 0.1273, -2.6243, 1.7964, 0.1273, -2.3562999, 1.7964, 0.1273, -2.3562999, 2.0509999, 0.1273, -2.6243, 2.0509999, 0.1273, -2.3562999, -1.8123, 0.1114, -2.6076, 1.7964, 0.1273, -2.6243, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, -2.373, 1.7964, 0.1273, -2.6243, 1.7964, 0.1273, -2.3562999, 1.7964, 0.1273, -2.6243, -1.8123, 0.1114, -2.6076, 1.7964, -0.1273, -2.6243, 1.7964, -0.1273, -2.6243, -1.8123, 0.1114, -2.6076, -1.8123, -0.1114, -2.6076, -1.8123, 0.1114, -2.373, 1.7964, 0.1273, -2.3562999, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.373, 1.7964, 0.1273, -2.3562999, 1.7964, -0.1273, -2.3562999, 1.7964, 0.1273, -2.3562999, 2.0509999, 0.1273, -2.3562999, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 2.0509999, 0.1273, -2.3562999, 2.0351, 0.1114, 2.6362, 2.0351, -0.1114, 2.6362, 2.0509999, -0.1273, -2.3562999, 1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.6362, 2.0509999, -0.1273, -2.3562999, 1.7964, -0.1273, -2.3562999, 2.0509999, 0.1273, -2.3562999, 2.0509999, -0.1273, -2.3562999, 2.0351, 0.1114, 2.6362, 2.0351, 0.1114, 2.6362, 2.0509999, -0.1273, -2.3562999, 2.0351, -0.1114, 2.6362, -2.0351, -0.1114, -2.6076, -1.8123, -0.1114, -2.6076, -2.0351, 0.1114, -2.6076, -2.0351, 0.1114, -2.6076, -1.8123, -0.1114, -2.6076, -1.8123, 0.1114, -2.6076, -2.0351, -0.1114, -2.373, -2.0351, -0.1114, -2.6076, -2.0351, 0.1114, -2.373, -2.0351, 0.1114, -2.373, -2.0351, -0.1114, -2.6076, -2.0351, 0.1114, -2.6076, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.6076, -2.0351, -0.1114, -2.373, -2.0351, -0.1114, -2.373, -1.8123, -0.1114, -2.6076, -2.0351, -0.1114, -2.6076, -2.0351, 0.1114, -2.373, -2.0351, 0.1114, -2.6076, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, -2.373, -2.0351, 0.1114, -2.6076, -1.8123, 0.1114, -2.6076, 1.7964, -0.1273, -2.6243, -1.8123, -0.1114, -2.6076, 1.7964, -0.1273, -2.3562999, 1.7964, -0.1273, -2.3562999, -1.8123, -0.1114, -2.6076, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.373, -2.0351, -0.1114, -2.373, -1.8123, -0.1114, 2.6362, -1.8123, -0.1114, 2.6362, -2.0351, -0.1114, -2.373, -2.0351, -0.1114, 2.6362, -2.0351, -0.1114, 2.6362, -1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.6362, -2.0351, -0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -2.0351, -0.1114, 2.6362, -2.0351, 0.1114, -2.373, -1.8123, 0.1114, -2.373, -2.0351, 0.1114, 2.6362, -2.0351, 0.1114, 2.6362, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, 2.6362, 2.0351, -0.1114, 2.8708, 1.8123, -0.1114, 2.8708, 2.0351, 0.1114, 2.8708, 2.0351, 0.1114, 2.8708, 1.8123, -0.1114, 2.8708, 1.8123, 0.1114, 2.8708, 2.0351, -0.1114, 2.6362, 2.0351, -0.1114, 2.8708, 2.0351, 0.1114, 2.6362, 2.0351, 0.1114, 2.6362, 2.0351, -0.1114, 2.8708, 2.0351, 0.1114, 2.8708, 1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.8708, 2.0351, -0.1114, 2.6362, 2.0351, -0.1114, 2.6362, 1.8123, -0.1114, 2.8708, 2.0351, -0.1114, 2.8708, 2.0351, 0.1114, 2.6362, 2.0351, 0.1114, 2.8708, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 2.0351, 0.1114, 2.8708, 1.8123, 0.1114, 2.8708, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.8708, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.8708, -1.8123, 0.1114, 2.8708, 1.8123, -0.1114, 2.8708, 1.8123, -0.1114, 2.6362, -1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.8708, 1.8123, -0.1114, 2.6362, -1.8123, -0.1114, 2.6362, -1.8123, 0.1114, 2.8708, 1.8123, 0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.8708, 1.8123, 0.1114, 2.8708, 1.8123, -0.1114, 2.8708, -1.8123, -0.1114, 2.6362, 1.8123, -0.1114, 2.6362, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, -0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 1.8123, -0.1114, 2.6362, 1.7964, -0.1273, -2.3562999, 1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362, 1.7964, -0.1273, -2.3562999, 1.7964, 0.1273, -2.3562999, -1.8123, 0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -1.8123, -0.1114, 2.8708, -2.0351, -0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -2.0351, -0.1114, 2.8708, -2.0351, 0.1114, 2.6362, -2.0351, 0.1114, 2.6362, -2.0351, -0.1114, 2.8708, -2.0351, -0.1114, 2.6362, -1.8123, 0.1114, 2.8708, -2.0351, 0.1114, 2.8708, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, 2.6362, -2.0351, 0.1114, 2.8708, -2.0351, 0.1114, 2.6362, -2.0351, -0.1114, -2.373, -2.0351, 0.1114, -2.373, -2.0351, -0.1114, 2.6362, -2.0351, -0.1114, 2.6362, -2.0351, 0.1114, -2.373, -2.0351, 0.1114, 2.6362, -1.8123, -0.1114, 2.6362, -1.8123, 0.1114, 2.6362, -1.8123, -0.1114, -2.373, -1.8123, -0.1114, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 0.1114, -2.373)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e4fnj"]
+bounce = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u8udk"]
+render_priority = 0
+shader = ExtResource("8_8kiot")
+shader_parameter/albedo_color = Color(0.17254902, 0.13333334, 0.9098039, 1)
+shader_parameter/object_position = Vector3(0, 0, 0)
+shader_parameter/visible_distance = 0.690000032775
+shader_parameter/invisible_distance = 6.7490003205775
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_u8udk"]
+data = PackedVector3Array(1.7964, 0.1273, -2.3562999, -1.8123, 0.1114, -2.373, 1.7964, 1.7587, -2.3562999, 1.7964, 1.7587, -2.3562999, -1.8123, 0.1114, -2.373, -1.8123, 1.7428, -2.373, -1.8123, 0.1114, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 1.7428, -2.373, -1.8123, 1.7428, -2.373, -1.8123, 0.1114, 2.6362, -1.8123, 1.7428, 2.6362, 1.8123, 1.7428, 2.6362, 1.8123, 0.1114, 2.6362, 1.7964, 1.7587, -2.3562999, 1.7964, 1.7587, -2.3562999, 1.8123, 0.1114, 2.6362, 1.7964, 0.1273, -2.3562999, -1.8123, 1.7428, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 1.7428, 2.6362, 1.8123, 1.7428, 2.6362, -1.8123, 0.1114, 2.6362, 1.8123, 0.1114, 2.6362)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0em4h"]
+render_priority = 2
+transparency = 1
+albedo_color = Color(0.99999994, 0.2150447, 0.52947974, 0.33333334)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jw3ls"]
+material = SubResource("StandardMaterial3D_0em4h")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2b0k"]
+render_priority = 1
+transparency = 1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a011w"]
+render_priority = 1
+transparency = 1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyp72"]
+transparency = 1
+stencil_mode = 3
+stencil_flags = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sxcss"]
+material = SubResource("StandardMaterial3D_qyp72")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
+shader = ExtResource("17_k511w")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ShaderMaterial_aj7ea")
+
+[sub_resource type="Environment" id="Environment_jka67"]
+background_mode = 2
+background_energy_multiplier = 1.34
+sky = SubResource("Sky_jka67")
+ambient_light_source = 3
+
+[sub_resource type="Resource" id="Resource_5he2h"]
+script = ExtResource("23_3jov0")
+spacing = Vector3(0.254, 0.05, 0.05)
+restrict_height = true
+
+[sub_resource type="Resource" id="Resource_jgjtb"]
+script = ExtResource("24_e17oh")
+rotation = Vector3(32.248, 32.256, 32.256)
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_iv1e6"]
+script = ExtResource("25_u3oke")
+scale = Vector3(-0.402, -0.402, -0.402)
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_p7qm5"]
+script = ExtResource("26_ie8sg")
+
+[sub_resource type="Resource" id="Resource_tof37"]
+script = ExtResource("21_bqyld")
+stack = Array[ExtResource("22_ars84")]([SubResource("Resource_5he2h"), SubResource("Resource_jgjtb"), SubResource("Resource_iv1e6"), SubResource("Resource_p7qm5")])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ars84"]
+render_priority = 0
+shader = ExtResource("28_bqyld")
+
+[sub_resource type="Resource" id="Resource_omgvc"]
+script = ExtResource("29_e8iiy")
+size = Vector3(19.701822, 1, 6.3999686)
+metadata/_custom_type_script = "uid://cfeuulmiugkdp"
+
+[node name="Node3D" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
+doppler_tracking = 2
+current = true
+script = ExtResource("1_a011w")
+target = NodePath("../Table/PlayerBall")
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_4arys")
+
+[node name="Table" type="Node" parent="SubViewportContainer/SubViewport"]
+
+[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_b2yaj")
+
+[node name="TableBase" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Base"]
+transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
+mesh = ExtResource("3_kdd1l")
+surface_material_override/0 = SubResource("StandardMaterial3D_06ugt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Base"]
+transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
+shape = SubResource("ConcavePolygonShape3D_e4fnj")
+
+[node name="Rim" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.29156, 0.7327769, 0)
+physics_material_override = SubResource("PhysicsMaterial_u8udk")
+
+[node name="TableRim" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Rim"]
+transform = Transform3D(5.99, 0, 0, 0, 5.99, 0, 0, 0, 5.99, 11.29156, -0.31067014, 0)
+mesh = ExtResource("5_wvnfy")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = SubResource("ShaderMaterial_jw3ls")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Rim"]
+transform = Transform3D(5.99, 0, 0, 0, 5.99, 0, 0, 0, 5.99, 11.29156, -0.31067014, 0)
+shape = SubResource("ConcavePolygonShape3D_06ugt")
+
+[node name="Walls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.168132, 16.172523)
+physics_material_override = SubResource("PhysicsMaterial_e4fnj")
+
+[node name="TableWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" node_paths=PackedStringArray("object_node")]
+transform = Transform3D(-6.225, 0, 5.442068e-07, 0, 6.225, 0, -5.442068e-07, 0, -6.225, -1.4138469e-06, -9.019197, 16.172523)
+mesh = ExtResource("7_vhnq8")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_u8udk")
+script = ExtResource("9_y23ad")
+object_node = NodePath("../../PlayerBall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Walls"]
+transform = Transform3D(-6.225, 0, 5.442068e-07, 0, 6.225, 0, -5.442068e-07, 0, -6.225, -1.4138469e-06, -9.019197, 16.172523)
+shape = SubResource("ConcavePolygonShape3D_u8udk")
+
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("player_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
+script = ExtResource("10_m7tqf")
+ball_scene = ExtResource("11_g17d5")
+player_ball = NodePath("../PlayerBall")
+
+[node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_tt57p")]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.21682703, 0.2331419, 2.2595236)
+
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("13_tqcv8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
+can_sleep = false
+
+[node name="Pocket" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.802314, 0.46561527, -13.429248)
+script = ExtResource("14_86b77")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Pocket"]
+mesh = SubResource("BoxMesh_jw3ls")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pocket"]
+shape = SubResource("BoxShape3D_k3l6j")
+
+[node name="room_colored_no_walls" parent="SubViewportContainer/SubViewport" instance=ExtResource("15_gd3k5")]
+transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
+visible = false
+
+[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
+
+[node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(4.275712, 0, 0.15403676, 0, 5.209484, 0, 1.7282813, 0, -0.381082, 12.16015, 6.5438347, -27.183935)
+texture = SubResource("ViewportTexture_aj7ea")
+
+[node name="flat2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(4.182745, 0, 0, 0, 4.457193, 0, 0, 0, 1.1, -3, 12.419871, -34.573807)
+
+[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+size = Vector2i(426, 240)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat"]
+transform = Transform3D(0.8786859, 0.23918666, -0.41315958, -0.15516026, 0.9615342, 0.22666548, 0.45148242, -0.13506182, 0.88199884, -8.448279, 10.041564, 20.506062)
+
+[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+size = Vector2i(160, 110)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt"]
+transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
+fov = 123.75
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(-2.6299825, 0, 0.009593475, 0, 2.63, 0, -0.009593475, 0, -2.6299825, -1.1437597, 7.7539167, -4.674137)
+material_override = SubResource("StandardMaterial3D_p2b0k")
+material_overlay = SubResource("StandardMaterial3D_a011w")
+mesh = ExtResource("16_uo8j6")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(-7.9649334, 0, 0, 0, -3.9437452e-08, 4.842029, 0, 0.90222377, 2.1165181e-07, -3.3334203, 7.274213, 1.4427223)
+transparency = 0.65
+mesh = SubResource("PlaneMesh_sxcss")
+
+[node name="room_colored_no_walls_no_guitar_array" parent="SubViewportContainer/SubViewport/Tvs" instance=ExtResource("17_ars84")]
+transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
+
+[node name="room_colored_no_walls" parent="SubViewportContainer/SubViewport/Tvs" instance=ExtResource("15_gd3k5")]
+transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
+visible = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jka67")
+
+[node name="ShopUI" parent="." instance=ExtResource("18_glfrj")]
+
+[node name="GameplayUI" parent="." instance=ExtResource("19_rlab5")]
+
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("player_ball")]
+player_ball = NodePath("../../SubViewportContainer/SubViewport/Table/PlayerBall")
+
+[node name="ProtonScatter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1193504, 0)
+visible = false
+script = ExtResource("20_xx8bh")
+modifier_stack = SubResource("Resource_tof37")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://c0qh2y3ksgptg"
+
+[node name="ScatterItem" type="Node3D" parent="ProtonScatter"]
+script = ExtResource("27_phyij")
+override_material = SubResource("ShaderMaterial_ars84")
+override_cast_shadow = 0
+path = "uid://cqcro38ukhff1"
+
+[node name="ScatterShape" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(1.0000001, 0, -1.3270171e-07, 0, 1, 0, 2.9802303e-08, 0, 4.452734, 0, 0, 0)
+script = ExtResource("28_nlyyg")
+shape = SubResource("Resource_omgvc")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("32_3jov0")
+
+[connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
+[connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
+
+[editable path="GameplayUI"]
