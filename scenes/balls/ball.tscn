@@ -7,13 +7,13 @@
 bounce = 0.35
 absorbent = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a202f"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxwjp"]
 albedo_texture = ExtResource("2_f7cbr")
 
 [sub_resource type="SphereMesh" id="SphereMesh_noarx"]
-material = SubResource("StandardMaterial3D_a202f")
-radial_segments = 8
-rings = 4
+material = SubResource("StandardMaterial3D_uxwjp")
+radial_segments = 12
+rings = 6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
 
