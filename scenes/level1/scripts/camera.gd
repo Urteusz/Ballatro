@@ -84,6 +84,8 @@ func _input(event) -> void:
 		cursor_phi += event.relative.y * mouse_sensitivity
 		theta += event.relative.x * mouse_sensitivity
 
+	# Na szybko to zmienilem zeby dzialalo
+	# DO PRZEPISANIA TAK SAMO JAK udpate_camera_target()
 	if event.is_action_pressed("next_camera_target") || event.is_action_pressed("previous_camera_target"):
 		if target == null:
 			theta = previous_theta
