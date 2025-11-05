@@ -195,12 +195,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218
 max_charge_duration = 2.0
 aim_line_ray_range = 30.0
 
-[node name="FloorHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
+[node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
 script = ExtResource("8_0em4h")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/FloorHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.819519, -9.924377, 13.176147)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -1, 13.176)
 shape = SubResource("BoxShape3D_k3l6j")
 
 [node name="room" parent="SubViewportContainer/SubViewport" instance=ExtResource("22_v0ouj")]

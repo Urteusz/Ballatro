@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends BallParent
 
 enum Phase { AIMING, MOVING }
 
