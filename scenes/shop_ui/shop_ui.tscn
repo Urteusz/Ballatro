@@ -45,7 +45,7 @@ ambient_light_source = 3
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
-[node name="Control" type="Control" parent="."]
+[node name="ControlShop" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,12 +54,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_67u7h")
 
-[node name="Label" type="Label" parent="Control"]
+[node name="LabelPoints" type="Label" parent="ControlShop"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlShop"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -73,32 +73,32 @@ offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button1" type="Button" parent="Control/HBoxContainer"]
+[node name="Button1" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Kulka Czerwona"
 
-[node name="Button2" type="Button" parent="Control/HBoxContainer"]
+[node name="Button2" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Kulka Zielona"
 
-[node name="Button3" type="Button" parent="Control/HBoxContainer"]
+[node name="Button3" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Kulka Niebieska"
 
-[node name="Button4" type="Button" parent="Control/HBoxContainer"]
+[node name="Button4" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Kulka Złota"
 
-[node name="Button5" type="Button" parent="Control/HBoxContainer"]
+[node name="Button5" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Kulka Ciemna"
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="ControlShop"]
 z_index = -1
 texture_filter = 1
 layout_mode = 1
@@ -111,20 +111,20 @@ mouse_filter = 2
 stretch = true
 stretch_shrink = 4
 
-[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="ControlShop/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(320, 180)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="Control/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="ControlShop/SubViewportContainer/SubViewport"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 cull_mask = 2
 projection = 1
 
-[node name="ShopBalls" type="Node" parent="Control/SubViewportContainer/SubViewport"]
+[node name="ShopBalls" type="Node" parent="ControlShop/SubViewportContainer/SubViewport"]
 
-[node name="ShopBall3" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/ShopBalls"]
+[node name="ShopBall3" type="MeshInstance3D" parent="ControlShop/SubViewportContainer/SubViewport/ShopBalls"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.45000023, 0, -2.666)
 visible = false
 layers = 2
@@ -132,14 +132,14 @@ mesh = SubResource("SphereMesh_k0lrw")
 skeleton = NodePath("../ShopBall")
 script = ExtResource("4_l0xgo")
 
-[node name="ShopBall2" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/ShopBalls"]
+[node name="ShopBall2" type="MeshInstance3D" parent="ControlShop/SubViewportContainer/SubViewport/ShopBalls"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.225, 0, -1.333)
 visible = false
 layers = 2
 mesh = SubResource("SphereMesh_k0lrw")
 script = ExtResource("4_l0xgo")
 
-[node name="ShopBall" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/ShopBalls"]
+[node name="ShopBall" type="MeshInstance3D" parent="ControlShop/SubViewportContainer/SubViewport/ShopBalls"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -1.333)
 visible = false
 layers = 2
@@ -147,7 +147,7 @@ mesh = SubResource("SphereMesh_k0lrw")
 skeleton = NodePath("../..")
 script = ExtResource("4_l0xgo")
 
-[node name="ShopBall4" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/ShopBalls"]
+[node name="ShopBall4" type="MeshInstance3D" parent="ControlShop/SubViewportContainer/SubViewport/ShopBalls"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.45, 0, -2.666)
 visible = false
 layers = 2
@@ -155,7 +155,7 @@ mesh = SubResource("SphereMesh_k0lrw")
 skeleton = NodePath("../ShopBall")
 script = ExtResource("4_l0xgo")
 
-[node name="ShopBall5" type="MeshInstance3D" parent="Control/SubViewportContainer/SubViewport/ShopBalls"]
+[node name="ShopBall5" type="MeshInstance3D" parent="ControlShop/SubViewportContainer/SubViewport/ShopBalls"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.225, 0, -1.333)
 visible = false
 layers = 2
@@ -163,10 +163,10 @@ mesh = SubResource("SphereMesh_k0lrw")
 skeleton = NodePath("../ShopBall")
 script = ExtResource("4_l0xgo")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Control/SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="ControlShop/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_l0xgo")
 
-[node name="QuitButton" type="TextureButton" parent="Control"]
+[node name="QuitButton" type="TextureButton" parent="ControlShop"]
 visible = false
 texture_filter = 1
 layout_mode = 0
@@ -176,4 +176,4 @@ offset_bottom = 720.0
 texture_normal = ExtResource("6_daov2")
 texture_pressed = ExtResource("7_jjtc3")
 
-[connection signal="pressed" from="Control/QuitButton" to="Control" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="ControlShop/QuitButton" to="ControlShop" method="_on_quit_button_pressed"]

@@ -18,6 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://brxljclb4ecyg" path="res://textures/balls/ball0.png" id="12_825qs"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
+[ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table/table_rim.obj" id="14_jw3ls"]
+[ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scenes/level1/scripts/game_manager.gd" id="16_5prdx"]
 [ext_resource type="Texture2D" uid="uid://c8o1wj8d27cbh" path="res://textures/balls/ball2.png" id="13_5prdx"]
 [ext_resource type="Texture2D" uid="uid://dnmjl4sbt5n1w" path="res://textures/balls/ball1.png" id="13_udjwb"]
 [ext_resource type="Texture2D" uid="uid://16srndfhc6ny" path="res://textures/balls/ball3.png" id="15_h2uvi"]
@@ -193,7 +195,7 @@ ball_textures = Array[Texture2D]([ExtResource("12_825qs"), ExtResource("13_udjwb
 ball_radius = 1.0
 default_ball_texture = ExtResource("18_h2uvi")
 
-[node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_06ugt")]
+[node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" groups=["balls"] instance=ExtResource("12_06ugt")]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.21682703, 0.2331419, 2.2595236)
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
@@ -235,6 +237,11 @@ size = Vector2i(160, 110)
 transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
 fov = 123.75
 
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui")]
+script = ExtResource("16_5prdx")
+player_ball = NodePath("../Table/PlayerBall")
+shop_ui = NodePath("../../../ShopUI/ControlShop")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
 
@@ -242,10 +249,11 @@ environment = SubResource("Environment_jka67")
 
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
-[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("player_ball")]
-player_ball = NodePath("../../SubViewportContainer/SubViewport/Table/PlayerBall")
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager")]
+game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
 [connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
 
+[editable path="ShopUI"]
 [editable path="GameplayUI"]
