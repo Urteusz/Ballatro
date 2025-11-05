@@ -22,22 +22,24 @@ func _ready() -> void:
 	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
 	ball_list.erase(player_ball)
 	for ball in ball_list:
-		if ball.has_signal("ball_pocketed"):
-			ball.ball_pocketed.connect(_on_ball_pocketed)
-	
-	player_ball.connect("ball_pushed", _on_ball_pushed)
-
-	for ball in ball_list:
+		if player_ball and player_ball.has_signal("ball_pocketed"):
+			player_ball.ball_pocketed.connect(_on_ball_pocketed)
 		if ball.has_signal("points_scored"):
 			ball.points_scored.connect(_on_points_scored)
-
+	
+	if player_ball.has_signal("ball_pushed"):
+		player_ball.ball_pushed.connect(_on_ball_pushed)
+	
 	if shop_ui:
 		connect("points_changed", shop_ui._on_points_updated)
 
 func _on_ball_pocketed(ball):
-	ball_list.erase(ball)
-	if ball_list.size() == 0:
-		emit_signal("player_win")
+	if ball == player_ball:
+		_on_game_over()
+	else:
+		ball_list.erase(ball)
+		if ball_list.size() == 0:
+			emit_signal("player_win")
 
 
 func _on_ball_pushed(impulse_power: float) -> void:
