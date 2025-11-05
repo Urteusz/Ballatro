@@ -8,8 +8,9 @@ const MOVEMENT_THRESHOLD: float = 0.1
 # ile czasu program czeka aby uznac ze kula na pewno sie zatrzymala
 #	bez tego 'runda' konczyla sie od razu po strzale bo kula w pierwszej klatce po ruchu
 #	nadal miala bardzo niskie velocity
-const STOP_DELAY: float = 0.3
+const STOP_DELAY: float = 0.4
 const RING_ALPHA: float = 0.7
+const MIN_IMPULSE: float = 0.2
 
 # Ustawienia uderzenia
 @export var max_charge_duration: float = 3.0
@@ -71,7 +72,6 @@ func _process(delta: float) -> void:
 		if current_phase == Phase.MOVING:
 			stop_timer += delta
 			if stop_timer >= STOP_DELAY:
-				sleeping = true
 				emit_signal("round_ended")
 				current_phase = Phase.AIMING
 		if camera.is_looking_at_player():
@@ -83,10 +83,14 @@ func _input(event) -> void:
 		if event.is_action_pressed("cancel_charging"):
 			charge_ring.visible = false
 			charging = false
-	if event.is_action_pressed("push_ball") && current_phase == Phase.AIMING && camera.current_target_index == 0:
+
+	if event.is_action_pressed("push_ball") && \
+		current_phase == Phase.AIMING && \
+		camera.current_target_index == 0 && !charging:
 		start_charging()
 	elif event.is_action_released("push_ball"):
 		release_push()
+
 
 
 func _animate_charge_ring(delta: float) -> void:
@@ -129,7 +133,8 @@ func release_push() -> void:
 	charging = false
 	charge_ring.visible = false
 
-	var impulse_power: float = clamp(charge_timer / max_charge_duration, 0.0, 1.0) * max_impulse_strength
+	charge_timer = clamp(charge_timer, 0.0, max_charge_duration)
+	var impulse_power: float = clamp(charge_timer / max_charge_duration, MIN_IMPULSE, 1.0) * max_impulse_strength
 	push_ball(impulse_power)
 	current_phase = Phase.MOVING
 
@@ -143,10 +148,12 @@ func push_ball(impulse_power: float) -> void:
 	var ball_position = global_position
 	var direction_to_camera = (camera_position - ball_position).normalized()
 
+	print_debug("Impulse power: ", impulse_power)
 	var impulse_position = -direction_to_camera * ball_radius
 	var impulse_vector = direction_to_camera * impulse_power
 	#print_debug("Pushed ball with force: ", impulse_power)
 
+	print_debug("Impulse_vector: ", impulse_vector)
 	apply_impulse(-impulse_vector, impulse_position)
 	emit_signal("ball_pushed", impulse_power)
 
@@ -231,13 +238,6 @@ func _setup_aim_line() -> void:
 
 func is_stopped() -> bool:
 	return sleeping or linear_velocity.length() < MOVEMENT_THRESHOLD
-
-
-# anuluj ladowanie jesli kamera zmieni sie na srodek
-func _on_camera_3d_targetting_center() -> void:
-	charging = false
-	charge_ring.visible = false
-
 
 func get_ball_radius() -> float:
 	if !collision_shape:
