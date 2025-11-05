@@ -4,7 +4,7 @@ const BALLS_GROUP = "balls"
 
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
-@export var target: Node3D
+@export var player_ball: Node3D
 @export var mouse_sensitivity: float = 0.003
 @export var table_camera_radius: float = 13.0 # dystans kamery od celu gdy patrzy sie na srodek
 @export var ball_camera_radius: float = 5.0 #		i gdy patrzy sie na kule
@@ -15,6 +15,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 @export var min_cursor_phi: float = 0.2 # min/max wysokosc 'celownika'
 @export var max_cursor_phi: float = 1.8
 
+var target: Node3D = null
 # do obliczania pozycji kamery/celownika
 var theta = PI / 2
 var phi = 1.0
@@ -38,6 +39,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	self.position = Vector3.ZERO
 	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
+	target = player_ball
 
 	camera_current_radius = ball_camera_radius
 	camera_target_radius = camera_current_radius
@@ -83,12 +85,12 @@ func _input(event) -> void:
 		theta += event.relative.x * mouse_sensitivity
 
 	if event.is_action_pressed("next_camera_target") || event.is_action_pressed("previous_camera_target"):
-		if current_target_index != 0:
+		if target == null:
 			theta = previous_theta
 			current_target_index = 0
 		else:
 			previous_theta = theta
-			current_target_index = ball_list.size()
+			current_target_index = 1
 		update_camera_target()
 
 	if event.is_action_pressed("toggle_mouse_capture"):
@@ -107,13 +109,13 @@ func update_camera_target() -> void:
 	var total_targets: int = ball_list.size() + 1
 	current_target_index = wrapi(current_target_index, 0, total_targets)
 
-	if current_target_index == ball_list.size():
+	if target != null:
 		camera_target_radius = table_camera_radius
 		emit_signal("targetting_center")
 		target = null
 	else:
 		camera_target_radius = ball_camera_radius
-		target = ball_list[current_target_index]
+		target = player_ball
 
 	animating = true
 

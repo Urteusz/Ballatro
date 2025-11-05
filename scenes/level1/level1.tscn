@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=46 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -18,11 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://brxljclb4ecyg" path="res://textures/balls/ball0.png" id="12_825qs"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
-[ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table/table_rim.obj" id="14_jw3ls"]
-[ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scenes/level1/scripts/game_manager.gd" id="16_5prdx"]
 [ext_resource type="Texture2D" uid="uid://c8o1wj8d27cbh" path="res://textures/balls/ball2.png" id="13_5prdx"]
 [ext_resource type="Texture2D" uid="uid://dnmjl4sbt5n1w" path="res://textures/balls/ball1.png" id="13_udjwb"]
 [ext_resource type="Texture2D" uid="uid://16srndfhc6ny" path="res://textures/balls/ball3.png" id="15_h2uvi"]
+[ext_resource type="Script" path="res://scenes/level1/scripts/game_manager.gd" id="16_5prdx"]
 [ext_resource type="Texture2D" uid="uid://fipg4aib8ahe" path="res://textures/balls/ball4.png" id="16_udjwb"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="Texture2D" uid="uid://mek1mglrkvqf" path="res://textures/balls/ball5.png" id="17_v0ouj"]
@@ -130,12 +129,12 @@ audio_listener_enable_3d = true
 size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
 doppler_tracking = 2
 current = true
 script = ExtResource("1_j4hya")
-target = NodePath("../Table/PlayerBall")
+player_ball = NodePath("../Table/PlayerBall")
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 extra_cull_margin = 16384.0
