@@ -43,7 +43,7 @@ func _show_popup(hit_position: Vector3, points_gained: int) -> void:
 	popup_instance.set_and_play(points_gained)
 
 
-func _on_body_entered(body: Node3D) -> void:
+func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	$AudioStreamPlayer3D.play() # Narazie nie ma zadnego dzwieku ustawionego
 	if body.is_in_group("table"):
 		return
@@ -70,8 +70,6 @@ func _on_round_ended() -> void:
 
 
 func _ready() -> void:
-	var error = body_entered.connect(_on_body_entered)
+	var error = body_shape_entered.connect(_on_body_entered)
 	if error != OK:
 		push_error("BŁĄD PODŁĄCZENIA body_entered dla:", name, " Error:", error)
-		#else:
-		#print_debug("SUKCES: Podłączono body_entered dla:", name)

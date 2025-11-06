@@ -3,15 +3,15 @@ class_name ExplosiveBomb
 @export var extra_speed: float = 10.0
 @export var explosion_radius: float = 5.0
 @export var explosion_force: float = 20.0
-@export var particle_effect: GPUParticles3D
+@export var smoke_effect: GPUParticles3D
 @export var shockwave_effect: GPUParticles3D
 
 func _ready():
 	super._ready()
 	base_value = 500
 	
-	if particle_effect:
-		particle_effect.emitting = false
+	if smoke_effect:
+		smoke_effect.emitting = false
 	if shockwave_effect:
 		shockwave_effect.emitting = false
 	
@@ -20,19 +20,21 @@ func on_hit():
 	super.on_hit()
 	
 	
-func _on_body_entered(body: Node3D) -> void:
-	$AudioStreamPlayer3D.play() # Narazie nie ma zadnego dzwieku ustawionego
+func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	$AudioStreamPlayer3D.play()
 	if body.is_in_group("table"):
 		return
+		
+	var collision_position = global_position
 	on_hit()
+	
 	if body.name != "PlayerBall":
-		if particle_effect && shockwave_effect:
-			particle_effect.emitting = true
-			particle_effect.restart()
-			shockwave_effect.emitting = true
-			shockwave_effect.restart()
+		if smoke_effect && shockwave_effect:
+			# Użyj dedykowanej funkcji do ustawienia pozycji i uruchomienia
+			smoke_effect.explode_at(collision_position)
+			shockwave_effect.explode_at(collision_position)
+	
 	explode()
-
 
 func explode():
 	print("BOOM! Eksplozja w pozycji: ", global_position)
