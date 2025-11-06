@@ -23,16 +23,15 @@ func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("table"):
 		return
 	on_hit()
-	if body.name == "PlayerBall":
-		return
+	if body.name != "PlayerBall":
+		if particle_effect:
+			particle_effect.emitting = true
+			particle_effect.restart()
 	explode()
+
 
 func explode():
 	print("BOOM! Eksplozja w pozycji: ", global_position)
-	
-	if particle_effect:
-		particle_effect.emitting = true
-		particle_effect.restart()
 	
 	var space_state = get_world_3d().direct_space_state
 	var query = PhysicsShapeQueryParameters3D.new()
