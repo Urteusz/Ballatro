@@ -1,12 +1,13 @@
-[gd_scene load_steps=17 format=4 uid="uid://bvb4maqi2qftn"]
+[gd_scene load_steps=25 format=4 uid="uid://bvb4maqi2qftn"]
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
+[ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
 
 [sub_resource type="Curve" id="Curve_hafg3"]
-_data = [Vector2(0, 0.24874365), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4984326, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_lgfus"]
 curve = SubResource("Curve_hafg3")
@@ -27,6 +28,47 @@ billboard_keep_scale = true
 [sub_resource type="QuadMesh" id="QuadMesh_kee82"]
 material = SubResource("StandardMaterial3D_2vxl7")
 size = Vector2(0.15, 0.15)
+
+[sub_resource type="Gradient" id="Gradient_2vxl7"]
+offsets = PackedFloat32Array(0, 0.21501707, 0.8088737, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 0.5631399, 0.5631399, 0.5631399, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kee82"]
+gradient = SubResource("Gradient_2vxl7")
+
+[sub_resource type="Curve" id="Curve_y3ptt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5297805, 1), 0.0, 0.0, 0, 0, Vector2(0.815047, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_v2olm"]
+curve = SubResource("Curve_y3ptt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6mal5"]
+lifetime_randomness = 0.5
+direction = Vector3(0, 1, 0)
+spread = 10.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0.2, 0)
+damping_min = 0.1
+damping_max = 0.3
+scale_min = 5.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_v2olm")
+color_ramp = SubResource("GradientTexture1D_kee82")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8nrpn"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_y1nh3")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 5
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_etd6p"]
+material = SubResource("StandardMaterial3D_8nrpn")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fp3r"]
 resource_name = "Material__45"
@@ -166,23 +208,32 @@ shadow_mesh = SubResource("ArrayMesh_svn6p")
 [sub_resource type="SphereShape3D" id="SphereShape3D_lgfus"]
 radius = 0.40546557
 
-[node name="smiley_bomb" type="RigidBody3D"]
+[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("particle_effect")]
 physics_material_override = SubResource("PhysicsMaterial_hafg3")
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_lgfus")
+particle_effect = NodePath("Particles/SmokeBOOM")
 
 [node name="Particles" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Particles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38932735, 0.037962556, 0.605466)
+[node name="fuzeParticle" type="GPUParticles3D" parent="Particles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38932735, 0.61347556, -0.008247852)
 amount = 25
 lifetime = 0.06999999999999999
 explosiveness = 0.15
 randomness = 0.15
+collision_base_size = 0.5
 process_material = SubResource("ParticleProcessMaterial_y1nh3")
 draw_pass_1 = SubResource("QuadMesh_kee82")
+
+[node name="SmokeBOOM" type="GPUParticles3D" parent="Particles"]
+emitting = false
+amount = 50
+explosiveness = 0.9
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_6mal5")
+draw_pass_1 = SubResource("QuadMesh_etd6p")
 
 [node name="Mesh" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
