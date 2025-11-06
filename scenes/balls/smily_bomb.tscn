@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
 [ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
 [ext_resource type="Shader" uid="uid://dops3226bmyhg" path="res://shaders/wave.gdshader" id="3_2vxl7"]
-[ext_resource type="Script" uid="uid://kqx2q5q7wc83" path="res://scenes/balls/smoke_boom.gd" id="3_kee82"]
-[ext_resource type="Script" uid="uid://eu5j7e0j07ig" path="res://scenes/balls/wave_boom.gd" id="5_y3ptt"]
+[ext_resource type="Script" uid="uid://kqx2q5q7wc83" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
+[ext_resource type="Script" uid="uid://eu5j7e0j07ig" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
 
