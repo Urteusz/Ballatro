@@ -20,8 +20,6 @@ var total_score_popup_instance = null
 func pocketed() -> void:
 	points_scored.emit(total_points, global_position)
 	emit_signal("ball_pocketed",self)
-	queue_free() # Podobnie jak z wyswietlaniem punktow mozliwe ze przy wiekszej ilosci lepiej bedzie zaimplementowac 'object pool'
-
 
 func on_hit() -> void:
 	total_bounces_round += 1

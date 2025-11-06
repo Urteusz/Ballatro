@@ -35,9 +35,13 @@ func _ready() -> void:
 
 func _on_ball_pocketed(ball):
 	if ball == player_ball:
-		_on_game_over()
+		moves_left -= 1
+		emit_signal("moves_changed", moves_left)
+		ball.sleeping = true
+		ball.position = Vector3(0.093, 0.294, 10.219)
 	else:
 		ball_list.erase(ball)
+		ball.queue_free()
 		if ball_list.size() == 0:
 			emit_signal("player_win")
 

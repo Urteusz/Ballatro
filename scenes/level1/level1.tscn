@@ -200,7 +200,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.00
 script = ExtResource("8_0em4h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -1, 13.176)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -2.4804516, 13.176)
 shape = SubResource("BoxShape3D_k3l6j")
 
 [node name="room" parent="SubViewportContainer/SubViewport" instance=ExtResource("22_v0ouj")]
@@ -244,6 +244,7 @@ environment = SubResource("Environment_jka67")
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 
+[connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
 [connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
 
