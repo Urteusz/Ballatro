@@ -20,6 +20,11 @@ void start() {
 
 void process() {
     CUSTOM.w += DELTA;
+	
+	if (CUSTOM.w >= LIFETIME) {
+        ACTIVE = false;
+    }
+	
     CUSTOM.y += expansion_speed * DELTA;
 
     float angle = CUSTOM.x;

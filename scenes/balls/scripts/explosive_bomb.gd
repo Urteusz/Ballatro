@@ -11,10 +11,8 @@ func _ready():
 	base_value = 500
 	
 	if particle_effect:
-		particle_effect.one_shot = true
 		particle_effect.emitting = false
 	if shockwave_effect:
-		shockwave_effect.one_shot = true
 		shockwave_effect.emitting = false
 	
 func on_hit():

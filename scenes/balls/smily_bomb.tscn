@@ -250,6 +250,7 @@ draw_pass_1 = SubResource("QuadMesh_kee82")
 [node name="SmokeBOOM" type="GPUParticles3D" parent="Particles"]
 emitting = false
 amount = 50
+one_shot = true
 explosiveness = 0.9
 draw_order = 3
 process_material = SubResource("ParticleProcessMaterial_6mal5")
