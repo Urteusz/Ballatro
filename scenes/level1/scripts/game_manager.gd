@@ -21,9 +21,13 @@ func _ready() -> void:
 	
 	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
 	ball_list.erase(player_ball)
-	for ball in ball_list:
-		if player_ball and player_ball.has_signal("ball_pocketed"):
+	
+	if player_ball and player_ball.has_signal("ball_pocketed"):
 			player_ball.ball_pocketed.connect(_on_ball_pocketed)
+	
+	for ball in ball_list:
+		if ball.has_signal("ball_pocketed"):
+			ball.ball_pocketed.connect(_on_ball_pocketed)
 		if ball.has_signal("points_scored"):
 			ball.points_scored.connect(_on_points_scored)
 	
