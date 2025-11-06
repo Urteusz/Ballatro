@@ -56,7 +56,6 @@ func _process(delta: float) -> void:
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
 
-	print_debug(cursor_phi)
 	var x: float = camera_current_radius * sin(cursor_phi) * cos(theta)
 	var y: float = 0.0
 	if cursor_phi > DEFAULT_CURSOR_PHI:
