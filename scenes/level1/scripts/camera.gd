@@ -49,7 +49,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# dalem to do kamery bo tutaj jest lista kul ale wydaje mi sie ze lepiej by bylo przeniesc ja gdziesz (do ball spawner?)
 	#	albo nie uzywac listy tylko sprawdzac node 'Balls'
-	print_debug(ball_list.size())
 	if ball_list.size() == 1: # 1 bo biala kula tez jest w tej liscie
 		emit_signal("game_won")
 	
