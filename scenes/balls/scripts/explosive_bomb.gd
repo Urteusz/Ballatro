@@ -4,6 +4,7 @@ class_name ExplosiveBomb
 @export var explosion_radius: float = 5.0
 @export var explosion_force: float = 20.0
 @export var particle_effect: GPUParticles3D
+@export var shockwave_effect: GPUParticles3D
 
 func _ready():
 	super._ready()
@@ -12,6 +13,9 @@ func _ready():
 	if particle_effect:
 		particle_effect.one_shot = true
 		particle_effect.emitting = false
+	if shockwave_effect:
+		shockwave_effect.one_shot = true
+		shockwave_effect.emitting = false
 	
 func on_hit():
 	print("points")
@@ -24,9 +28,11 @@ func _on_body_entered(body: Node3D) -> void:
 		return
 	on_hit()
 	if body.name != "PlayerBall":
-		if particle_effect:
+		if particle_effect && shockwave_effect:
 			particle_effect.emitting = true
 			particle_effect.restart()
+			shockwave_effect.emitting = true
+			shockwave_effect.restart()
 	explode()
 
 
