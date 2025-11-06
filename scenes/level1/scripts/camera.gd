@@ -48,11 +48,7 @@ func _ready() -> void:
 
 # do podzielenia na mniejsze funkcje
 func _process(delta: float) -> void:
-	# dalem to do kamery bo tutaj jest lista kul ale wydaje mi sie ze lepiej by bylo przeniesc ja gdziesz (do ball spawner?)
-	#	albo nie uzywac listy tylko sprawdzac node 'Balls'
-	if ball_list.size() == 1: # 1 bo biala kula tez jest w tej liscie
-		emit_signal("game_won")
-	
+
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
 

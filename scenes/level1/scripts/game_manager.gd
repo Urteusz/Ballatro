@@ -16,10 +16,10 @@ signal player_win
 signal moves_changed(moves_left: int)
 signal points_changed(points: int)
 
+
 func _ready() -> void:
 	moves_left = default_level_move_count
 	
-	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
 	ball_list.erase(player_ball)
 	
 	if player_ball and player_ball.has_signal("ball_pocketed"):
