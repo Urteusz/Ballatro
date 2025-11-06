@@ -11,28 +11,28 @@ void start() {
     CUSTOM.y = ring_radius;
     CUSTOM.w = 0.0;
 
-    TRANSFORM[3].x = cos(angle) * ring_radius;
-    TRANSFORM[3].z = sin(angle) * ring_radius;
-    TRANSFORM[3].y = 0.0;
+    // Użyj pozycji RELATYWNEJ do EMISSION_TRANSFORM
+    vec3 local_pos = vec3(cos(angle) * ring_radius, 0.0, sin(angle) * ring_radius);
+    TRANSFORM[3].xyz = (EMISSION_TRANSFORM * vec4(local_pos, 1.0)).xyz;
 
     VELOCITY = vec3(0.0);
 }
 
 void process() {
     CUSTOM.w += DELTA;
-	
-	if (CUSTOM.w >= LIFETIME) {
+
+    if (CUSTOM.w >= LIFETIME) {
         ACTIVE = false;
     }
-	
+
     CUSTOM.y += expansion_speed * DELTA;
 
     float angle = CUSTOM.x;
     float radius = CUSTOM.y;
 
-    TRANSFORM[3].x = cos(angle) * radius;
-    TRANSFORM[3].z = sin(angle) * radius;
-    TRANSFORM[3].y = 0.0;
+    // Użyj EMISSION_TRANSFORM dla globalnej pozycji
+    vec3 local_pos = vec3(cos(angle) * radius, 0.0, sin(angle) * radius);
+    TRANSFORM[3].xyz = (EMISSION_TRANSFORM * vec4(local_pos, 1.0)).xyz;
 
     float lifetime_ratio = CUSTOM.w / LIFETIME;
     COLOR.a = 1.0 - lifetime_ratio;
