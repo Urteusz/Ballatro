@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=4 uid="uid://bvb4maqi2qftn"]
+[gd_scene load_steps=29 format=4 uid="uid://bvb4maqi2qftn"]
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
 [ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
+[ext_resource type="Shader" uid="uid://dops3226bmyhg" path="res://shaders/wave.gdshader" id="3_2vxl7"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
 
@@ -69,6 +70,24 @@ particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_etd6p"]
 material = SubResource("StandardMaterial3D_8nrpn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2vxl7"]
+shader = ExtResource("3_2vxl7")
+shader_parameter/ring_radius = 0.5
+shader_parameter/expansion_speed = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kee82"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.57254905, 0.03137255, 0.16470589, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_y3ptt"]
+material = SubResource("StandardMaterial3D_kee82")
+size = Vector2(0.1, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fp3r"]
 resource_name = "Material__45"
@@ -208,12 +227,13 @@ shadow_mesh = SubResource("ArrayMesh_svn6p")
 [sub_resource type="SphereShape3D" id="SphereShape3D_lgfus"]
 radius = 0.40546557
 
-[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("particle_effect")]
+[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("particle_effect", "shockwave_effect")]
 physics_material_override = SubResource("PhysicsMaterial_hafg3")
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_lgfus")
 particle_effect = NodePath("Particles/SmokeBOOM")
+shockwave_effect = NodePath("Particles/WaveBOOM")
 
 [node name="Particles" type="Node3D" parent="."]
 
@@ -230,10 +250,19 @@ draw_pass_1 = SubResource("QuadMesh_kee82")
 [node name="SmokeBOOM" type="GPUParticles3D" parent="Particles"]
 emitting = false
 amount = 50
+one_shot = true
 explosiveness = 0.9
 draw_order = 3
 process_material = SubResource("ParticleProcessMaterial_6mal5")
 draw_pass_1 = SubResource("QuadMesh_etd6p")
+
+[node name="WaveBOOM" type="GPUParticles3D" parent="Particles"]
+emitting = false
+amount = 500
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_2vxl7")
+draw_pass_1 = SubResource("QuadMesh_y3ptt")
 
 [node name="Mesh" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
