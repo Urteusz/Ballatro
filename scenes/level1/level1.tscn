@@ -55,7 +55,7 @@ data = PackedVector3Array(1.678, -0.1235, -2.2273, 1.7087, -0.1235, -2.1227, 1.6
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u8udk"]
 friction = 0.1
-bounce = 0.3
+bounce = 0.75
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
 render_priority = 1

@@ -2,12 +2,13 @@ extends BallParent
 
 enum Phase { AIMING, MOVING }
 
-# Minimalna predkosc po ktorej uznajemy ze kula stoi w miejscu
-#	nie najlepsze, bo nie zawsze faktycznie sie zatrzymuje, ale nie wiem jak to lepiej zrobic
+# Minimalna prędkość po której uznajemy, że kula stoi w miejscu
+# (nie idealne, ale w praktyce działa dobrze w połączeniu z freeze)
 const MOVEMENT_THRESHOLD: float = 0.1
-# ile czasu program czeka aby uznac ze kula na pewno sie zatrzymala
-#	bez tego 'runda' konczyla sie od razu po strzale bo kula w pierwszej klatce po ruchu
-#	nadal miala bardzo niskie velocity
+# Minimalna prędkość kątowa (rad/s) po której uznajemy, że rotacja jest pomijalna
+const ANGULAR_MOVEMENT_THRESHOLD: float = 0.15
+
+# Ile czasu program czeka aby uznać, że kula na pewno się zatrzymała
 const STOP_DELAY: float = 0.4
 const RING_ALPHA: float = 0.7
 const MIN_IMPULSE: float = 0.2
@@ -16,14 +17,17 @@ const MIN_IMPULSE: float = 0.2
 @export var max_charge_duration: float = 3.0
 @export var max_impulse_strength: float = 30.0
 
-# Kolorki pierscienia ladowania strzalu
+# Kolory pierścienia ładowania strzału (słaby -> średni -> mocny)
 @export var weak_charge_color := Color(0.0, 1.0, 0.0, 1.0)
 @export var medium_charge_color := Color(1.0, 1.0, 0.0, 1.0)
 @export var strong_charge_color := Color(1.0, 0.0, 0.0, 1.0)
 
 @export var aim_line_ray_range: float = 20.0
 
-# Sciezki
+# Czy zamrażać kulę w fazie celowania (eliminuje dryf w AIMING)
+@export var freeze_during_aim: bool = true
+
+# Ścieżki
 @onready var collision_shape := $CollisionShape3D
 @onready var charge_ring: MeshInstance3D = $ChargeRing
 @onready var animation_player := $AnimationPlayer
@@ -33,13 +37,13 @@ const MIN_IMPULSE: float = 0.2
 @onready var aim_line: MeshInstance3D = null
 
 var ring_material: StandardMaterial3D = null
-var hit_position: Vector3 # Pozycja kamery w momencie jak zaczelismy ladowac strzal, nie wiem jak nazwac lepiej :(
+var hit_position: Vector3 # Pozycja kursora/kamery w momencie rozpoczęcia ładowania strzału
 var charging: bool = false
 var charge_timer: float = 0.0
 var aimed_at_ball: BallParent = null
 var camera: Camera3D = null
 var current_phase: Phase = Phase.AIMING
-var stop_timer: float = 0.0 # patrzy STOP_DELAY wyzej
+var stop_timer: float = 0.0 # patrzy STOP_DELAY wyżej
 
 signal ball_pushed(impulse_power: float)
 signal round_ended
@@ -56,6 +60,8 @@ func _ready() -> void:
 
 	setup_charge_ring()
 	create_aim_line_mesh()
+	# Wejście w stan AIMING na starcie (twardy stop + ewentualny freeze)
+	_enter_aiming_state()
 
 
 func _process(delta: float) -> void:
@@ -64,16 +70,15 @@ func _process(delta: float) -> void:
 
 	if !is_stopped():
 		if current_phase == Phase.AIMING:
-			current_phase = Phase.MOVING
+			_enter_moving_state()
 		stop_timer = 0.0
 		_clear_aim_line()
-
 	else:
 		if current_phase == Phase.MOVING:
 			stop_timer += delta
 			if stop_timer >= STOP_DELAY:
+				_enter_aiming_state()
 				emit_signal("round_ended")
-				current_phase = Phase.AIMING
 		if camera.is_looking_at_player():
 			_setup_aim_line()
 
@@ -84,14 +89,34 @@ func _input(event) -> void:
 			charge_ring.visible = false
 			charging = false
 
-	if event.is_action_pressed("push_ball") && \
-		current_phase == Phase.AIMING && \
-		camera.current_target_index == 0 && !charging:
+	if event.is_action_pressed("push_ball") \
+		and current_phase == Phase.AIMING \
+		and camera.current_target_index == 0 and !charging:
 		start_charging()
 	elif event.is_action_released("push_ball"):
 		release_push()
 
 
+# --- STANY I POMOCNICZE ---
+
+func _enter_aiming_state() -> void:
+	# Twarde wyzerowanie ruchu + uśpienie + opcjonalny freeze
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	sleeping = true
+	if freeze_during_aim:
+		freeze = true
+	current_phase = Phase.AIMING
+	stop_timer = 0.0
+
+func _enter_moving_state() -> void:
+	if freeze_during_aim:
+		freeze = false
+		sleeping = false
+	current_phase = Phase.MOVING
+
+
+# --- ANIMACJA ŁADOWANIA ---
 
 func _animate_charge_ring(delta: float) -> void:
 	hit_position = camera.cursor_position
@@ -103,21 +128,21 @@ func _animate_charge_ring(delta: float) -> void:
 	var ratio: float = clamp(charge_timer / max_charge_duration, 0.0, 1.0)
 	if ring_material:
 		var current_color := get_charge_color(ratio)
-		current_color.a = RING_ALPHA # Alpha może rosnąć z ratio ale teraz ustawiam na stałe
+		current_color.a = RING_ALPHA # może rosnąć z ratio, ale teraz stałe
 		ring_material.albedo_color = current_color
 
 
 func get_charge_color(ratio: float) -> Color:
-	# Gradient: czerwony -> żółty -> zielony
+	# Gradient: zielony -> żółty -> czerwony (wg zadanych kolorów)
 	if ratio < 0.5:
-		# 0.0 - 0.5: czerwony -> żółty
 		var local_ratio = ratio * 2.0 # 0.0 - 1.0
 		return weak_charge_color.lerp(medium_charge_color, local_ratio)
 	else:
-		# 0.5 - 1.0: żółty -> zielony
 		var local_ratio = (ratio - 0.5) * 2.0 # 0.0 - 1.0
 		return medium_charge_color.lerp(strong_charge_color, local_ratio)
 
+
+# --- ŁADOWANIE I STRZAŁ ---
 
 func start_charging() -> void:
 	camera.cursor_phi = camera.phi
@@ -135,8 +160,14 @@ func release_push() -> void:
 
 	charge_timer = clamp(charge_timer, 0.0, max_charge_duration)
 	var impulse_power: float = clamp(charge_timer / max_charge_duration, MIN_IMPULSE, 1.0) * max_impulse_strength
+
+	# Odmrożenie tuż przed strzałem (jeśli wcześniej zamroziliśmy w AIMING)
+	if freeze_during_aim and freeze:
+		freeze = false
+		sleeping = false
+
 	push_ball(impulse_power)
-	current_phase = Phase.MOVING
+	_enter_moving_state()
 
 
 func push_ball(impulse_power: float) -> void:
@@ -151,12 +182,15 @@ func push_ball(impulse_power: float) -> void:
 	print_debug("Impulse power: ", impulse_power)
 	var impulse_position = -direction_to_camera * ball_radius
 	var impulse_vector = direction_to_camera * impulse_power
-	#print_debug("Pushed ball with force: ", impulse_power)
 
 	print_debug("Impulse_vector: ", impulse_vector)
+	# Uwaga: podanie 'impulse_position' generuje moment obrotowy (spin).
+	# Jeśli nie chcesz spinu, użyj: apply_impulse(-impulse_vector)
 	apply_impulse(-impulse_vector, impulse_position)
 	emit_signal("ball_pushed", impulse_power)
 
+
+# --- UI/GEOMETRIA ---
 
 func setup_charge_ring() -> void:
 	if charge_ring.get_surface_override_material(0):
@@ -167,7 +201,7 @@ func setup_charge_ring() -> void:
 		color.a = 0.0
 		ring_material.albedo_color = color
 
-		# Zacznij animacje
+		# Zacznij animację
 		var charge_animation = animation_player.get_animation("charge")
 		charge_animation.loop_mode = Animation.LOOP_PINGPONG
 		animation_player.play("charge")
@@ -206,7 +240,6 @@ func _setup_aim_line() -> void:
 		mesh.surface_begin(Mesh.PRIMITIVE_LINES)
 		mesh.surface_add_vertex(Vector3.ZERO)
 		mesh.surface_add_vertex(aim_line.to_local(to))
-
 		mesh.surface_end()
 
 	var direction_to_camera := (camera.global_position - global_position)
@@ -220,12 +253,12 @@ func _setup_aim_line() -> void:
 	var result := space_state.intersect_ray(query)
 	var new_aimed_at_ball: BallParent = null
 
-	if result: # jesli raycast w cos trafil to rysuj do tego punktu
+	if result: # jeśli raycast w coś trafił, rysuj do tego punktu
 		draw.call(result.position)
 		var collider = result.collider
 		if collider is BallParent:
 			new_aimed_at_ball = collider
-	else: # jesli nie rysuj do punktu ktory wybralismy jako cel
+	else: # jeśli nie, rysuj do punktu, który wybraliśmy jako cel
 		draw.call(ray_target)
 
 	if aimed_at_ball != new_aimed_at_ball:
@@ -236,8 +269,16 @@ func _setup_aim_line() -> void:
 		aimed_at_ball = new_aimed_at_ball
 
 
+# --- LOGIKA STANU FIZYKI ---
+
 func is_stopped() -> bool:
-	return sleeping or linear_velocity.length() < MOVEMENT_THRESHOLD
+	# Uznajemy za zatrzymaną, gdy i translacja, i rotacja są poniżej progów
+	# lub ciało śpi (sleeping)
+	return sleeping or (
+		linear_velocity.length_squared() < MOVEMENT_THRESHOLD * MOVEMENT_THRESHOLD
+		and angular_velocity.length_squared() < ANGULAR_MOVEMENT_THRESHOLD * ANGULAR_MOVEMENT_THRESHOLD
+	)
+
 
 func get_ball_radius() -> float:
 	if !collision_shape:
