@@ -1,6 +1,7 @@
 extends Camera3D
 
 const BALLS_GROUP = "balls"
+const DEFAULT_CURSOR_PHI: float = 1.45
 
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
@@ -10,9 +11,9 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 @export var ball_camera_radius: float = 5.0 #		i gdy patrzy sie na kule
 @export var camera_lerp_speed: float = 10.0
 
-@export var min_phi: float = 0.25 # max wysokosc kamery
+@export var min_phi: float = 0.4 # max wysokosc kamery
 @export var max_phi: float = 1.45 #		min wysokosc, albo na odwrot nie pamietam
-@export var min_cursor_phi: float = 0.2 # min/max wysokosc 'celownika'
+@export var min_cursor_phi: float = 0.0 # min/max wysokosc 'celownika'
 @export var max_cursor_phi: float = 1.8
 
 var target: Node3D = null
@@ -55,10 +56,15 @@ func _process(delta: float) -> void:
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
 
+	print_debug(cursor_phi)
 	var x: float = camera_current_radius * sin(cursor_phi) * cos(theta)
-	var y: float = camera_current_radius * cos(cursor_phi)
+	var y: float = 0.0
+	if cursor_phi > DEFAULT_CURSOR_PHI:
+		y = camera_current_radius * cos(cursor_phi)
+	else:
+		y = camera_current_radius * cos(DEFAULT_CURSOR_PHI)
 	var z: float = camera_current_radius * sin(cursor_phi) * sin(theta)
-
+	
 	var cursor_offset := Vector3(x, y, z)
 	phi = clamp(cursor_phi, min_phi, max_phi)
 
