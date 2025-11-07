@@ -1,8 +1,8 @@
 [gd_scene load_steps=28 format=3 uid="uid://b0a6ch7y3umcj"]
 
-[ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/main_menu/scripts/main_menu.gd" id="1_5seab"]
+[ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/ui/main_menu/scripts/main_menu.gd" id="1_5seab"]
 [ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu3.png" id="1_x2yjq"]
-[ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
+[ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
 [ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/ui/Button2.png" id="3_rrgl4"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_thkx5"]
 [ext_resource type="Texture2D" uid="uid://df3852wwkdble" path="res://textures/ui/Button.png" id="3_x2yjq"]
@@ -12,7 +12,7 @@
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="5_lqpn7"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_qel0l"]
 [ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/ui/Button2_quit.png" id="7_dn3lk"]
-[ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/main_menu/scripts/main_menu_ball.gd" id="7_rrgl4"]
+[ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/ui/main_menu/scripts/main_menu_ball.gd" id="7_rrgl4"]
 [ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/ui/Button2_quit_pressed.png" id="8_4ujhu"]
 
 [sub_resource type="Theme" id="Theme_5dd4i"]

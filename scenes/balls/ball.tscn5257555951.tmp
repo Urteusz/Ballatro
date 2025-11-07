@@ -1,10 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://br6fw3sedv0yn"]
+[gd_scene load_steps=8 format=3 uid="uid://br6fw3sedv0yn"]
 
 [ext_resource type="Script" uid="uid://dcowhvvavoqf5" path="res://scenes/balls/scripts/ball.gd" id="1_cxlvu"]
 [ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="2_f7cbr"]
-[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="3_svc1m"]
-[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_wehov"]
-[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_jd46c"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/balls/hit_particles/star_particles.tscn" id="3_svc1m"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
 bounce = 0.7
@@ -30,8 +28,6 @@ linear_damp = 0.5
 angular_damp = 0.5
 script = ExtResource("1_cxlvu")
 hit_particles = ExtResource("3_svc1m")
-hit_particles2 = ExtResource("3_wehov")
-hit_particles3 = ExtResource("4_jd46c")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03813243, 0, 0)

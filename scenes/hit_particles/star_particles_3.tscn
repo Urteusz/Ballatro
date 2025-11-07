@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://deyr08f8vjdrj"]
+
+[ext_resource type="Texture2D" uid="uid://drp1enohehcue" path="res://textures/star3.png" id="3_cvt6a"]
+[ext_resource type="Script" uid="uid://b05rmjj12vco0" path="res://scenes/hit_particles/star_particles.gd" id="4_tnp03"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uic6d"]
+lifetime_randomness = 0.52
+particle_flag_align_y = true
+particle_flag_damping_as_friction = true
+spread = 180.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+scale_min = 0.099999994
+scale_max = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_828j1"]
+render_priority = 1
+transparency = 1
+blend_mode = 1
+albedo_texture = ExtResource("3_cvt6a")
+emission = Color(0.53298104, 0.30579165, 0.99177235, 1)
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_yfye5"]
+material = SubResource("StandardMaterial3D_828j1")
+
+[node name="StarParticles" type="GPUParticles3D"]
+emitting = false
+amount = 10
+lifetime = 0.34
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_uic6d")
+draw_pass_1 = SubResource("QuadMesh_yfye5")
+script = ExtResource("4_tnp03")

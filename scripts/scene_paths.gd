@@ -7,3 +7,6 @@ const LOADING_SCREEN_PATH: String = "res://scenes/loading_screen/loading_screen.
 const LEVEL1_PATH: String = "res://scenes/level1/level1.tscn"
 const BALL_PATH: String = "res://scenes/ball/ball.tscn"
 const PLAYER_BALL_PATH: String = "res://scenes/player_ball/player_ball.tscn"
+const STAR_PARTICLE_PATH: String = "res://scenes/star_particles.tscn"
+const STAR_PARTICLE2_PATH: String = "res://scenes/star_particles_2.tscn"
+const STAR_PARTICLE3_PATH: String = "res://scenes/star_particles_3.tscn"

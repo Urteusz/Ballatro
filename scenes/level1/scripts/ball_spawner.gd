@@ -1,20 +1,18 @@
 extends Marker3D
 
-# nie podoba mi sie to
-# raczej nie powinno to byc tak powiazane ze soba
-# moze game_manager powinien byc singletonem
 @export var game_manager: Node3D
 
 @export var ball_scene: PackedScene
 @export var player_ball: RigidBody3D
 
-@export var spread: float = 1.0
-@export var depth: float = 1.0
-@export var height: float = 1.0
+# --- New variable to control the triangle size ---
+@export var num_rows: int = 3 # Defines the number of rows (e.g., 3 rows = 1+2+3=6 balls total)
 
-@export var ball_radius: float = 0.05 
+@export var spread: float = 1.0 # Horizontal distance between balls in a row
+@export var depth: float = 1.0  # Vertical (z-axis) distance between rows
+@export var height: float = 1.0 # Base height offset from the Marker3D
 
-@export var default_ball_texture: Texture2D 
+@export var ball_radius: float = 0.05
 
 func _ready() -> void:
 	if !ball_scene:
@@ -35,17 +33,31 @@ func _ready() -> void:
 	
 	var positions: Array[Vector3] = []
 
-	# Rząd 1: 1 kula
-	positions.append(base_position + y_offset_for_balls)
-	
-	# Rząd 2: 2 kule
-	positions.append(base_position - (back_vector * depth) - (right_vector * spread * 0.5) + y_offset_for_balls)
-	positions.append(base_position - (back_vector * depth) + (right_vector * spread * 0.5) + y_offset_for_balls)
-
-	# Rząd 3: 3 kule
-	positions.append(base_position - (back_vector * depth * 2.0) - (right_vector * spread * 1.0) + y_offset_for_balls)
-	positions.append(base_position - (back_vector * depth * 2.0) + y_offset_for_balls)
-	positions.append(base_position - (back_vector * depth * 2.0) + (right_vector * spread * 1.0) + y_offset_for_balls)
+	# --- Automatic Position Calculation ---
+	# Loop through each row (r = 0 is the front ball)
+	for r in range(num_rows):
+		# Calculate the Z offset (depth) for the current row
+		var z_offset = -(back_vector * depth * float(r))
+		
+		# Each row 'r' has 'r + 1' balls (row 0 has 1, row 1 has 2, etc.)
+		var num_balls_in_row = r + 1
+		
+		# Calculate the starting X offset to keep the row centered
+		# For r=0 (1 ball), start_x_scalar = 0
+		# For r=1 (2 balls), start_x_scalar = -0.5
+		# For r=2 (3 balls), start_x_scalar = -1.0
+		var start_x_scalar: float = -(float(r) / 2.0) * spread
+		
+		# Loop through each ball 'c' in the current row 'r'
+		for c in range(num_balls_in_row):
+			# Calculate the X offset for this specific ball
+			# (start_x_scalar + c * spread) gives the centered position for this ball
+			var x_offset = (start_x_scalar + (float(c) * spread)) * right_vector
+			
+			# Combine all offsets to get the final position
+			var ball_position = base_position + z_offset + x_offset + y_offset_for_balls
+			positions.append(ball_position)
+	# --- End of Automatic Calculation ---
 
 	var i: int = 0
 	for ball_position in positions:
@@ -61,7 +73,6 @@ func _ready() -> void:
 		add_child(new_instance)
 		game_manager.ball_list.append(new_instance)
 		new_instance.base_value = ball_data.base_value
-		print_debug("Added ball ", i, "from the deck to the scene")
 		new_instance.global_position = ball_position
 		
 		if ball_data.texture:
