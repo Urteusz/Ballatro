@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://de21pe7t3uti1"
-path="res://.godot/imported/rim.glb-67c75af930812edc177c95f620e80ce4.scn"
+uid="uid://catg4ixxp7j5o"
+path="res://.godot/imported/Rim.glb-2ef8ab3de2a75796c9066200920a91f2.scn"
 
 [deps]
 
-source_file="res://models/table2/rim.glb"
-dest_files=["res://.godot/imported/rim.glb-67c75af930812edc177c95f620e80ce4.scn"]
+source_file="res://models/table2_new/Rim.glb"
+dest_files=["res://.godot/imported/Rim.glb-2ef8ab3de2a75796c9066200920a91f2.scn"]
 
 [params]
 
