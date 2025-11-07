@@ -1,9 +1,12 @@
-[gd_scene load_steps=31 format=4 uid="uid://bvb4maqi2qftn"]
+[gd_scene load_steps=34 format=4 uid="uid://bvb4maqi2qftn"]
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_8nrpn"]
 [ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
 [ext_resource type="Shader" uid="uid://dops3226bmyhg" path="res://shaders/wave.gdshader" id="3_2vxl7"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_etd6p"]
 [ext_resource type="Script" uid="uid://kqx2q5q7wc83" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_y5st0"]
 [ext_resource type="Script" uid="uid://eu5j7e0j07ig" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
@@ -235,6 +238,9 @@ max_contacts_reported = 9
 script = ExtResource("1_lgfus")
 smoke_effect = NodePath("Particles/SmokeBOOM")
 shockwave_effect = NodePath("Particles/WaveBOOM")
+hit_particles = ExtResource("2_8nrpn")
+hit_particles2 = ExtResource("3_etd6p")
+hit_particles3 = ExtResource("4_y5st0")
 
 [node name="Particles" type="Node3D" parent="."]
 
