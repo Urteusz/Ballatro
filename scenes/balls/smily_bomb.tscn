@@ -1,10 +1,11 @@
-[gd_scene load_steps=31 format=4 uid="uid://bvb4maqi2qftn"]
+[gd_scene load_steps=33 format=4 uid="uid://bvb4maqi2qftn"]
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
 [ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
-[ext_resource type="Shader" uid="uid://dops3226bmyhg" path="res://shaders/wave.gdshader" id="3_2vxl7"]
-[ext_resource type="Script" uid="uid://kqx2q5q7wc83" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
-[ext_resource type="Script" uid="uid://eu5j7e0j07ig" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
+[ext_resource type="Shader" path="res://shaders/wave.gdshader" id="3_2vxl7"]
+[ext_resource type="Script" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
+[ext_resource type="Script" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
+[ext_resource type="Shader" uid="uid://l7a30blnr3dk" path="res://shaders/outline.gdshader" id="6_v2olm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
 
@@ -90,8 +91,15 @@ billboard_keep_scale = true
 material = SubResource("StandardMaterial3D_2vxl7")
 size = Vector2(0.15, 0.15)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6mal5"]
+render_priority = 0
+shader = ExtResource("6_v2olm")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0.0999999977648
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fp3r"]
 resource_name = "Material__45"
+next_pass = SubResource("ShaderMaterial_6mal5")
 albedo_color = Color(0.002262602, 0.002262602, 0.002262602, 1)
 metallic = 1.0
 roughness = 0.7
