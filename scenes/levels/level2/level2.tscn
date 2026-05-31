@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="AudioStream" uid="uid://bu2a7q6t07jjm" path="res://sounds/storm.mp3" id="18_fxmmb"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level2/sandstorm.tscn" id="21_sandstorm"]
-[ext_resource type="Script" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
+[ext_resource type="Script" uid="uid://ck0tx1jdut4rv" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
 [ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -416,7 +416,7 @@ player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
-star_score_treshold = 150000
+star_score_treshold = 90000
 
 [node name="Dunes" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=503629067]
 transform = Transform3D(22.16, 0, 0, 0, 22.16, 0, 0, 0, 22.16, 72.9116, 9.730457, 2.8128471)
@@ -437,6 +437,16 @@ items_to_sell = Array[String](["tenisball", "bouncy", "lava"])
 [node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
 layout_mode = 0
 anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 380.0
+offset_bottom = 120.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="GameplayUI" parent="." unique_id=1501012411 instance=ExtResource("17_e4fnj")]
 

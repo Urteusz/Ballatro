@@ -293,7 +293,7 @@ player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
-star_score_treshold = 100000
+star_score_treshold = 90000
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("18_or0go")
@@ -306,6 +306,16 @@ items_to_sell = Array[String](["football", "magnetic", "ice"])
 [node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
 layout_mode = 0
 anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 380.0
+offset_bottom = 120.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("17_e4fnj")]
 
