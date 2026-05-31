@@ -416,7 +416,7 @@ player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
-star_score_treshold = 90000
+star_score_treshold = 75000
 
 [node name="Dunes" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=503629067]
 transform = Transform3D(22.16, 0, 0, 0, 22.16, 0, 0, 0, 22.16, 72.9116, 9.730457, 2.8128471)

@@ -327,7 +327,7 @@ player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../TableCircle2/ReturnPosition")
-star_score_treshold = 90000
+star_score_treshold = 75000
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=607035429]
 environment = ExtResource("10_rnqjc")
