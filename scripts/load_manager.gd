@@ -57,4 +57,6 @@ func _process(_delta):
 			await get_tree().process_frame
 			await get_tree().process_frame
 			
+			SettingsManager.apply_graphics_settings()
+			
 			emit_signal("load_done")

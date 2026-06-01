@@ -3,10 +3,14 @@ extends PanelContainer
 @onready var play_button: TextureButton = %PlayButtonTextured
 @onready var options_button: TextureButton = %OptionsButtonTextured
 @onready var quit_button: TextureButton = %QuitButtonTextured
+@onready var options: CanvasLayer = %OptionsMenu
 
 var focused = false
 
 func _input(input) -> void:
+	if options.visible:
+		return
+	
 	if !focused and \
 		(input.is_action_pressed("ui_up") or input.is_action_pressed("ui_down") or \
 		input.is_action_pressed("ui_left") or input.is_action_pressed("ui_right") or \
@@ -26,11 +30,8 @@ func _on_play_button_pressed() -> void:
 	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
 
-# moze lepiej by bylo sobie darowac ten loading screen tutaj
 func _on_options_button_pressed() -> void:
-	_lock_buttons() 
-	LoadManager.load_scene(ScenePaths.OPTIONS_MENU_PATH)
-
+	options.show()
 
 func _on_quit_button_pressed() -> void:
 	_lock_buttons() 

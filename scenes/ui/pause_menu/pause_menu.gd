@@ -8,9 +8,11 @@ var previous_mouse_mode: int = Input.MOUSE_MODE_CAPTURED
 @onready var change_level_button: Button = %ChangeLevelButton
 @onready var options_button: Button = %OptionsButton
 @onready var main_menu_button: Button = %MainMenuButton
+@onready var options: CanvasLayer = %OptionsMenu
 
 func _ready() -> void:
 	visible = false
+	options.hide()
 	process_mode = Node.PROCESS_MODE_ALWAYS # Always process to catch unpause
 	_setup_focus_nav()
 
@@ -63,12 +65,14 @@ func _on_change_level_button_pressed() -> void:
 	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
 func _on_options_button_pressed() -> void:
-	# Keep paused? Options menu usually replaces current view.
-	# If Options is a separate scene that doesn't use SceneTree.paused, we might need to unpause.
-	# Existing code unpaused. Let's keep it consistent.
 	get_tree().paused = false
-	LoadManager.load_scene(ScenePaths.OPTIONS_MENU_PATH)
+	hide()
+	options.show()
 
 func _on_main_menu_button_pressed() -> void:
 	get_tree().paused = false
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+
+
+func _on_options_menu_options_closed() -> void:
+	show()

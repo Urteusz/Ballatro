@@ -1,22 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6x5y4z3w2v1"]
+[gd_scene format=3 uid="uid://b6x5y403w2v1"]
 
-[ext_resource type="Script" path="res://scenes/ui/pause_menu/pause_menu.gd" id="1_pause"]
+[ext_resource type="Script" uid="uid://0bh6usv51bpf" path="res://scenes/ui/pause_menu/pause_menu.gd" id="1_pause"]
+[ext_resource type="PackedScene" uid="uid://72pi8chpke0y" path="res://scenes/ui/options_menu/options_menu.tscn" id="2_rbnsh"]
 
-[node name="PauseMenu" type="CanvasLayer"]
+[node name="PauseMenu" type="CanvasLayer" unique_id=656630561]
 process_mode = 3
 layer = 100
+visible = false
 script = ExtResource("1_pause")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="OptionsMenu" parent="." unique_id=1158779186 instance=ExtResource("2_rbnsh")]
+unique_name_in_owner = true
+layer = 100
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
-layout_mode = 1
+[node name="ColorRect" type="ColorRect" parent="." unique_id=82209497]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,53 +21,53 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.501961)
 
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
-layout_mode = 1
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=195867138]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=101760110]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1174797684]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1106404358]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "PAUSED"
 horizontal_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=983662348]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Resume"
 
-[node name="ChangeLevelButton" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="ChangeLevelButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1534114045]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Change Level"
 
-[node name="OptionsButton" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=855027239]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Options"
 
-[node name="MainMenuButton" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=20054596]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Main Menu"
 
-[connection signal="pressed" from="Control/CenterContainer/PanelContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="Control/CenterContainer/PanelContainer/VBoxContainer/ChangeLevelButton" to="." method="_on_change_level_button_pressed"]
-[connection signal="pressed" from="Control/CenterContainer/PanelContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
-[connection signal="pressed" from="Control/CenterContainer/PanelContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="options_closed" from="OptionsMenu" to="." method="_on_options_menu_options_closed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/ChangeLevelButton" to="." method="_on_change_level_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

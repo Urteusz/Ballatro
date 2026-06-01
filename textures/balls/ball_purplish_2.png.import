@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dr7t7awb357c0"
-path.s3tc="res://.godot/imported/checkerboard.png-05d491db9083f31a8a4a6ee461316550.s3tc.ctex"
+uid="uid://cm3hvjh7de0k3"
+path.s3tc="res://.godot/imported/ball_purplish_2.png-76fdcafc520d7e2e30ecdfac405303c4.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/checkerboard.png"
-dest_files=["res://.godot/imported/checkerboard.png-05d491db9083f31a8a4a6ee461316550.s3tc.ctex"]
+source_file="res://textures/balls/ball_purplish_2.png"
+dest_files=["res://.godot/imported/ball_purplish_2.png-76fdcafc520d7e2e30ecdfac405303c4.s3tc.ctex"]
 
 [params]
 
