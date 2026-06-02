@@ -75,7 +75,17 @@ signal charging_cancelled
 signal turn_started
 signal shoot_requested
 
+# power up
+var has_midair_shot: bool = true
+var midair_shot_used_this_turn: bool = false
+var is_in_slow_motion: bool = false
+var slow_motion_scale: float = 0.05
+var original_fov: float = 75.0
+
 func _ready() -> void:
+	# temp
+	has_midair_shot = true
+	
 	if PlayerData.get_total_stars() == 21:
 		print_debug("Dupa")
 		meshGold.visible = true
@@ -88,7 +98,6 @@ func _ready() -> void:
 		set_process(false)
 		return
 
-	# Instantiate power bar and crosshair scenes
 	power_bar_root = PowerBarScene.instantiate()
 	add_child(power_bar_root)
 	crosshair = CrosshairScene.instantiate()
@@ -135,6 +144,18 @@ func _input(event) -> void:
 		if charging:
 			emit_signal("shoot_requested")
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("powerup"):
+		if has_midair_shot and not midair_shot_used_this_turn and linear_velocity.length() > 0.5:
+			_enter_slow_motion()
+			get_viewport().set_input_as_handled()
+			return
+	
+	if is_in_slow_motion and event.is_action_pressed("push_ball"):
+		_execute_midair_shot()
+		get_viewport().set_input_as_handled()
+		return
+
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if sleeping:
 		return
@@ -143,13 +164,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var speed = lv.length()
 	var angular_speed = angular_velocity.length()
 
-	# Automatyczne zatrzymanie przy bardzo niskich prędkościach
 	if speed < FULL_STOP_THRESHOLD and angular_speed < FULL_STOP_ANGULAR_THRESHOLD:
 		state.linear_velocity = Vector3.ZERO
 		state.angular_velocity = Vector3.ZERO
 		return
 
-	# Spin effects
 	if spin_active and speed > 0.5:
 		var forward_dir = lv.normalized()
 		var curve_dir = lv.cross(Vector3.UP).normalized()
@@ -158,7 +177,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if abs(vertical_spin_factor) > 0.05:
 			state.apply_central_force(forward_dir * vertical_spin_factor * VERTICAL_SPIN_FORCE)
 
-	# Rolling resistance
 	if speed > 0.5 and is_grounded:
 		var forward_dir = lv.normalized()
 		var rotation_axis = forward_dir.cross(Vector3.UP).normalized()
@@ -172,13 +190,18 @@ func can_shoot() -> bool:
 	if !camera:
 		return false
 	
-	return (
+	var ready_to_shoot = (
 		can_shoot_flag
 		and is_shootable_speed() 
 		and is_grounded 
 		and camera.current_target_index == 0
 		and !charging
 	)
+	
+	if ready_to_shoot:
+		midair_shot_used_this_turn = false
+	
+	return ready_to_shoot
 
 func release_push() -> void:
 	if !charging:
@@ -219,14 +242,13 @@ func push_ball(impulse_power: float) -> void:
 	if audioStream:
 		var power_ratio = impulse_power / max_impulse_strength
 		
-		var min_volume_db = -20.0  # Ciche uderzenie
-		var max_volume_db = 2.0    # Głośne uderzenie
+		var min_volume_db = -20.0  
+		var max_volume_db = 2.0    
 		
 		audioStream.volume_db = lerp(min_volume_db, max_volume_db, power_ratio)
 		print("Volume:", audioStream.volume_db)
 		audioStream.play()
 	
-	# Logic for spin
 	if camera and "spin_offset" in camera:
 		spin_factor = camera.spin_offset
 		if "vertical_spin_offset" in camera:
@@ -255,7 +277,6 @@ func push_ball(impulse_power: float) -> void:
 	emit_signal("ball_pushed", impulse_power)
 
 func get_charge_color(ratio: float) -> Color:
-	# Gradient: zielony -> żółty -> czerwony
 	if ratio < 0.5:
 		var local_ratio = ratio * 2.0
 		return weak_charge_color.lerp(medium_charge_color, local_ratio)
@@ -263,32 +284,25 @@ func get_charge_color(ratio: float) -> Color:
 		var local_ratio = (ratio - 0.5) * 2.0
 		return medium_charge_color.lerp(strong_charge_color, local_ratio)
 
-
-
 func _animate_power_bar(delta: float) -> void:
 	hit_position = camera.cursor_position
 
-	# Position bar to the right of the ball (relative to camera)
 	var cam_right := camera.global_transform.basis.x.normalized()
 	var bar_pos := global_position + cam_right * POWER_BAR_OFFSET_RIGHT
 	bar_pos.y = global_position.y
 	power_bar_root.global_position = bar_pos
 
-	# Face the bar towards camera
 	var look_target := power_bar_root.global_position + camera.global_transform.basis.z
 	power_bar_root.look_at(look_target, Vector3.UP)
 
-	# Oscillating power — triangle wave (ping-pong)
 	charge_timer += delta
 	var t := fmod(charge_timer, POWER_BAR_CYCLE_SPEED) / POWER_BAR_CYCLE_SPEED
 	current_power_ratio = 1.0 - abs(2.0 * t - 1.0)
 
-	# Marker position on bar
 	var bar_h: float = power_bar_root.POWER_BAR_HEIGHT
 	var marker_y := -bar_h / 2.0 + current_power_ratio * bar_h
 	power_bar_root.marker.position.y = marker_y
 
-	# Marker color — matches gradient position
 	if power_bar_root.marker_material:
 		var col := get_charge_color(current_power_ratio)
 		col.a = 0.95
@@ -304,22 +318,17 @@ func start_charging() -> void:
 	if crosshair:
 		crosshair.visible = true
 
-
-
 func _animate_crosshair() -> void:
 	if not crosshair or not camera:
 		return
 
-	# Kierunek od bili do kursora (kierunek uderzenia)
 	var dir_to_cursor: Vector3 = (camera.cursor_position - global_position).normalized()
 
-	# Prawo/góra relative to that direction
 	var right: Vector3 = dir_to_cursor.cross(Vector3.UP).normalized()
 	if right.length_squared() < 0.001:
 		right = Vector3.RIGHT
 	var up: Vector3 = Vector3.UP
 
-	# Pobierz spin offset z kamery
 	var h_spin := 0.0
 	var v_spin := 0.0
 	if "spin_offset" in camera:
@@ -327,12 +336,10 @@ func _animate_crosshair() -> void:
 	if "vertical_spin_offset" in camera:
 		v_spin = camera.vertical_spin_offset
 
-	# Pozycja na powierzchni bili
 	var offset_dir: Vector3 = (dir_to_cursor + right * h_spin * 0.5 + up * v_spin * 0.5).normalized()
 	var ch_pos: Vector3 = global_position + offset_dir * (ball_radius + 0.001)
 
 	crosshair.global_position = ch_pos
-	# Ring przylegający do powierzchni bili
 	crosshair.look_at(ch_pos + offset_dir, Vector3.UP)
 	crosshair.rotate_object_local(Vector3.RIGHT, deg_to_rad(90.0))
 
@@ -392,8 +399,6 @@ func _setup_aim_line() -> void:
 			new_aimed_at_ball.start_being_aimed_at()
 		aimed_at_ball = new_aimed_at_ball
 
-# --- LOGIKA STANU FIZYKI ---
-
 func is_fully_stopped() -> bool:
 	return sleeping or (
 		linear_velocity.length_squared() < FULL_STOP_THRESHOLD * FULL_STOP_THRESHOLD
@@ -431,3 +436,44 @@ func get_ball_radius() -> float:
 	else:
 		push_error("Error: The shape is not a SphereShape3D. Cannot retrieve radius.")
 		return 0.0
+
+func _enter_slow_motion() -> void:
+	is_in_slow_motion = true
+	Engine.time_scale = slow_motion_scale
+	AudioServer.playback_speed_scale = slow_motion_scale
+	
+	if camera:
+		original_fov = camera.fov
+		var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		tween.tween_property(camera, "fov", 50.0, 0.01).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _execute_midair_shot() -> void:
+	is_in_slow_motion = false
+	midair_shot_used_this_turn = true
+	
+	Engine.time_scale = 1.0
+	AudioServer.playback_speed_scale = 1.0
+	
+	if camera:
+		var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		tween.tween_property(camera, "fov", original_fov, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	else:
+		return
+	
+	var direction_to_cursor = (camera.cursor_position - global_position).normalized()
+	var dash_direction = -direction_to_cursor
+	
+	var dash_power = max_impulse_strength
+	var impulse_position = direction_to_cursor * ball_radius
+	
+	if audioStream:
+		audioStream.volume_db = 2.0
+		audioStream.play()
+		
+	apply_impulse(dash_direction * dash_power, impulse_position)
+	emit_signal("ball_pushed", dash_power)
+	
+func _exit_tree() -> void:
+	if Engine.time_scale != 1.0:
+		Engine.time_scale = 1.0
+		AudioServer.playback_speed_scale = 1.0

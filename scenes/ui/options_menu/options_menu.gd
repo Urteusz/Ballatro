@@ -27,7 +27,6 @@ signal options_closed
 @onready var anisotropy_button = %AnisotropyButton
 
 @onready var apply_button = %ApplyButton
-@onready var apply_hint_label = %ApplyButtonLabel
 
 @onready var inverted_mouse_button = %InvertedMouseButton
 @onready var pad_sensitivity_slider = %PadSensitivitySlider
