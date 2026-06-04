@@ -115,7 +115,7 @@ hit_particles2 = ExtResource("3_wehov")
 hit_particles3 = ExtResource("4_jd46c")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=721474558]
-transform = Transform3D(-1, -1.757879e-08, -8.563719e-08, 0, 0.9795753, -0.20107792, 8.742278e-08, -0.20107792, -0.9795753, 0.03813243, 0, 0)
+transform = Transform3D(-1, -1.757879e-08, -8.563719e-08, 0, 0.9795753, -0.20107792, 8.742278e-08, -0.20107792, -0.9795753, 0, 0, 0)
 mesh = SubResource("SphereMesh_noarx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1035594071]

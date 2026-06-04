@@ -49,6 +49,10 @@ const ROLLING_RESISTANCE_FACTOR: float = 0.15
 @onready var meshBlack = $MeshInstance3D
 @onready var meshGold = $MeshInstance3DGold
 
+# Dash effect animation
+@onready var dash_effect := $DashEffectPivot/DashEffect
+@onready var dash_animator := $DashEffectPivot/DashEffect/AnimationPlayer
+
 var camera: Camera3D = null
 
 # Power bar
@@ -146,7 +150,7 @@ func _input(event) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("powerup"):
-		if has_midair_shot and not midair_shot_used_this_turn and linear_velocity.length() > 0.5:
+		if has_midair_shot and not midair_shot_used_this_turn and linear_velocity.length() > 0.5 and not is_in_slow_motion:
 			_enter_slow_motion()
 			get_viewport().set_input_as_handled()
 			return
@@ -442,10 +446,19 @@ func _enter_slow_motion() -> void:
 	Engine.time_scale = slow_motion_scale
 	AudioServer.playback_speed_scale = slow_motion_scale
 	
+	if dash_effect and dash_animator:
+		dash_effect.visible = true
+		dash_animator.play("dash")
+		dash_effect.get_parent_node_3d().global_transform = global_transform.looking_at(camera.global_position, Vector3.UP)
+	
+	var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	
 	if camera:
 		original_fov = camera.fov
-		var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		tween.tween_property(camera, "fov", 50.0, 0.01).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+	var active_mesh = meshGold if meshGold.visible else meshBlack
+	tween.parallel().tween_property(active_mesh, "transparency", 0.6, 0.2)
 
 func _execute_midair_shot() -> void:
 	is_in_slow_motion = false
@@ -454,22 +467,30 @@ func _execute_midair_shot() -> void:
 	Engine.time_scale = 1.0
 	AudioServer.playback_speed_scale = 1.0
 	
+	if dash_effect and dash_animator:
+		dash_effect.visible = false
+		dash_animator.stop()
+	
+	var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	
 	if camera:
-		var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		tween.tween_property(camera, "fov", original_fov, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	else:
 		return
+		
+	var active_mesh = meshGold if meshGold.visible else meshBlack
+	tween.parallel().tween_property(active_mesh, "transparency", 0.0, 0.2)
 	
-	var direction_to_cursor = (camera.cursor_position - global_position).normalized()
-	var dash_direction = -direction_to_cursor
-	
+	var dash_direction = -camera.global_transform.basis.z.normalized()
 	var dash_power = max_impulse_strength
-	var impulse_position = direction_to_cursor * ball_radius
+	var impulse_position = -dash_direction * ball_radius
 	
 	if audioStream:
 		audioStream.volume_db = 2.0
 		audioStream.play()
-		
+	
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
 	apply_impulse(dash_direction * dash_power, impulse_position)
 	emit_signal("ball_pushed", dash_power)
 	
@@ -477,3 +498,8 @@ func _exit_tree() -> void:
 	if Engine.time_scale != 1.0:
 		Engine.time_scale = 1.0
 		AudioServer.playback_speed_scale = 1.0
+
+	if is_instance_valid(meshBlack):
+		meshBlack.transparency = 0.0
+	if is_instance_valid(meshGold):
+		meshGold.transparency = 0.0

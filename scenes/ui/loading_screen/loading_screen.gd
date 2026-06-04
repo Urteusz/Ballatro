@@ -31,13 +31,9 @@ func _start_outro_animation() -> void:
 	_is_loading_finished = true
 	_check_and_start_outro()
 
-# --- Logic ---
-
 func _on_fill_finished() -> void:
 	_fill_finished = true
 	
-	# FREEZE the top player. It now acts as a static "screenshot" 
-	# covering the transition logic.
 	player_fill.paused = true
 	
 	loading_screen_has_full_coverage.emit()
@@ -48,20 +44,13 @@ func _check_and_start_outro() -> void:
 		_transition_to_empty()
 
 func _transition_to_empty() -> void:
-	# 1. Prepare the bottom player (Empty)
 	player_empty.show()
 	player_empty.play()
 	
-	# 2. WAIT A FRAME (Crucial!)
-	# We need to give the video decoder 1-2 frames to actually put 
-	# pixels on the texture. If we hide the top layer immediately, 
-	# we might still see a black flash from the bottom layer starting up.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	animation_player.play("loading_end")
 	
-	# 3. Now that the bottom video is definitely running, delete the top one.
-	# The user won't notice the switch because the images should be identical.
 	player_fill.queue_free()
 	
 	await player_empty.finished

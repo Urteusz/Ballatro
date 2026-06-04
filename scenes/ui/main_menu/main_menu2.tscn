@@ -1,0 +1,453 @@
+[gd_scene format=3 uid="uid://cqqqlcny2t3v2"]
+
+[ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="11_dshgm"]
+[ext_resource type="Script" uid="uid://dxovafvsjsk36" path="res://scenes/ui/main_menu/impulse.gd" id="11_hnsyg"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="12_gpff5"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="13_ue210"]
+[ext_resource type="Texture2D" uid="uid://dr7t7awb357c0" path="res://textures/checkerboard.png" id="14_5a0or"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="15_i53o0"]
+[ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/ui/main_menu/scripts/main_menu_ball.gd" id="16_yynp6"]
+[ext_resource type="PackedScene" uid="uid://72pi8chpke0y" path="res://scenes/ui/options_menu/options_menu.tscn" id="17_evqmi"]
+[ext_resource type="Script" uid="uid://ba4mlc5cmgwqx" path="res://scenes/ui/main_menu/bars.gd" id="18_cxrfh"]
+
+[sub_resource type="Theme" id="Theme_5dd4i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jat3p"]
+bg_color = Color(0.48235294, 0.5294118, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ihvb"]
+bg_color = Color(0.77254903, 0.8117647, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpxwu"]
+bg_color = Color(0.77254903, 0.8117647, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fskk0"]
+bg_color = Color(0.48235294, 0.5294118, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnsyg"]
+bg_color = Color(0.48235294, 0.5294118, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgl7k"]
+bg_color = Color(0.7736003, 0.8105117, 0.9999984, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhtnp"]
+bg_color = Color(0.6408799, 0.69159234, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5pch"]
+bg_color = Color(0.48235294, 0.5294118, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fc4go"]
+bg_color = Color(0.99322504, 0.44027704, 0.45579976, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5aim"]
+bg_color = Color(0.99441105, 0.70594484, 0.75403386, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1pej"]
+bg_color = Color(0.9926091, 0.6164776, 0.6857407, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vtgy"]
+bg_color = Color(0.99215686, 0.4392157, 0.45490196, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("12_gpff5")
+shader_parameter/depth_sensitivity = 0.03300000086898
+shader_parameter/normal_sensitivity = 0.05000000074506
+shader_parameter/outline_thickness = 2.00000007125
+shader_parameter/lineHighlight = 0.1
+shader_parameter/lineShadow = 3.0
+shader_parameter/tintColor = Color(1, 1, 1, 1)
+shader_parameter/tintStrength = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_4arys"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
+shader = ExtResource("13_ue210")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ShaderMaterial_aj7ea")
+
+[sub_resource type="Environment" id="Environment_jka67"]
+background_mode = 2
+background_energy_multiplier = 1.5
+sky = SubResource("Sky_jka67")
+ambient_light_source = 3
+tonemap_mode = 3
+tonemap_exposure = 0.28
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 0.55
+adjustment_enabled = true
+adjustment_brightness = 1.07
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b2yaj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2yaj"]
+albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
+albedo_texture = ExtResource("14_5a0or")
+albedo_texture_force_srgb = true
+normal_enabled = true
+uv1_scale = Vector3(11, 16, 33)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a202f"]
+material = SubResource("StandardMaterial3D_b2yaj")
+size = Vector2(22, 32)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_noarx"]
+size = Vector3(21.54, 0.36, 31.36)
+
+[node name="Control" type="Control" unique_id=1912827048]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_5dd4i")
+
+[node name="OptionsMenu" parent="." unique_id=640391713 instance=ExtResource("17_evqmi")]
+unique_name_in_owner = true
+layer = 2
+visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1771910813]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1429183454]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -973.0
+offset_top = 402.0
+offset_right = -933.0
+offset_bottom = 442.0
+rotation = -0.3926991
+scale = Vector2(2, 2)
+mouse_filter = 2
+script = ExtResource("18_cxrfh")
+effect_radius = 100.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control" unique_id=3807703]
+layout_mode = 0
+offset_right = 784.0
+offset_bottom = 100.0
+mouse_filter = 1
+color = Color(0.48235294, 0.5294118, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Control" unique_id=907202837]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 784.0
+offset_bottom = 200.0
+scale = Vector2(1.125, 1)
+mouse_filter = 1
+color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/Control" unique_id=754819864]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 200.0
+offset_right = 784.0
+offset_bottom = 300.0
+scale = Vector2(0.9349356, 1.0054473)
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_jat3p")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3ihvb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gpxwu")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_fskk0")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PlayButton" unique_id=709997092]
+z_index = 2
+texture_filter = 1
+custom_minimum_size = Vector2(1.92, 0)
+layout_mode = 0
+offset_left = 473.90237
+offset_top = 15.91
+offset_right = 773.90234
+offset_bottom = 80.91
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 75
+text = "Single Player"
+
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer/Control" unique_id=419660135]
+layout_mode = 0
+offset_top = 300.0
+offset_right = 784.0
+offset_bottom = 400.0
+mouse_filter = 1
+color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+
+[node name="OptionsButton" type="Button" parent="CanvasLayer/Control" unique_id=166959571]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1.991128
+offset_top = 400.22754
+offset_right = 785.99115
+offset_bottom = 500.22754
+scale = Vector2(0.864, 1.01)
+theme_override_styles/normal = SubResource("StyleBoxFlat_hnsyg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pgl7k")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hhtnp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_k5pch")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/OptionsButton" unique_id=1469903880]
+z_index = 2
+texture_filter = 1
+custom_minimum_size = Vector2(1.92, 0)
+layout_mode = 0
+offset_left = 589.5247
+offset_top = 19.203924
+offset_right = 785.5247
+offset_bottom = 84.203926
+theme_override_font_sizes/font_size = 75
+text = "Options "
+
+[node name="ColorRect6" type="ColorRect" parent="CanvasLayer/Control" unique_id=1199644621]
+layout_mode = 0
+offset_top = 500.0
+offset_right = 784.0
+offset_bottom = 600.0
+scale = Vector2(0.89180523, 1.0031849)
+mouse_filter = 1
+color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/Control" unique_id=556157948]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 600.0
+offset_right = 784.0
+offset_bottom = 700.0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_fc4go")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p5aim")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m1pej")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5vtgy")
+
+[node name="ColorRect8" type="ColorRect" parent="CanvasLayer/Control" unique_id=1382073183]
+layout_mode = 0
+offset_left = 54.877983
+offset_top = 699.7934
+offset_right = 838.878
+offset_bottom = 799.7934
+mouse_filter = 1
+color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="CanvasLayer/Control" unique_id=261317945]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674463
+offset_top = 14.2221
+offset_right = 798.67444
+offset_bottom = 114.2221
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="CanvasLayer/Control" unique_id=216575864]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674463
+offset_top = 114.2221
+offset_right = 798.67444
+offset_bottom = 214.2221
+scale = Vector2(1.125, 1)
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="CanvasLayer/Control" unique_id=774988152]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674463
+offset_top = 214.2221
+offset_right = 798.67444
+offset_bottom = 314.2221
+scale = Vector2(0.9349356, 1.0054473)
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect12" type="ColorRect" parent="CanvasLayer/Control" unique_id=581350022]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674463
+offset_top = 314.2221
+offset_right = 798.67444
+offset_bottom = 414.2221
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect13" type="ColorRect" parent="CanvasLayer/Control" unique_id=1527404842]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674464
+offset_top = 414.2221
+offset_right = 798.67444
+offset_bottom = 514.2221
+scale = Vector2(0.855, 1)
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect14" type="ColorRect" parent="CanvasLayer/Control" unique_id=1260818881]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674463
+offset_top = 514.2221
+offset_right = 798.67444
+offset_bottom = 614.2221
+scale = Vector2(0.89180523, 1.0031849)
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect15" type="ColorRect" parent="CanvasLayer/Control" unique_id=1590388946]
+z_index = -2
+layout_mode = 0
+offset_left = 14.674463
+offset_top = 614.2221
+offset_right = 798.67444
+offset_bottom = 714.2221
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect16" type="ColorRect" parent="CanvasLayer/Control" unique_id=1078852976]
+z_index = -2
+layout_mode = 0
+offset_left = 69.552444
+offset_top = 714.0155
+offset_right = 853.5524
+offset_bottom = 814.0155
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer/Control" unique_id=145916967]
+layout_mode = 0
+offset_left = 0.19836426
+offset_top = 797.831
+offset_right = 784.19836
+offset_bottom = 897.831
+mouse_filter = 1
+color = Color(0.48235294, 0.5294118, 1, 1)
+
+[node name="ColorRect17" type="ColorRect" parent="CanvasLayer/Control" unique_id=748739107]
+z_index = -2
+layout_mode = 0
+offset_left = 14.872828
+offset_top = 812.0531
+offset_right = 798.8728
+offset_bottom = 912.0531
+mouse_filter = 2
+color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=377743824]
+texture_filter = 1
+layout_mode = 0
+offset_left = 520.0
+offset_right = 1928.0
+offset_bottom = 1080.0
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=519481266]
+handle_input_locally = false
+size = Vector2i(1408, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=116340204]
+transform = Transform3D(0.8496837, -0.32316923, 0.41665247, -0.029516201, 0.7597836, 0.64950573, -0.52646595, -0.5641724, 0.63603705, 2.9905348, 3.8118358, 1.4249115)
+fov = 55.4
+script = ExtResource("11_dshgm")
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=85179835]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_4arys")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1322120911]
+environment = SubResource("Environment_jka67")
+
+[node name="Table" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1646783553]
+
+[node name="Base" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=454017217]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_b2yaj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Base" unique_id=228408779]
+transform = Transform3D(0.99986196, 0.016614765, 0, -0.01661476, 0.9998618, 0, 0, 0, 0.9999998, -0.064517505, 0.05864166, 0.021059746)
+mesh = SubResource("PlaneMesh_a202f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Base" unique_id=934468716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
+shape = SubResource("BoxShape3D_noarx")
+
+[node name="Balls" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1749134635]
+
+[node name="Ball1" parent="SubViewportContainer/SubViewport/Balls" unique_id=173607576 instance=ExtResource("15_i53o0")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.92652863, 0.37622428, 0, -0.37622428, 0.92652863, 0, 0.48252046, -0.66541624)
+script = ExtResource("16_yynp6")
+
+[node name="Ball2" parent="SubViewportContainer/SubViewport/Balls" unique_id=1752905333 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.4792326, 0.483, -1.488207)
+script = null
+
+[node name="Ball3" parent="SubViewportContainer/SubViewport/Balls" unique_id=226329794 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0.55276734, 0.483, -1.4892074)
+script = null
+
+[node name="Ball4" parent="SubViewportContainer/SubViewport/Balls" unique_id=1752691128 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0, 0.48252046, -2.365305)
+script = null
+
+[node name="Ball5" parent="SubViewportContainer/SubViewport/Balls" unique_id=238750024 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1, 0.48252046, -2.365305)
+script = null
+
+[node name="Ball6" parent="SubViewportContainer/SubViewport/Balls" unique_id=1878731033 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1, 0.48252046, -2.365305)
+script = null
+
+[node name="Ball7" parent="SubViewportContainer/SubViewport/Balls" unique_id=430262730 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0.5207674, 0.483, -3.1779747)
+script = null
+
+[node name="Ball8" parent="SubViewportContainer/SubViewport/Balls" unique_id=30150718 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1.5527673, 0.483, -3.178975)
+script = null
+
+[node name="Ball9" parent="SubViewportContainer/SubViewport/Balls" unique_id=1807616119 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1.4792325, 0.483, -3.1779747)
+script = null
+
+[node name="Ball10" parent="SubViewportContainer/SubViewport/Balls" unique_id=1428429884 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.44723272, 0.483, -3.178975)
+script = null
+
+[node name="Ball11" parent="SubViewportContainer/SubViewport/Balls" unique_id=1775435346 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0, 0.48252046, -4)
+script = null
+
+[node name="Ball12" parent="SubViewportContainer/SubViewport/Balls" unique_id=1059264068 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1, 0.48252046, -4)
+script = null
+
+[node name="Ball13" parent="SubViewportContainer/SubViewport/Balls" unique_id=1485844193 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1, 0.48252046, -4)
+script = null
+
+[node name="Ball14" parent="SubViewportContainer/SubViewport/Balls" unique_id=1817199742 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 2, 0.48252046, -4)
+script = null
+
+[node name="Ball15" parent="SubViewportContainer/SubViewport/Balls" unique_id=694564454 instance=ExtResource("15_i53o0")]
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -2, 0.48252046, -4)
+script = null
+
+[node name="ImpulseScriptNode" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=938480020]
+script = ExtResource("11_hnsyg")
+impulse_strength = 1.0
+
+[connection signal="pressed" from="CanvasLayer/Control/PlayButton" to="CanvasLayer/Control" method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/OptionsButton" to="CanvasLayer/Control" method="_on_options_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/QuitButton" to="CanvasLayer/Control" method="_on_quit_button_pressed"]

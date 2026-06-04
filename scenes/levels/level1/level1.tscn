@@ -50,7 +50,6 @@ rough = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06ugt"]
 albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
 albedo_texture = ExtResource("3_3ks25")
-uv1_scale = Vector3(4.515, 4.515, 4.515)
 uv1_triplanar = true
 texture_filter = 0
 
@@ -129,6 +128,8 @@ doppler_tracking = 2
 current = true
 script = ExtResource("1_j4hya")
 player_ball = NodePath("../Table/PlayerBall")
+max_phi = 1.6
+max_cursor_phi = 1.95
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=2064730997]
 extra_cull_margin = 16384.0

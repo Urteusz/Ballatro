@@ -1,9 +1,11 @@
 [gd_scene format=4 uid="uid://yy3aivcgtbfo"]
 
 [ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scenes/player_ball/player_ball.gd" id="1_655g4"]
+[ext_resource type="PackedScene" uid="uid://baj5seuruwnm" path="res://scenes/balls/dash_effect.tscn" id="2_ee5xf"]
 [ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="2_flid2"]
 [ext_resource type="Material" uid="uid://dv85qnftk32v1" path="res://materials/dissolve.tres" id="2_yuqhy"]
 [ext_resource type="AudioStream" uid="uid://bwb7trbevom6e" path="res://sounds/Hit_player.wav" id="3_iy30u"]
+[ext_resource type="Script" uid="uid://bp4p2bynhkfgu" path="res://scenes/balls/dash_effect.gd" id="3_m75rw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_06ugt"]
 friction = 0.05
@@ -403,7 +405,7 @@ _data = {
 &"dissolve": SubResource("Animation_ee5xf")
 }
 
-[node name="PlayerBall" type="RigidBody3D" unique_id=1274056530 groups=["balls"]]
+[node name="PlayerBall" type="RigidBody3D" unique_id=1274056530 node_paths=PackedStringArray("aim_line") groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 mass = 0.17
@@ -413,6 +415,15 @@ continuous_cd = true
 linear_damp = 0.15
 angular_damp = 0.4
 script = ExtResource("1_655g4")
+aim_line = NodePath("DashEffectPivot/DashEffect/MeshInstance3D")
+
+[node name="DashEffectPivot" type="Node3D" parent="." unique_id=1564558068]
+script = ExtResource("3_m75rw")
+rotation_speed = 100.0
+
+[node name="DashEffect" parent="DashEffectPivot" unique_id=2036555758 instance=ExtResource("2_ee5xf")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -0.745)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2109624296]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
@@ -447,7 +458,6 @@ draw_pass_1 = SubResource("SphereMesh_aj7ea")
 
 [node name="SpeedParticle" type="Node3D" parent="." unique_id=1745669355]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-visible = false
 script = ExtResource("2_flid2")
 start_speed_constant = 10.0
 start_size_constant = Vector2(0.3, 0.1)
@@ -471,3 +481,5 @@ stream = ExtResource("3_iy30u")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1169652830]
 libraries/ = SubResource("AnimationLibrary_m75rw")
+
+[editable path="DashEffectPivot/DashEffect"]

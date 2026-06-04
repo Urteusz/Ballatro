@@ -380,7 +380,7 @@ func _enter_level(level_number: int) -> void:
 	var path = level_path % [level_number, level_number]
 	if ResourceLoader.exists(path):
 		PlayerData.set_level(level_number)
-		LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
+		LoadManager.load_scene(ScenePaths.DECK_CHOOSE_2)
 
 func _build_starfield() -> void:
 	var mat = StandardMaterial3D.new()

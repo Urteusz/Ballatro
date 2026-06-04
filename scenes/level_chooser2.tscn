@@ -3128,7 +3128,7 @@ shadow_mesh = SubResource("ArrayMesh_menhy")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s5ltk"]
 shader = ExtResource("4_6llfq")
-shader_parameter/color_old = Color(0.77927494, 1.0184337, 1.353256, 1)
+shader_parameter/color_old = Color(0.779, 1.018, 1.353, 1)
 shader_parameter/color_new = Color(0.9041176, 0.34839106, 0.92350876, 1)
 shader_parameter/progress = 0.0
 shader_parameter/grid_density = Vector2(8, 4.5)
@@ -3156,6 +3156,9 @@ adjustment_enabled = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
 shader = ExtResource("1_fskdg")
+shader_parameter/depth_sensitivity = 0.15
+shader_parameter/normal_sensitivity = 0.2
+shader_parameter/outline_thickness = 1.0
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 2.0
 shader_parameter/tintColor = Color(0.70910674, 0.18886095, 0.30500412, 1)
@@ -3647,6 +3650,7 @@ mesh = SubResource("QuadMesh_oipvy")
 transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0, 0)
 visible = false
 mesh = SubResource("QuadMesh_s5ltk")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=987654321]
 
 [node name="HintLabel" type="RichTextLabel" parent="CanvasLayer" unique_id=987654322]

@@ -60,8 +60,9 @@ text = "Resolution"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
-focus_neighbor_right = NodePath("../../../Controls/InvertedMouseButton")
-focus_neighbor_bottom = NodePath("../../VSync/VSyncButton")
+focus_neighbor_left = NodePath("../../../../../../QuitButton")
+focus_neighbor_right = NodePath("../ApplyButton")
+focus_neighbor_bottom = NodePath("../../Window Mode/WindowModeButton")
 
 [node name="VSeparator" type="VSeparator" parent="Background/CenterContainer/VBoxContainer/HBoxContainer/Graphics/Resolution" unique_id=1510115337]
 layout_mode = 2
@@ -69,10 +70,17 @@ layout_mode = 2
 [node name="ApplyButton" type="Button" parent="Background/CenterContainer/VBoxContainer/HBoxContainer/Graphics/Resolution" unique_id=1974530240]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../ResolutionButton")
+focus_neighbor_right = NodePath("../../../Controls/InvertedMouseButton")
+focus_neighbor_bottom = NodePath("../../Window Mode/WindowModeButton")
 text = "Apply"
 
 [node name="Window Mode" type="HBoxContainer" parent="Background/CenterContainer/VBoxContainer/HBoxContainer/Graphics" unique_id=444896675]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../QuitButton")
+focus_neighbor_top = NodePath("../Resolution/ApplyButton")
+focus_neighbor_right = NodePath("../../Controls/InvertedMouseButton")
+focus_neighbor_bottom = NodePath("../Resolution Scale Mode/ResolutionScaleModeButton")
 
 [node name="Label" type="Label" parent="Background/CenterContainer/VBoxContainer/HBoxContainer/Graphics/Window Mode" unique_id=1956391475]
 layout_mode = 2

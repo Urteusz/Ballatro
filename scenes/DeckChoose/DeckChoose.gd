@@ -53,7 +53,7 @@ func _ready() -> void:
 
 	_spawn_balls()
 	_refresh_inventory_ui()
-	_apply_level_shader()
+	#_apply_level_shader()
 
 	if back_button:
 		back_button.pressed.connect(_on_back_button_pressed)
@@ -545,17 +545,17 @@ func _ray_intersects_sphere(origin: Vector3, dir: Vector3, center: Vector3, radi
 func _on_back_button_pressed() -> void:
 	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
-func _apply_level_shader() -> void:
-	if not edge_shader: return
-	var mat: ShaderMaterial = edge_shader.mesh.material as ShaderMaterial
-	if not mat: mat = edge_shader.get_active_material(0) as ShaderMaterial
-	if not mat: return
-	
-	var params = LEVEL_SHADER_PARAMS.get(PlayerData.current_level, null)
-	if params:
-		mat.set_shader_parameter("tintColor", params["tintColor"])
-		mat.set_shader_parameter("lineShadow", params["lineShadow"])
-		mat.set_shader_parameter("tintStrength", params["tintStrength"])
+#func _apply_level_shader() -> void:
+	#if not edge_shader: return
+	#var mat: ShaderMaterial = edge_shader.mesh.material as ShaderMaterial
+	#if not mat: mat = edge_shader.get_active_material(0) as ShaderMaterial
+	#if not mat: return
+	#
+	#var params = LEVEL_SHADER_PARAMS.get(PlayerData.current_level, null)
+	#if params:
+		#mat.set_shader_parameter("tintColor", params["tintColor"])
+		#mat.set_shader_parameter("lineShadow", params["lineShadow"])
+		#mat.set_shader_parameter("tintStrength", params["tintStrength"])
 
 func _on_confirm_button_pressed() -> void:
 	emit_signal("deck_selected")
