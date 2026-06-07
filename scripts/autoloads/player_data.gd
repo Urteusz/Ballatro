@@ -1,0 +1,260 @@
+extends Node
+
+# --- DANE KUL ---
+@export var ball_types: Array[BallData]
+
+# Zmieniamy nazwy zmiennych dla jasności
+var owned_balls: Array[String] = []  # Lista posiadanych kul (Inventory)
+var current_deck: Array[BallData] = [] # Lista decku kul (Active Deck)
+const MAX_DECK_SIZE = 6
+
+enum PowerUp {
+	NONE,
+	MIDAIR_DASH,
+	MIDAIR_CONTROL,
+	DUMMY1,
+	DUMMY2,
+	DUMMY3,
+	DUMMY4
+}
+
+var unlocked_power_ups: Array[PowerUp] = [PowerUp.NONE, PowerUp.MIDAIR_DASH, PowerUp.DUMMY2]
+var active_power_up: PowerUp = PowerUp.NONE
+
+var current_level: int = 1
+
+# Gwiazdki dla każdego poziomu {level_number: stars_earned}
+var level_stars: Dictionary = {}
+
+var red_ball_data = load("res://scenes/balls/ball_data/red_ball.tres")
+var blue_ball_data = load("res://scenes/balls/ball_data/blue_ball.tres")
+var green_ball_data = load("res://scenes/balls/ball_data/green_ball.tres")
+var purple_ball_data = load("res://scenes/balls/ball_data/purple_ball.tres")
+var yellow_ball_data = load("res://scenes/balls/ball_data/yellow_ball.tres")
+var bomb_ball_data = load("res://scenes/balls/ball_data/bomb_ball.tres")
+var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
+var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
+var magnetic_ball_data = load("res://scenes/balls/ball_data/magnetic_ball.tres")
+var ice_ball_data = load("res://scenes/balls/ball_data/ice_ball.tres")
+var magnetic_min_ball_data = load("res://scenes/balls/ball_data/magnetic_ball_min.tres")
+var light_bulb_data = load("res://scenes/balls/ball_data/light_bulb.tres")
+var lava_ball_data = load("res://scenes/balls/ball_data/lava_ball.tres")
+var sniper_ball_data = load("res://scenes/balls/ball_data/sniper_ball.tres")
+var ninja_ball_data = load("res://scenes/balls/ball_data/ninja_ball.tres")
+var football_ball_data = load("res://scenes/balls/ball_data/football.tres")
+var basketball_ball_data = load("res://scenes/balls/ball_data/basketball.tres")
+var tenisball_ball_data = load("res://scenes/balls/ball_data/tenisball.tres")
+var pink_ball_data = load("res://scenes/balls/ball_data/pink_ball.tres")
+
+var ball_data_map = {
+	"red": red_ball_data,
+	"blue": blue_ball_data,
+	"green": green_ball_data,
+	"purple": purple_ball_data,
+	"yellow": yellow_ball_data,
+	"magnetic": magnetic_ball_data,
+	"magnetic_min": magnetic_min_ball_data,
+	"ice": ice_ball_data,
+	"speedy": speedy_ball_data,
+	"bouncy": bouncy_ball_data,
+	"lava": lava_ball_data,
+	"light": light_bulb_data,
+	"bomb": bomb_ball_data,
+	"ninja": ninja_ball_data,
+	"sniper": sniper_ball_data,
+	"football": football_ball_data,
+	"basketball": basketball_ball_data,
+	"tenisball": tenisball_ball_data,
+	"pink": pink_ball_data
+}
+
+const SAVE_PATH = "user://player_progress.save"
+
+func _ready() -> void:
+	# Domyślny start (jeśli nie ma zapisu)
+	if owned_balls.is_empty():
+		owned_balls = ["red", "green", "yellow", "purple", "pink", "blue", "bomb", "tenisball", "basketball", "sniper", "light", "lava", "ninja", "magnetic", "ice" ]
+	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
+	if current_deck.is_empty():
+		refresh_deck_from_owned()
+	print("Dupa: "+str(current_level))
+
+# Funkcja do odblokowania nowej kuli
+func unlock_ball(ball_type: String) -> bool:
+	if not ball_data_map.has(ball_type):
+		push_error("Nieznany typ kuli: ", ball_type)
+		return false
+
+	if ball_type not in owned_balls:
+		owned_balls.append(ball_type)
+		save_progress()
+		print("Odblokowano nową kulę: ", ball_type)
+		return true
+
+	print("Gracz już posiada tę kulę: ", ball_type)
+	return false
+
+# Funkcja do ustawiania kuli w konkretnym slocie ekwipunku
+# index: 0-5 (slot w UI)
+# ball_type: nazwa kuli (np. "bomb")
+func equip_ball_in_slot(index: int, ball_type: String) -> bool:
+	if index < 0 or index >= MAX_DECK_SIZE:
+		push_error("Nieprawidłowy indeks slotu: ", index)
+		return false
+
+	# Sprawdzamy czy gracz w ogóle posiada tę kulę!
+	if ball_type not in owned_balls:
+		push_warning("Próba wyboru nieposiadanej kuli: ", ball_type)
+		return false
+
+	var new_ball_data = ball_data_map[ball_type]
+
+	# Upewniamy się, że tablica ma odpowiedni rozmiar
+	while current_deck.size() <= index:
+		current_deck.append(null)
+
+	current_deck[index] = new_ball_data
+	save_progress()
+	print("Wybrano kulę ", ball_type, " do slotu ", index)
+	return true
+
+func refresh_deck_from_owned():
+	current_deck.clear()
+	for i in range(min(owned_balls.size(), MAX_DECK_SIZE)):
+		var type = owned_balls[i]
+		if ball_data_map.has(type):
+			current_deck.append(ball_data_map[type])
+
+
+func save_progress() -> void:
+	# Musimy zamienić obiekty BallData z decku z powrotem na stringi, żeby je zapisać
+	var deck_as_strings = []
+	for ball in current_deck:
+		if ball != null:
+			# Znajdź klucz dla tego zasobu (trochę wolne, ale przy zapisie ok)
+			var found_key = ""
+			for key in ball_data_map:
+				if ball_data_map[key] == ball:
+					found_key = key
+					break
+			if found_key != "":
+				deck_as_strings.append(found_key)
+
+	var save_data = {
+		"current_level": current_level,
+		"owned_balls": owned_balls,      # Zapisujemy listę stringów
+		"current_deck_ids": deck_as_strings, # Zapisujemy listę stringów
+		"level_stars": level_stars, # Zapisujemy słownik gwiazdek
+		"unlocked_power_ups": unlocked_power_ups,
+		"active_power_up": active_power_up
+	}
+
+	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if file:
+		file.store_var(save_data)
+		file.close()
+		print("Zapisano postęp.")
+
+func load_progress() -> void:
+	if not FileAccess.file_exists(SAVE_PATH):
+		print("Brak zapisu, start od nowa.")
+		_ready()
+		return
+
+	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if file:
+		var save_data = file.get_var()
+		file.close()
+
+		if save_data:
+			if save_data.has("current_level"):
+				current_level = save_data.current_level
+
+			if save_data.has("owned_balls"):
+				owned_balls = save_data.owned_balls
+
+			# Odtwórz deck na podstawie zapisanych ID
+			if save_data.has("current_deck_ids"):
+				current_deck.clear()
+				for ball_id in save_data.current_deck_ids:
+					if ball_data_map.has(ball_id):
+						current_deck.append(ball_data_map[ball_id])
+
+			# Wczytaj gwiazdki
+			if save_data.has("level_stars"):
+				level_stars = save_data.level_stars
+				
+			# Power ups
+			if save_data.has("unlocked_power_ups"):
+				unlocked_power_ups = save_data.unlocked_power_ups
+			
+			if save_data.has("active_power_up"):
+				var loaded_power_up: PowerUp = save_data.active_power_up
+				if unlocked_power_ups.has(loaded_power_up):
+					active_power_up = loaded_power_up
+				else:
+					active_power_up = PowerUp.NONE
+
+			# Migration: Unlock new balls if they are missing
+			var new_balls_migration = ["pink"]
+			var need_save = false
+			for ball in new_balls_migration:
+				if ball not in owned_balls:
+					owned_balls.append(ball)
+					need_save = true
+
+			if need_save:
+				save_progress()
+
+
+			print("Wczytano postęp: Poziom ", current_level)
+		else:
+			print("ERROR: Uszkodzony plik zapisu")
+	else:
+		print("ERROR: Nie można otworzyć pliku zapisu")
+
+
+func get_level_path() -> String:
+	var expected_path = "res://scenes/levels/level"+ str(current_level) + "/level" + str(current_level) + ".tscn"
+
+	if ResourceLoader.exists(expected_path):
+		return expected_path
+	else:
+		push_warning("Poziom " + str(current_level) + " nie istnieje! Wracam do poziomu 1.")
+		current_level = 1
+		save_progress()
+		return "res://scenes/levels/level1/level1.tscn"
+
+func set_level(level: int) -> void:
+	current_level = level
+	save_progress()
+
+func advance_level() -> void:
+	current_level += 1
+	save_progress()
+
+# Zapisz gwiazdki dla danego poziomu (tylko jeśli jest lepszy wynik)
+func save_level_stars(level: int, stars: int) -> void:
+	stars = clamp(stars, 0, 3)
+	if not level_stars.has(level) or level_stars[level] < stars:
+		level_stars[level] = stars
+		save_progress()
+		print("Zapisano %d gwiazdek dla poziomu %d" % [stars, level])
+
+# Pobierz liczbę gwiazdek dla danego poziomu (0 jeśli nigdy nie ukończono)
+func get_level_stars(level: int) -> int:
+	return level_stars.get(level, 0)
+
+# Pobierz całkowitą liczbę gwiazdek
+func get_total_stars() -> int:
+	var total = 0
+	for stars in level_stars.values():
+		total += stars
+	return total
+
+func get_ball_id(ball_data: BallData) -> String:
+	for key in ball_data_map:
+		if ball_data_map[key] == ball_data:
+			return key
+
+	return ""

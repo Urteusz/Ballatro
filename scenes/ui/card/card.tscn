@@ -5,9 +5,9 @@
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="3_oic6p"]
 [ext_resource type="Script" uid="uid://cul5khlq0sb3x" path="res://scenes/ui/card/card.gd" id="4_oic6p"]
 [ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="4_xlr6i"]
-[ext_resource type="Shader" uid="uid://bvoh43dcinv1c" path="res://card_shine.gdshader" id="7_vr5dq"]
+[ext_resource type="Shader" uid="uid://bvoh43dcinv1c" path="res://shaders/ui/card_shine.gdshader" id="7_vr5dq"]
 [ext_resource type="Texture2D" uid="uid://d3qey8cts4l0c" path="res://textures/ui/card/ability_icon.png" id="7_xlr6i"]
-[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_qvlte"]
+[ext_resource type="Texture2D" uid="uid://dr7t7awb357c0" path="res://textures/checkerboard.png" id="8_qvlte"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xlr6i"]
 shader = ExtResource("3_oic6p")

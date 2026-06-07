@@ -1,11 +1,11 @@
-[gd_scene load_steps=39 format=4 uid="uid://be3c0wjv58tqv"]
+[gd_scene format=4 uid="uid://be3c0wjv58tqv"]
 
 [ext_resource type="Script" uid="uid://ck73uptij78gx" path="res://scenes/balls/scripts/bouncy_ball.gd" id="1_ethup"]
-[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_akojh"]
-[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_jxina"]
-[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_755q7"]
-[ext_resource type="Texture2D" uid="uid://drj55a8tntep5" path="res://models/Opona_plastic_0022_color_4k.jpg" id="5_7uq08"]
-[ext_resource type="Texture2D" uid="uid://kdsx5gv4esrg" path="res://models/Opona_plastic_0022_normal_4k.jpg" id="6_lg0b5"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/particles/hit_particles/star_particles.tscn" id="2_akojh"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/particles/hit_particles/star_particles_2.tscn" id="3_jxina"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/particles/hit_particles/star_particles_3.tscn" id="4_755q7"]
+[ext_resource type="Texture2D" uid="uid://trlqn3ku2c5u" path="res://models/balls/opona/Opona_plastic_0022_color_4k.jpg" id="5_7uq08"]
+[ext_resource type="Texture2D" uid="uid://b8sryu6ieccab" path="res://models/balls/opona/Opona_plastic_0022_normal_4k.jpg" id="6_lg0b5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rqvfc"]
 bounce = 0.5

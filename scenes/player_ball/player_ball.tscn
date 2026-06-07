@@ -1,11 +1,11 @@
 [gd_scene format=4 uid="uid://yy3aivcgtbfo"]
 
 [ext_resource type="Script" uid="uid://bhf7b5c8nduhe" path="res://scenes/player_ball/player_ball.gd" id="1_655g4"]
-[ext_resource type="PackedScene" uid="uid://baj5seuruwnm" path="res://scenes/balls/dash_effect.tscn" id="2_ee5xf"]
+[ext_resource type="PackedScene" uid="uid://baj5seuruwnm" path="res://scenes/balls/dash_effect/dash_effect.tscn" id="2_ee5xf"]
 [ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="2_flid2"]
 [ext_resource type="Material" uid="uid://dv85qnftk32v1" path="res://materials/dissolve.tres" id="2_yuqhy"]
 [ext_resource type="AudioStream" uid="uid://bwb7trbevom6e" path="res://sounds/Hit_player.wav" id="3_iy30u"]
-[ext_resource type="Script" uid="uid://bp4p2bynhkfgu" path="res://scenes/balls/dash_effect.gd" id="3_m75rw"]
+[ext_resource type="Script" uid="uid://bp4p2bynhkfgu" path="res://scenes/balls/dash_effect/dash_effect.gd" id="3_m75rw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_06ugt"]
 friction = 0.05
@@ -405,7 +405,7 @@ _data = {
 &"dissolve": SubResource("Animation_ee5xf")
 }
 
-[node name="PlayerBall" type="RigidBody3D" unique_id=1274056530 node_paths=PackedStringArray("aim_line") groups=["balls"]]
+[node name="PlayerBall" type="RigidBody3D" unique_id=1274056530 groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 mass = 0.17
@@ -415,7 +415,20 @@ continuous_cd = true
 linear_damp = 0.15
 angular_damp = 0.4
 script = ExtResource("1_655g4")
-aim_line = NodePath("DashEffectPivot/DashEffect/MeshInstance3D")
+max_charge_duration = null
+max_impulse_strength = null
+max_spin_offset = null
+spin_change_speed = null
+spin_indicator_max_offset_visual = null
+weak_charge_color = null
+medium_charge_color = null
+strong_charge_color = null
+aim_line_ray_range = null
+midair_control_force = 4.0
+focus_fov = null
+focus_sensitivity_multiplier = null
+base_value = null
+hit_cooldown = null
 
 [node name="DashEffectPivot" type="Node3D" parent="." unique_id=1564558068]
 script = ExtResource("3_m75rw")

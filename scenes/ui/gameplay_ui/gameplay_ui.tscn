@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ctvxoy867ts7e" path="res://scenes/ui/gameplay_ui/gameplay_ui.gd" id="1_kgdaj"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="3_2mbl5"]
-[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/Button_ingameV2.png" id="3_ya03u"]
-[ext_resource type="Texture2D" uid="uid://cmu4oh7emqhd2" path="res://textures/ui/Button_ingameV2_pressed.png" id="4_opt6b"]
+[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/buttons/Button_ingameV2.png" id="3_ya03u"]
+[ext_resource type="Texture2D" uid="uid://cmu4oh7emqhd2" path="res://textures/ui/buttons/Button_ingameV2_pressed.png" id="4_opt6b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_win_bg"]
 content_margin_left = 24.0

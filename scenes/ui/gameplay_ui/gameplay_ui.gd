@@ -235,7 +235,7 @@ func _on_game_win(score: int, threshold: int) -> void:
 	score_label.add_theme_constant_override("outline_size", 3)
 
 	# Kontener gwiazdek
-	var star_texture = preload("res://textures/star_texture.png")
+	var star_texture = preload("res://textures/ui/star_texture.png")
 	var stars_container = HBoxContainer.new()
 	stars_container.alignment = BoxContainer.ALIGNMENT_CENTER
 	stars_container.add_theme_constant_override("separation", 0)

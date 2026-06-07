@@ -17,12 +17,25 @@ var _is_loading_finished: bool = false
 var _fill_finished: bool = false
 
 func _ready() -> void:
-	player_empty.stream = file_empty
-	player_empty.hide()
-	
 	player_fill.stream = file_fill
-	player_fill.finished.connect(_on_fill_finished)
+	player_empty.stream = file_empty
+
 	player_fill.play()
+	player_empty.play()
+
+	await get_tree().process_frame
+
+	player_fill.paused = true
+	player_empty.paused = true
+	player_empty.stream_position = 0.0
+	player_empty.hide()
+
+	player_fill.finished.connect(_on_fill_finished)
+
+	player_fill.paused = false
+
+func _input(event: InputEvent) -> void:
+	get_viewport().set_input_as_handled()
 
 func _update_progress_bar(new_value: float) -> void:
 	progress_bar.set_value_no_signal(new_value * 100)
@@ -45,13 +58,15 @@ func _check_and_start_outro() -> void:
 
 func _transition_to_empty() -> void:
 	player_empty.show()
-	player_empty.play()
-	
-	await get_tree().process_frame
-	await get_tree().process_frame
+
+	player_empty.paused = false
+
+	if not is_instance_valid(animation_player) or not is_instance_valid(player_fill):
+		return
+
 	animation_player.play("loading_end")
-	
+
 	player_fill.queue_free()
-	
+
 	await player_empty.finished
 	queue_free()

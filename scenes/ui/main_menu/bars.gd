@@ -38,7 +38,7 @@ func _process(delta: float) -> void:
 		element.position = element.position.lerp(target_position, smooth_speed * delta)
 		
 func _on_options_button_pressed() -> void:
-	options.show()
+	options.fade_in()
 	
 func _on_play_button_pressed() -> void:
 	if play_button.disabled: return

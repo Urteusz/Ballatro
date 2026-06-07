@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bq55em6j7gkqd" path="res://scenes/particles/level2_gradient.tres" id="10_ntc21"]
 [ext_resource type="Texture2D" uid="uid://dk2pdlthkn7hb" path="res://scenes/particles/ball_pocketed_gradient.tres" id="11_385ab"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="11_k4vvp"]
-[ext_resource type="ArrayMesh" uid="uid://bred5srnkyl76" path="res://models/dunes.obj" id="11_xqajj"]
+[ext_resource type="ArrayMesh" uid="uid://bred5srnkyl76" path="res://models/level_2/dunes.obj" id="11_xqajj"]
 [ext_resource type="Texture2D" uid="uid://ryuc7kw1tsg3" path="res://textures/dunes_normal.png" id="12_71hwt"]
 [ext_resource type="PackedScene" uid="uid://c5p7wknwk3n87" path="res://scenes/particles/particlePocketLoop1.tscn" id="12_bu1na"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
@@ -308,7 +308,19 @@ height = 0.05
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=2136683101 groups=["playerBall"] instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)
+max_charge_duration = null
+max_impulse_strength = null
+max_spin_offset = null
+spin_change_speed = null
+spin_indicator_max_offset_visual = null
+weak_charge_color = null
+medium_charge_color = null
+strong_charge_color = null
 aim_line_ray_range = 30.0
+focus_fov = null
+focus_sensitivity_multiplier = null
+base_value = null
+hit_cooldown = null
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=18597080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)

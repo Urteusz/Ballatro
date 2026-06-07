@@ -2,21 +2,21 @@
 
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/ui/main_menu/scripts/main_menu.gd" id="1_5seab"]
 [ext_resource type="PackedScene" uid="uid://72pi8chpke0y" path="res://scenes/ui/options_menu/options_menu.tscn" id="1_8i8ns"]
-[ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu3.png" id="1_x2yjq"]
+[ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu/main_menu3.png" id="1_x2yjq"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
-[ext_resource type="Texture2D" uid="uid://06k08nmbrxj1" path="res://textures/ui/Button2New.png" id="3_idvnp"]
+[ext_resource type="Texture2D" uid="uid://06k08nmbrxj1" path="res://textures/ui/buttons/Button2New.png" id="3_idvnp"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_thkx5"]
-[ext_resource type="Texture2D" uid="uid://dj513u6mlteg3" path="res://textures/ui/Button2New_pressed.png" id="4_fnkq8"]
+[ext_resource type="Texture2D" uid="uid://dj513u6mlteg3" path="res://textures/ui/buttons/Button2New_pressed.png" id="4_fnkq8"]
 [ext_resource type="Texture2D" uid="uid://dr7t7awb357c0" path="res://textures/checkerboard.png" id="4_x2yjq"]
-[ext_resource type="Texture2D" uid="uid://m2g2mgjtfq40" path="res://textures/ui/Button2_focused.png" id="5_fnkq8"]
+[ext_resource type="Texture2D" uid="uid://m2g2mgjtfq40" path="res://textures/ui/buttons/Button2_focused.png" id="5_fnkq8"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="5_lqpn7"]
-[ext_resource type="Texture2D" uid="uid://qt1rg2k1d3r" path="res://textures/ui/Button2OptionsNew.png" id="6_fnkq8"]
+[ext_resource type="Texture2D" uid="uid://qt1rg2k1d3r" path="res://textures/ui/buttons/Button2OptionsNew.png" id="6_fnkq8"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_qel0l"]
-[ext_resource type="Texture2D" uid="uid://b2ubga4l4t1b6" path="res://textures/ui/Button2OptionsNew_pressed.png" id="7_fnkq8"]
+[ext_resource type="Texture2D" uid="uid://b2ubga4l4t1b6" path="res://textures/ui/buttons/Button2OptionsNew_pressed.png" id="7_fnkq8"]
 [ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/ui/main_menu/scripts/main_menu_ball.gd" id="7_rrgl4"]
-[ext_resource type="Texture2D" uid="uid://brp2du77yob0s" path="res://textures/ui/ButtonV3Quit.png" id="10_wv6bh"]
-[ext_resource type="Texture2D" uid="uid://c2bqqlu4yt03p" path="res://textures/ui/Button2_quit_focusedt.png" id="11_8i8ns"]
-[ext_resource type="Texture2D" uid="uid://dd1lojh7crfxr" path="res://textures/ui/ButtonV3QuitPressed.png" id="11_g6wm5"]
+[ext_resource type="Texture2D" uid="uid://brp2du77yob0s" path="res://textures/ui/buttons/ButtonV3Quit.png" id="10_wv6bh"]
+[ext_resource type="Texture2D" uid="uid://c2bqqlu4yt03p" path="res://textures/ui/buttons/Button2_quit_focusedt.png" id="11_8i8ns"]
+[ext_resource type="Texture2D" uid="uid://dd1lojh7crfxr" path="res://textures/ui/buttons/ButtonV3QuitPressed.png" id="11_g6wm5"]
 
 [sub_resource type="Theme" id="Theme_5dd4i"]
 
@@ -243,71 +243,71 @@ physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 transform = Transform3D(0.99986196, 0.016614765, 0, -0.01661476, 0.9998618, 0, 0, 0, 0.9999998, -0.064517505, 0.05864166, 0.021059746)
 mesh = SubResource("PlaneMesh_a202f")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base" unique_id=934468716]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
-shape = SubResource("BoxShape3D_noarx")
+[node name="Balls" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D" unique_id=1749134635]
 
-[node name="Balls" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1749134635]
-
-[node name="Ball1" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=173607576 instance=ExtResource("6_qel0l")]
+[node name="Ball1" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=173607576 instance=ExtResource("6_qel0l")]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.92652863, 0.37622428, 0, -0.37622428, 0.92652863, 0, 0.48252046, -0.66541624)
 script = ExtResource("7_rrgl4")
 
-[node name="Ball2" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1752905333 instance=ExtResource("6_qel0l")]
+[node name="Ball2" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1752905333 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.4792326, 0.483, -1.488207)
 script = null
 
-[node name="Ball3" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=226329794 instance=ExtResource("6_qel0l")]
+[node name="Ball3" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=226329794 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0.55276734, 0.483, -1.4892074)
 script = null
 
-[node name="Ball4" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1752691128 instance=ExtResource("6_qel0l")]
+[node name="Ball4" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1752691128 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0, 0.48252046, -2.365305)
 script = null
 
-[node name="Ball5" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=238750024 instance=ExtResource("6_qel0l")]
+[node name="Ball5" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=238750024 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1, 0.48252046, -2.365305)
 script = null
 
-[node name="Ball6" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1878731033 instance=ExtResource("6_qel0l")]
+[node name="Ball6" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1878731033 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1, 0.48252046, -2.365305)
 script = null
 
-[node name="Ball7" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=430262730 instance=ExtResource("6_qel0l")]
+[node name="Ball7" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=430262730 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0.5207674, 0.483, -3.1779747)
 script = null
 
-[node name="Ball8" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=30150718 instance=ExtResource("6_qel0l")]
+[node name="Ball8" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=30150718 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1.5527673, 0.483, -3.178975)
 script = null
 
-[node name="Ball9" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1807616119 instance=ExtResource("6_qel0l")]
+[node name="Ball9" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1807616119 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1.4792325, 0.483, -3.1779747)
 script = null
 
-[node name="Ball10" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1428429884 instance=ExtResource("6_qel0l")]
+[node name="Ball10" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1428429884 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.44723272, 0.483, -3.178975)
 script = null
 
-[node name="Ball11" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1775435346 instance=ExtResource("6_qel0l")]
+[node name="Ball11" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1775435346 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0, 0.48252046, -4)
 script = null
 
-[node name="Ball12" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1059264068 instance=ExtResource("6_qel0l")]
+[node name="Ball12" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1059264068 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1, 0.48252046, -4)
 script = null
 
-[node name="Ball13" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1485844193 instance=ExtResource("6_qel0l")]
+[node name="Ball13" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1485844193 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1, 0.48252046, -4)
 script = null
 
-[node name="Ball14" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1817199742 instance=ExtResource("6_qel0l")]
+[node name="Ball14" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=1817199742 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 2, 0.48252046, -4)
 script = null
 
-[node name="Ball15" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=694564454 instance=ExtResource("6_qel0l")]
+[node name="Ball15" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base/MeshInstance3D/Balls" unique_id=694564454 instance=ExtResource("6_qel0l")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -2, 0.48252046, -4)
 script = null
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base" unique_id=934468716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
+shape = SubResource("BoxShape3D_noarx")
 
 [node name="OptionsMenu" parent="." unique_id=640391713 instance=ExtResource("1_8i8ns")]
 unique_name_in_owner = true

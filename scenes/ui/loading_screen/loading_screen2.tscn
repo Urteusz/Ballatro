@@ -156,6 +156,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stream = ExtResource("3_jgb46")
+speed_scale = 1.5
 autoplay = true
 expand = true
 
@@ -169,5 +170,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stream = ExtResource("4_c00m7")
+speed_scale = 1.8
 autoplay = true
 expand = true

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cd3a3srjaaock"]
+
+[ext_resource type="PackedScene" uid="uid://c64dyw52sg57y" path="res://scenes/deck_picker_2/scroll_container_3d/button_3d.tscn" id="1_g7g4h"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g7g4h"]
+sky_top_color = Color(0.45712084, 0.5858883, 0.924548, 1)
+ground_bottom_color = Color(0.6298173, 0.5608416, 0.48379564, 1)
+
+[sub_resource type="Sky" id="Sky_j8ivh"]
+sky_material = SubResource("ProceduralSkyMaterial_g7g4h")
+
+[sub_resource type="Environment" id="Environment_nd71p"]
+background_mode = 2
+sky = SubResource("Sky_j8ivh")
+
+[node name="TestScene" type="Node3D" unique_id=1510917308]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=509841014]
+transform = Transform3D(0.5461321, -0.22594815, 0.80665195, 0, 0.9629376, 0.26972473, -0.83769906, -0.14730532, 0.5258911, 2.0533295, 0.6213557, 0.71761274)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D" unique_id=462332734]
+environment = SubResource("Environment_nd71p")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1382835061]
+
+[node name="Button3D" parent="." unique_id=2048320835 instance=ExtResource("1_g7g4h")]

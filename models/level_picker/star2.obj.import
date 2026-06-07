@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cvrcmswri281a"
+path="res://.godot/imported/star2.obj-ebb501270f75d620828d614c9359c7aa.mesh"
+
+[deps]
+
+files=["res://.godot/imported/star2.obj-ebb501270f75d620828d614c9359c7aa.mesh"]
+
+source_file="res://models/level_picker/star2.obj"
+dest_files=["res://.godot/imported/star2.obj-ebb501270f75d620828d614c9359c7aa.mesh", "res://.godot/imported/star2.obj-ebb501270f75d620828d614c9359c7aa.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

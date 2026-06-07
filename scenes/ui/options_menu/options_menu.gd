@@ -36,6 +36,7 @@ signal options_closed
 
 @onready var quit_button = %QuitButton if has_node("%QuitButton") else null
 @onready var reset_button = %ResetButton if has_node("%ResetButton") else null
+@onready var root_ui = $Background
 
 # Confirm dialog nodes
 @onready var confirm_dialog = %ConfirmDialog
@@ -53,6 +54,9 @@ var _backup_graphics_settings: Dictionary = {}
 var _countdown_time: int = COUNTDOWN_LENGTH
 
 func _ready():
+	root_ui.modulate.a = 0.0
+	visible = false
+	
 	apply_button.pressed.connect(_on_apply_pressed)
 	
 	pad_sensitivity_slider.value_changed.connect(_on_pad_sensitivity_slider_value_changed)
@@ -433,7 +437,7 @@ func _on_apply_pressed() -> void:
 		_start_confirmation_countdown()
 
 func _on_back_pressed() -> void:
-	hide()
+	fade_out()
 	focused = false
 	options_closed.emit()
 
@@ -548,3 +552,15 @@ func _on_confirm_revert() -> void:
 	
 	load_current_settings()
 	apply_button.grab_focus()
+
+func fade_in() -> void:
+	visible = true
+	root_ui.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(root_ui, "modulate:a", 1.0, 0.3).set_trans(Tween.TRANS_CUBIC)
+
+func fade_out() -> void:
+	var tween = create_tween()
+	tween.tween_property(root_ui, "modulate:a", 0.0, 0.3).set_trans(Tween.TRANS_CUBIC)
+	await tween.finished
+	visible = false

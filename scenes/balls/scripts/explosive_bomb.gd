@@ -141,6 +141,7 @@ func _flash_hit_ball(body: Node) -> void:
 
 
 func _camera_shake() -> void:
+	return
 	var camera := get_viewport().get_camera_3d()
 	if not camera:
 		return

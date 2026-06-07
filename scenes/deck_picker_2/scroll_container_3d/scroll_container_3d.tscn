@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://jwfu8lyjro4g"]
+
+[ext_resource type="Script" uid="uid://0n03x6dsivht" path="res://scenes/deck_picker_2/scroll_container_3d/scroll_container_3d.gd" id="1_fqwqg"]
+
+[node name="ScrollContainer3D" type="Node3D" unique_id=1987545333]
+script = ExtResource("1_fqwqg")

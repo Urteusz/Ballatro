@@ -61,15 +61,17 @@ func _on_resume_button_pressed() -> void:
 	_toggle_pause()
 
 func _on_change_level_button_pressed() -> void:
+	hide()
 	get_tree().paused = false
 	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
 func _on_options_button_pressed() -> void:
 	get_tree().paused = false
 	hide()
-	options.show()
+	options.fade_in()
 
 func _on_main_menu_button_pressed() -> void:
+	hide()	
 	get_tree().paused = false
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
 

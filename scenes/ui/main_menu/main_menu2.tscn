@@ -147,7 +147,7 @@ offset_right = 784.0
 offset_bottom = 200.0
 scale = Vector2(1.125, 1)
 mouse_filter = 1
-color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+color = Color(0.047058824, 0.047058824, 0.05490196, 1)
 
 [node name="PlayButton" type="Button" parent="CanvasLayer/Control" unique_id=754819864]
 unique_name_in_owner = true
@@ -182,7 +182,7 @@ offset_top = 300.0
 offset_right = 784.0
 offset_bottom = 400.0
 mouse_filter = 1
-color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+color = Color(0.047058824, 0.047058824, 0.05490196, 1)
 
 [node name="OptionsButton" type="Button" parent="CanvasLayer/Control" unique_id=166959571]
 unique_name_in_owner = true
@@ -216,7 +216,7 @@ offset_right = 784.0
 offset_bottom = 600.0
 scale = Vector2(0.89180523, 1.0031849)
 mouse_filter = 1
-color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+color = Color(0.047058824, 0.047058824, 0.05490196, 1)
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Control" unique_id=556157948]
 unique_name_in_owner = true
@@ -237,7 +237,7 @@ offset_top = 699.7934
 offset_right = 838.878
 offset_bottom = 799.7934
 mouse_filter = 1
-color = Color(0.03529412, 0.03529412, 0.039215688, 1)
+color = Color(0.047058824, 0.047058824, 0.05490196, 1)
 
 [node name="ColorRect9" type="ColorRect" parent="CanvasLayer/Control" unique_id=261317945]
 z_index = -2

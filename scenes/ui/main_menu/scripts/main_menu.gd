@@ -31,7 +31,7 @@ func _on_play_button_pressed() -> void:
 
 
 func _on_options_button_pressed() -> void:
-	options.show()
+	options.fade_in()
 
 func _on_quit_button_pressed() -> void:
 	_lock_buttons() 

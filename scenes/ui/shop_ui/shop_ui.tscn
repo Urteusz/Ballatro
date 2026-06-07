@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bx3yeygfw7ttj" path="res://scenes/ui/shop_ui/scripts/shop_ui.gd" id="1_67u7h"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="2_lbg84"]
 [ext_resource type="PackedScene" uid="uid://c8j6y7l0q4f1" path="res://scenes/ui/shop_ui/ShoppingCard.tscn" id="2_p6g4p"]
-[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/Button_ingameV2.png" id="4_sqvdq"]
-[ext_resource type="Texture2D" uid="uid://cmu4oh7emqhd2" path="res://textures/ui/Button_ingameV2_pressed.png" id="5_fuk00"]
+[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/buttons/Button_ingameV2.png" id="4_sqvdq"]
+[ext_resource type="Texture2D" uid="uid://cmu4oh7emqhd2" path="res://textures/ui/buttons/Button_ingameV2_pressed.png" id="5_fuk00"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_v1umv"]
 font_size = 45

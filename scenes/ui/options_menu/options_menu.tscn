@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://72pi8chpke0y"]
 
 [ext_resource type="Script" uid="uid://b1glugmu2j1dd" path="res://scenes/ui/options_menu/options_menu.gd" id="1_sglii"]
-[ext_resource type="Texture2D" uid="uid://kkeoe4ggk7um" path="res://textures/ui/ButtonReturn.png" id="4_w8s0e"]
-[ext_resource type="Texture2D" uid="uid://bgfnovshdkokt" path="res://textures/ui/ButtonReturn_pressed.png" id="5_iu3f6"]
+[ext_resource type="Texture2D" uid="uid://kkeoe4ggk7um" path="res://textures/ui/buttons/ButtonReturn.png" id="4_w8s0e"]
+[ext_resource type="Texture2D" uid="uid://bgfnovshdkokt" path="res://textures/ui/buttons/ButtonReturn_pressed.png" id="5_iu3f6"]
 
 [sub_resource type="Theme" id="Theme_kyv63"]
 default_font_size = 32

@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://c64dyw52sg57y"]
+
+[ext_resource type="Shader" uid="uid://cwqcahiur68xn" path="res://scenes/deck_picker_2/scroll_container_3d/button_3d.gdshader" id="1_8fcfx"]
+[ext_resource type="Script" uid="uid://cqvffw5r4r52i" path="res://scenes/deck_picker_2/scroll_container_3d/button_3d.gd" id="1_s252s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s252s"]
+size = Vector3(1.5, 0.5, 0.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s252s"]
+render_priority = 0
+shader = ExtResource("1_8fcfx")
+shader_parameter/albedo_color = Color(0.5019608, 0.6392157, 0.7921569, 1)
+shader_parameter/z_offset = 0.0
+shader_parameter/fade_min_distance = 0.5
+shader_parameter/fade_max_distance = 1.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_t64v6"]
+size = Vector3(1.5, 0.5, 0.2)
+
+[node name="Button3D" type="Area3D" unique_id=2048320835]
+script = ExtResource("1_s252s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1692816550]
+shape = SubResource("BoxShape3D_s252s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=40124150]
+material_override = SubResource("ShaderMaterial_s252s")
+mesh = SubResource("BoxMesh_t64v6")
+
+[node name="Label3D" type="Label3D" parent="MeshInstance3D" unique_id=2059133423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.11)
+text = "Label
+"
+font_size = 64
+outline_size = 0

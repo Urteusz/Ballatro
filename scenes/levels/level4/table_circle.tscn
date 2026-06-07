@@ -1,9 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://b6sl1551kxo1e"]
+[gd_scene format=3 uid="uid://b6sl1551kxo1e"]
 
-[ext_resource type="ArrayMesh" uid="uid://c225jign8gb1d" path="res://models/table_circle.obj" id="1_50em6"]
-[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="2_4lkns"]
-[ext_resource type="ArrayMesh" uid="uid://csngphs5p0b8g" path="res://models/table_circle/table_circle_rim.obj" id="3_4lkns"]
-[ext_resource type="ArrayMesh" uid="uid://b2vxb1x4hfqm5" path="res://models/table_circle/table_circle_walls.obj" id="4_gnhkh"]
+[ext_resource type="ArrayMesh" uid="uid://c225jign8gb1d" path="res://models/level_4/table_circle.obj" id="1_50em6"]
+[ext_resource type="Texture2D" uid="uid://dr7t7awb357c0" path="res://textures/checkerboard.png" id="2_4lkns"]
+[ext_resource type="ArrayMesh" uid="uid://csngphs5p0b8g" path="res://models/level_4/table_level_4/table_circle_rim.obj" id="3_4lkns"]
+[ext_resource type="ArrayMesh" uid="uid://b2vxb1x4hfqm5" path="res://models/level_4/table_level_4/table_circle_walls.obj" id="4_gnhkh"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="5_kka0b"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="6_kka0b"]
 

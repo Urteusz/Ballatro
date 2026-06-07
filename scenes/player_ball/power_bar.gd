@@ -12,7 +12,7 @@ const TICK_HEIGHT: float = 0.012
 const TICK_OUTLINE: float = 0.006
 
 var overlay_shader: Shader = preload("res://shaders/overlay.gdshader")
-var gradient_shader: Shader = preload("res://shaders/power_bar_gradient.gdshader")
+var gradient_shader: Shader = preload("res://shaders/ui/power_bar_gradient.gdshader")
 
 var bar_bg: MeshInstance3D = null
 var marker: MeshInstance3D = null

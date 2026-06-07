@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cp8o3u2wu13ip"]
+
+[ext_resource type="Script" uid="uid://44dkpud0gsax" path="res://scenes/deck_picker_2/inventory_item.gd" id="1_g6c8p"]
+
+[node name="InventoryItem" type="Button" unique_id=546761962]
+custom_minimum_size = Vector2(600, 100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_disabled_color = Color(0.38928732, 0.38928628, 0.38928664, 0.5019608)
+theme_override_font_sizes/font_size = 64
+script = ExtResource("1_g6c8p")

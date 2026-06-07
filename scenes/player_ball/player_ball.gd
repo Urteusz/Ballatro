@@ -1,47 +1,38 @@
 extends BallParent
 
-# Progi prędkości dla możliwości strzelania
 const SHOOTABLE_VELOCITY_THRESHOLD: float = 3.0
 const SHOOTABLE_ANGULAR_THRESHOLD: float = 2.0
 
-# Minimalna prędkość po której uznajemy, że kula CAŁKOWICIE stoi
 const FULL_STOP_THRESHOLD: float = 0.1
 const FULL_STOP_ANGULAR_THRESHOLD: float = 0.15
 
-# Stałe uderzenia
 const MIN_IMPULSE: float = 0.2
 
-# Power bar & crosshair scenes
 const POWER_BAR_OFFSET_RIGHT: float = 1.0
 const POWER_BAR_CYCLE_SPEED: float = 1.4
 var PowerBarScene: PackedScene = preload("res://scenes/player_ball/power_bar.tscn")
 var CrosshairScene: PackedScene = preload("res://scenes/player_ball/spin_crosshair.tscn")
 
-# Stałe fizyki podkręcania
 const SPIN_CURVE_FORCE: float = 4.5
 const SPIN_DECAY: float = 0.4
 const SPIN_TORQUE_MULT: float = 0.015
 const VERTICAL_SPIN_FORCE: float = 3.0
 const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
-# Ustawienia uderzenia
 @export var max_charge_duration: float = 1.5
 @export var max_impulse_strength: float = 4.0
 
-# Ustawienia podkręcenia
 @export var max_spin_offset: float = 0.7 
 @export var spin_change_speed: float = 1.8 
 @export var spin_indicator_max_offset_visual: float = 0.5
 
-# Kolory paska mocy
 @export var weak_charge_color := Color(0.1, 1.0, 0.2, 0.95)
 @export var medium_charge_color := Color(1.0, 1.0, 0.0, 0.95)
 @export var strong_charge_color := Color(1.0, 0.1, 0.0, 0.95)
 
-# Długość lini pomocniczej
 @export var aim_line_ray_range: float = 20.0
+@export var midair_control_force: float = 8.0
 
-# Ścieżki
 @onready var collision_shape := $CollisionShape3D
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
@@ -49,13 +40,11 @@ const ROLLING_RESISTANCE_FACTOR: float = 0.15
 @onready var meshBlack = $MeshInstance3D
 @onready var meshGold = $MeshInstance3DGold
 
-# Dash effect animation
 @onready var dash_effect := $DashEffectPivot/DashEffect
 @onready var dash_animator := $DashEffectPivot/DashEffect/AnimationPlayer
 
 var camera: Camera3D = null
 
-# Power bar
 var power_bar_root: Node3D = null
 var current_power_ratio: float = 0.0
 var charging: bool = false
@@ -63,33 +52,28 @@ var charge_timer: float = 0.0
 var hit_position: Vector3
 var aimed_at_ball: BallParent = null
 
-# Celownik
 var crosshair: MeshInstance3D = null
 var is_grounded: bool = false
 var can_shoot_flag: bool = true
 
-# Zmienne podkręcenia
 var spin_factor: float = 0.0
 var vertical_spin_factor: float = 0.0
 var spin_active: bool = false
 
-# Sygnały
 signal ball_pushed(impulse_power: float)
 signal charging_cancelled
 signal turn_started
 signal shoot_requested
 
-# power up
-var has_midair_shot: bool = true
 var midair_shot_used_this_turn: bool = false
 var is_in_slow_motion: bool = false
 var slow_motion_scale: float = 0.05
 var original_fov: float = 75.0
 
+# Handles transparency when camera is focused
+var mesh_tween: Tween
+
 func _ready() -> void:
-	# temp
-	has_midair_shot = true
-	
 	if PlayerData.get_total_stars() == 21:
 		print_debug("Dupa")
 		meshGold.visible = true
@@ -101,6 +85,8 @@ func _ready() -> void:
 		push_error("Error: No camera found.")
 		set_process(false)
 		return
+	
+	original_fov = camera.fov
 
 	power_bar_root = PowerBarScene.instantiate()
 	add_child(power_bar_root)
@@ -131,6 +117,11 @@ func _input(event) -> void:
 	if !is_inside_tree():
 		return
 		
+	if event.is_action_pressed("focus"):
+		_set_focus_visuals(true)
+	elif event.is_action_released("focus"):
+		_set_focus_visuals(false)
+		
 	if charging:
 		if event.is_action_pressed("cancel_charging"):
 			if power_bar_root:
@@ -150,12 +141,16 @@ func _input(event) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("powerup"):
-		if has_midair_shot and not midair_shot_used_this_turn and linear_velocity.length() > 0.5 and not is_in_slow_motion:
-			_enter_slow_motion()
-			get_viewport().set_input_as_handled()
-			return
+		match PlayerData.active_power_up:
+			PlayerData.PowerUp.MIDAIR_DASH:
+				if not midair_shot_used_this_turn and linear_velocity.length() > 0.5 and not is_in_slow_motion:
+					_enter_slow_motion()
+					get_viewport().set_input_as_handled()
+					return
+			_:
+				return
 	
-	if is_in_slow_motion and event.is_action_pressed("push_ball"):
+	if is_in_slow_motion and (event.is_action_pressed("push_ball") or event.is_action_pressed("powerup")):
 		_execute_midair_shot()
 		get_viewport().set_input_as_handled()
 		return
@@ -189,6 +184,30 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		var angular_diff = target_angular - current_angular
 		if abs(angular_diff) > 0.2:
 			state.apply_torque(rotation_axis * angular_diff * ROLLING_RESISTANCE_FACTOR)
+
+	if PlayerData.active_power_up == PlayerData.PowerUp.MIDAIR_CONTROL \
+		and not is_grounded and camera:
+		var control_input = Vector2.ZERO
+		if Input.is_physical_key_pressed(KEY_W):
+			control_input.y += 1.0
+		if Input.is_physical_key_pressed(KEY_S):
+			control_input.y -= 1.0
+		if Input.is_physical_key_pressed(KEY_A):
+			control_input.x -= 1.0
+		if Input.is_physical_key_pressed(KEY_D):
+			control_input.x += 1.0
+			
+		if control_input.length() > 0:
+			var cam_basis = camera.global_transform.basis
+			var forward = -cam_basis.z
+			forward.y = 0
+			forward = forward.normalized()
+			var right = cam_basis.x
+			right.y = 0
+			right = right.normalized()
+			
+			var force_dir = (forward * control_input.y + right * control_input.x).normalized()
+			state.apply_central_force(force_dir * midair_control_force)
 
 func can_shoot() -> bool:
 	if !camera:
@@ -482,7 +501,7 @@ func _execute_midair_shot() -> void:
 	tween.parallel().tween_property(active_mesh, "transparency", 0.0, 0.2)
 	
 	var dash_direction = -camera.global_transform.basis.z.normalized()
-	var dash_power = max_impulse_strength
+	var dash_power = max_impulse_strength * 1.8
 	var impulse_position = -dash_direction * ball_radius
 	
 	if audioStream:
@@ -492,7 +511,23 @@ func _execute_midair_shot() -> void:
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 	apply_impulse(dash_direction * dash_power, impulse_position)
-	emit_signal("ball_pushed", dash_power)
+
+func _set_focus_visuals(enabled: bool) -> void:
+	if is_in_slow_motion:
+		return
+	
+	if camera and camera.has_method("set_focus"):
+		camera.set_focus(enabled)
+		
+	if mesh_tween and mesh_tween.is_valid():
+		mesh_tween.kill()
+		
+	mesh_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	var target_transparency = 0.6 if enabled else 0.0
+	var active_mesh = meshGold if meshGold.visible else meshBlack
+	
+	if is_instance_valid(active_mesh):
+		mesh_tween.tween_property(active_mesh, "transparency", target_transparency, 0.2)	
 	
 func _exit_tree() -> void:
 	if Engine.time_scale != 1.0:

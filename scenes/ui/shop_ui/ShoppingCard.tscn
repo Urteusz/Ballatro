@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://duh4i8yd1aby6" path="res://scenes/ui/shop_ui/scripts/shopping_card.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://llnnq31pjuch" path="res://scenes/ui/card/card.tscn" id="2_cardscene"]
-[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/Button_ingameV2.png" id="3_sxi0c"]
+[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/buttons/Button_ingameV2.png" id="3_sxi0c"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_panel"]
 

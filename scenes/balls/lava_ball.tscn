@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dk55pnqni5fot"]
 
 [ext_resource type="Script" uid="uid://b106p7yinq2yv" path="res://scenes/balls/scripts/lava_ball.gd" id="1_pl3vm"]
-[ext_resource type="Shader" uid="uid://ckdhmv04xfhh0" path="res://lava.gdshader" id="2_a5kow"]
-[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_pl3vm"]
+[ext_resource type="Shader" uid="uid://ckdhmv04xfhh0" path="res://shaders/balls/lava.gdshader" id="2_a5kow"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/particles/hit_particles/star_particles.tscn" id="2_pl3vm"]
 [ext_resource type="PackedScene" uid="uid://bb5luh1qm20ua" path="res://scenes/particles/flameParticles.tscn" id="2_qj0wm"]
-[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_qj0wm"]
-[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_c21uv"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/particles/hit_particles/star_particles_2.tscn" id="3_qj0wm"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/particles/hit_particles/star_particles_3.tscn" id="4_c21uv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_l8kdm"]
 friction = 0.05
