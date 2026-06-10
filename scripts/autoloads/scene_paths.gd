@@ -1,6 +1,7 @@
 extends Node
 
 const MAIN_MENU_PATH: String = "res://scenes/ui/main_menu/main_menu.tscn"
+const MAIN_MENU_NEW: String = "res://scenes/ui/main_menu/main_menu2.tscn"
 const OPTIONS_MENU_PATH: String = "res://scenes/ui/options_menu/options_menu.tscn"
 const POINTS_POPUP_PATH: String = "res://scenes/ui/points_popup/points_popup.tscn"
 const LOADING_SCREEN_PATH: String = "res://scenes/ui/loading_screen/loading_screen.tscn"

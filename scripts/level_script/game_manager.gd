@@ -3,7 +3,7 @@ extends Node3D
 const BALLS_GROUP = "balls"
 
 @export var default_level_move_count: int = 10
-@export var player_ball: RigidBody3D
+@export var player_ball: PlayerBall
 @export var shop_ui: Control
 @export var gameplay_ui: Control
 @export var returnPoint: Node3D

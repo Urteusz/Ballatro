@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cqqqlcny2t3v2"]
 
+[ext_resource type="Texture2D" uid="uid://dpr1c3yldh3yh" path="res://textures/logo (20260610081334).png" id="3_gpxwu"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="11_dshgm"]
 [ext_resource type="Script" uid="uid://dxovafvsjsk36" path="res://scenes/ui/main_menu/impulse.gd" id="11_hnsyg"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="12_gpff5"]
@@ -24,6 +25,9 @@ bg_color = Color(0.77254903, 0.8117647, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fskk0"]
 bg_color = Color(0.48235294, 0.5294118, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxrfh"]
+bg_color = Color(0.52156866, 0.57254905, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnsyg"]
 bg_color = Color(0.48235294, 0.5294118, 1, 1)
 
@@ -36,6 +40,9 @@ bg_color = Color(0.6408799, 0.69159234, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5pch"]
 bg_color = Color(0.48235294, 0.5294118, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qeatw"]
+bg_color = Color(0.52149326, 0.5708259, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fc4go"]
 bg_color = Color(0.99322504, 0.44027704, 0.45579976, 1)
 
@@ -47,6 +54,9 @@ bg_color = Color(0.9926091, 0.6164776, 0.6857407, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vtgy"]
 bg_color = Color(0.99215686, 0.4392157, 0.45490196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fbli4"]
+bg_color = Color(0.99215686, 0.6156863, 0.6862745, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -131,7 +141,6 @@ rotation = -0.3926991
 scale = Vector2(2, 2)
 mouse_filter = 2
 script = ExtResource("18_cxrfh")
-effect_radius = 100.0
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control" unique_id=3807703]
 layout_mode = 0
@@ -147,34 +156,36 @@ offset_right = 784.0
 offset_bottom = 200.0
 scale = Vector2(1.125, 1)
 mouse_filter = 1
-color = Color(0.047058824, 0.047058824, 0.05490196, 1)
+color = Color(0.48235294, 0.5294118, 1, 1)
 
 [node name="PlayButton" type="Button" parent="CanvasLayer/Control" unique_id=754819864]
 unique_name_in_owner = true
 layout_mode = 0
 offset_top = 200.0
-offset_right = 784.0
+offset_right = 731.95
 offset_bottom = 300.0
-scale = Vector2(0.9349356, 1.0054473)
 mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxFlat_jat3p")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_3ihvb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gpxwu")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_fskk0")
+theme_override_styles/focus = SubResource("StyleBoxFlat_cxrfh")
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/PlayButton" unique_id=709997092]
 z_index = 2
 texture_filter = 1
-custom_minimum_size = Vector2(1.92, 0)
+custom_minimum_size = Vector2(9.58, 0)
 layout_mode = 0
-offset_left = 473.90237
-offset_top = 15.91
-offset_right = 773.90234
-offset_bottom = 80.91
+offset_left = 566.344
+offset_top = 1.215
+offset_right = 718.1309
+offset_bottom = 82.95636
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 75
-text = "Single Player"
+text = "Play"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ColorRect4" type="ColorRect" parent="CanvasLayer/Control" unique_id=419660135]
 layout_mode = 0
@@ -182,32 +193,34 @@ offset_top = 300.0
 offset_right = 784.0
 offset_bottom = 400.0
 mouse_filter = 1
-color = Color(0.047058824, 0.047058824, 0.05490196, 1)
+color = Color(0.48235294, 0.5294118, 1, 1)
 
 [node name="OptionsButton" type="Button" parent="CanvasLayer/Control" unique_id=166959571]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 1.991128
 offset_top = 400.22754
-offset_right = 785.99115
+offset_right = 672.01117
 offset_bottom = 500.22754
-scale = Vector2(0.864, 1.01)
 theme_override_styles/normal = SubResource("StyleBoxFlat_hnsyg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pgl7k")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hhtnp")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_k5pch")
+theme_override_styles/focus = SubResource("StyleBoxFlat_qeatw")
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/OptionsButton" unique_id=1469903880]
 z_index = 2
-texture_filter = 1
+texture_filter = 5
 custom_minimum_size = Vector2(1.92, 0)
 layout_mode = 0
-offset_left = 589.5247
-offset_top = 19.203924
-offset_right = 785.5247
-offset_bottom = 84.203926
+offset_left = 483.77057
+offset_top = 0.14171648
+offset_right = 679.7706
+offset_bottom = 91.141716
 theme_override_font_sizes/font_size = 75
 text = "Options "
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ColorRect6" type="ColorRect" parent="CanvasLayer/Control" unique_id=1199644621]
 layout_mode = 0
@@ -216,7 +229,7 @@ offset_right = 784.0
 offset_bottom = 600.0
 scale = Vector2(0.89180523, 1.0031849)
 mouse_filter = 1
-color = Color(0.047058824, 0.047058824, 0.05490196, 1)
+color = Color(0.48235294, 0.5294118, 1, 1)
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Control" unique_id=556157948]
 unique_name_in_owner = true
@@ -229,6 +242,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_fc4go")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_p5aim")
 theme_override_styles/hover = SubResource("StyleBoxFlat_m1pej")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_5vtgy")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fbli4")
 
 [node name="ColorRect8" type="ColorRect" parent="CanvasLayer/Control" unique_id=1382073183]
 layout_mode = 0
@@ -237,7 +251,7 @@ offset_top = 699.7934
 offset_right = 838.878
 offset_bottom = 799.7934
 mouse_filter = 1
-color = Color(0.047058824, 0.047058824, 0.05490196, 1)
+color = Color(0.48235294, 0.5294118, 1, 1)
 
 [node name="ColorRect9" type="ColorRect" parent="CanvasLayer/Control" unique_id=261317945]
 z_index = -2
@@ -262,11 +276,12 @@ color = Color(0.8902203, 0.90719837, 0.95888036, 1)
 
 [node name="ColorRect11" type="ColorRect" parent="CanvasLayer/Control" unique_id=774988152]
 z_index = -2
+texture_filter = 5
 layout_mode = 0
 offset_left = 14.674463
 offset_top = 214.2221
 offset_right = 798.67444
-offset_bottom = 314.2221
+offset_bottom = 299.95282
 scale = Vector2(0.9349356, 1.0054473)
 mouse_filter = 2
 color = Color(0.8902203, 0.90719837, 0.95888036, 1)
@@ -287,7 +302,7 @@ layout_mode = 0
 offset_left = 14.674464
 offset_top = 414.2221
 offset_right = 798.67444
-offset_bottom = 514.2221
+offset_bottom = 502.8493
 scale = Vector2(0.855, 1)
 mouse_filter = 2
 color = Color(0.8902203, 0.90719837, 0.95888036, 1)
@@ -341,6 +356,15 @@ offset_right = 798.8728
 offset_bottom = 912.0531
 mouse_filter = 2
 color = Color(0.8902203, 0.90719837, 0.95888036, 1)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=444225169]
+offset_left = 953.0
+offset_top = 520.0
+offset_right = 3729.0
+offset_bottom = 2082.0
+scale = Vector2(0.35039943, 0.35039943)
+mouse_filter = 2
+texture = ExtResource("3_gpxwu")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=377743824]
 texture_filter = 1

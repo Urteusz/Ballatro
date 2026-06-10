@@ -1,4 +1,5 @@
 extends BallParent
+class_name PlayerBall
 
 const SHOOTABLE_VELOCITY_THRESHOLD: float = 3.0
 const SHOOTABLE_ANGULAR_THRESHOLD: float = 2.0
@@ -185,29 +186,29 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if abs(angular_diff) > 0.2:
 			state.apply_torque(rotation_axis * angular_diff * ROLLING_RESISTANCE_FACTOR)
 
-	if PlayerData.active_power_up == PlayerData.PowerUp.MIDAIR_CONTROL \
-		and not is_grounded and camera:
-		var control_input = Vector2.ZERO
-		if Input.is_physical_key_pressed(KEY_W):
-			control_input.y += 1.0
-		if Input.is_physical_key_pressed(KEY_S):
-			control_input.y -= 1.0
-		if Input.is_physical_key_pressed(KEY_A):
-			control_input.x -= 1.0
-		if Input.is_physical_key_pressed(KEY_D):
-			control_input.x += 1.0
-			
-		if control_input.length() > 0:
-			var cam_basis = camera.global_transform.basis
-			var forward = -cam_basis.z
-			forward.y = 0
-			forward = forward.normalized()
-			var right = cam_basis.x
-			right.y = 0
-			right = right.normalized()
-			
-			var force_dir = (forward * control_input.y + right * control_input.x).normalized()
-			state.apply_central_force(force_dir * midair_control_force)
+	#if PlayerData.active_power_up == PlayerData.PowerUp.MIDAIR_CONTROL \
+		#and not is_grounded and camera:
+		#var control_input = Vector2.ZERO
+		#if Input.is_physical_key_pressed(KEY_W):
+			#control_input.y += 1.0
+		#if Input.is_physical_key_pressed(KEY_S):
+			#control_input.y -= 1.0
+		#if Input.is_physical_key_pressed(KEY_A):
+			#control_input.x -= 1.0
+		#if Input.is_physical_key_pressed(KEY_D):
+			#control_input.x += 1.0
+			#
+		#if control_input.length() > 0:
+			#var cam_basis = camera.global_transform.basis
+			#var forward = -cam_basis.z
+			#forward.y = 0
+			#forward = forward.normalized()
+			#var right = cam_basis.x
+			#right.y = 0
+			#right = right.normalized()
+			#
+			#var force_dir = (forward * control_input.y + right * control_input.x).normalized()
+			#state.apply_central_force(force_dir * midair_control_force)
 
 func can_shoot() -> bool:
 	if !camera:
@@ -501,7 +502,7 @@ func _execute_midair_shot() -> void:
 	tween.parallel().tween_property(active_mesh, "transparency", 0.0, 0.2)
 	
 	var dash_direction = -camera.global_transform.basis.z.normalized()
-	var dash_power = max_impulse_strength * 1.8
+	var dash_power = max_impulse_strength * 1.2
 	var impulse_position = -dash_direction * ball_radius
 	
 	if audioStream:

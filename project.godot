@@ -57,6 +57,7 @@ playerBall=""
 
 [gui]
 
+theme/default_font_multichannel_signed_distance_field=true
 theme/custom_font="uid://vcecbwh0vav0"
 
 [input]

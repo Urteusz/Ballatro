@@ -5,10 +5,45 @@ signal ball_swapped(inventory_ball_data)
 @export var spread: float = 1.0
 @export var ball_radius: float = 0.5
 
+@export_group("Scroll Settings")
+@export var scroll_speed: float  = 15.0
+@export var edge_scroll_margin: float = 100.0
+@export var scroll_smoothing: float = 10.0
+
+var initial_global_pos: Vector3
+var max_scroll_distance: float = 0.0
+var target_scroll_x: float = 0.0
+var current_scroll_x: float = 0.0
+
 func _ready() -> void:
+	initial_global_pos = global_position
 	spawn_unequipped_balls()
 
-func spawn_unequipped_balls() -> void:
+func _process(delta: float) -> void:
+	if max_scroll_distance <= 0:
+		return
+	
+	var scroll_dir := 0.0
+	var viewport = get_viewport()
+	
+	if viewport:
+		var mouse_pos = viewport.get_mouse_position()
+		var vp_size = viewport.get_visible_rect().size
+		
+		if mouse_pos.x < edge_scroll_margin:
+			scroll_dir = 1.0
+		elif mouse_pos.x > vp_size.x - edge_scroll_margin:
+			scroll_dir = -1.0
+	
+	target_scroll_x += scroll_dir * scroll_speed * delta
+	target_scroll_x = clamp(target_scroll_x, -max_scroll_distance, max_scroll_distance)
+	
+	current_scroll_x = lerp(current_scroll_x, target_scroll_x, scroll_smoothing * delta)
+	
+	var right_vector = global_transform.basis.x.normalized()
+	global_position = initial_global_pos + (right_vector * current_scroll_x)
+	
+func spawn_unequipped_balls() -> void:	
 	var unequipped_balls: Array[BallData] = []
 	
 	for ball_name in PlayerData.owned_balls:
@@ -19,10 +54,13 @@ func spawn_unequipped_balls() -> void:
 		
 	var num_balls = unequipped_balls.size()
 	if num_balls == 0:
+		max_scroll_distance = 0.0
 		return
 		
+	max_scroll_distance = max(0.0, (float(num_balls - 1) / 2.0) * spread)
+		
 	var base_transform := global_transform
-	var base_position := base_transform.origin
+	var base_position := initial_global_pos
 	var right_vector := base_transform.basis.x
 	var up_vector := base_transform.basis.y
 	
@@ -123,6 +161,10 @@ func _on_inventory_ball_pressed(_camera, event, _pos, _normal, _shape, ball_inst
 		ball_swapped.emit(ball_data)
 
 func refresh_inventory() -> void:
+	target_scroll_x = 0.0
+	current_scroll_x = 0.0
+	global_position = initial_global_pos
+	
 	for child in get_children():
 		if child.has_meta("ball_data"):
 			child.queue_free()

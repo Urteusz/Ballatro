@@ -95,6 +95,9 @@ uv1_scale = Vector3(-0.125, -0.125, -0.125)
 uv1_triplanar = true
 uv2_scale = Vector3(-5.76, -5.76, -5.76)
 texture_filter = 0
+distance_fade_mode = 2
+distance_fade_min_distance = 1.0
+distance_fade_max_distance = 1.0
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mersw"]
 friction = 0.15
@@ -308,19 +311,7 @@ height = 0.05
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=2136683101 groups=["playerBall"] instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)
-max_charge_duration = null
-max_impulse_strength = null
-max_spin_offset = null
-spin_change_speed = null
-spin_indicator_max_offset_visual = null
-weak_charge_color = null
-medium_charge_color = null
-strong_charge_color = null
 aim_line_ray_range = 30.0
-focus_fov = null
-focus_sensitivity_multiplier = null
-base_value = null
-hit_cooldown = null
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=18597080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)

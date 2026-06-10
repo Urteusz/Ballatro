@@ -7,6 +7,10 @@ const BLUR_AMOUNT: float = 0.12
 @onready var camera_position_player_ball: Marker3D = %CameraPositionPlayerBall
 @onready var camera_position_deck: Marker3D = %CameraPositionDeck
 @onready var player_ball: Node3D = %player_black
+# these should just receive a signal
+#	but i cba
+@onready var move_to_power_up_button: TextureButton = %MoveToPowerUpButton
+@onready var move_to_deck_button: TextureButton = %MoveToDeckButton
 
 @export_group("Hold Settings")
 @export var hold_time_required: float = 1.0
@@ -37,11 +41,15 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_right") and is_moving_to_deck: 
 		is_moving_to_deck = false
 		looking_at_deck = false
+		move_to_power_up_button.visible = false
+		move_to_deck_button.visible = true
 		move_to(camera_position_player_ball.global_transform, BLUR_AMOUNT)
 		
 	if (Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_cancel")) and not is_moving_to_deck: 
 		is_moving_to_deck = true
 		looking_at_deck = true
+		move_to_power_up_button.visible = true
+		move_to_deck_button.visible = false
 		move_to(camera_position_deck.global_transform, 0.0)
 
 func _process(delta: float) -> void:
@@ -113,3 +121,20 @@ func _is_hovering(mouse_pos: Vector2, target_node: Node3D) -> bool:
 		
 	var d2 = l.dot(l) - tca * tca
 	return d2 <= radius * radius
+
+# setting of state in these two is the same as at the top of this file
+#	rewrite this
+func _on_move_to_power_up_button_pressed() -> void:
+	is_moving_to_deck = false
+	move_to_power_up_button.visible = false
+	move_to_deck_button.visible = true
+	looking_at_deck = false
+	move_to(camera_position_player_ball.global_transform, BLUR_AMOUNT)
+
+
+func _on_move_to_deck_button_pressed() -> void:
+	is_moving_to_deck = true
+	looking_at_deck = true
+	move_to_power_up_button.visible = true
+	move_to_deck_button.visible = false
+	move_to(camera_position_deck.global_transform, 0.0)

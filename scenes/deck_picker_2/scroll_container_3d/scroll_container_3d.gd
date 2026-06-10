@@ -35,7 +35,16 @@ func _spawn_item(power_up_enum: int, index: int) -> void:
 	
 	var is_owned = PlayerData.unlocked_power_ups.has(power_up_enum)
 	var is_active = PlayerData.active_power_up == power_up_enum
-	var label_text = str(PlayerData.PowerUp.keys()[index])
+	var label_text = "";
+	match PlayerData.PowerUp.values()[index]:
+		PlayerData.PowerUp.NONE:
+			label_text = "None"
+		PlayerData.PowerUp.MIDAIR_DASH:
+			label_text = "DASH"
+		#PlayerData.PowerUp.MIDAIR_CONTROL:
+			#label_text = "MIDAIR CONTROL"
+		_:
+			label_text = ""	
 	
 	if instance.has_method("setup"):
 		instance.setup(label_text, index, not is_owned, is_active)

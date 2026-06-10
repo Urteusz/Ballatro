@@ -172,7 +172,7 @@ func _update_hint_display() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+		LoadManager.load_scene(ScenePaths.MAIN_MENU_NEW)
 
 	if event.is_action_pressed("ui_accept"):
 		is_mouse_pressed = true

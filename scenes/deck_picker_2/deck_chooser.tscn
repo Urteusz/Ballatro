@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://b5tvyf2rdgfqo" path="res://scenes/deck_picker_2/background_manager.gd" id="7_ckgi5"]
 [ext_resource type="PackedScene" uid="uid://bc52mwhaa8pck" path="res://models/balls/player_gold.glb" id="8_ghptg"]
 [ext_resource type="PackedScene" uid="uid://b8qr0wrgeidsp" path="res://models/balls/opona/Opona.glb" id="8_twbjt"]
+[ext_resource type="Shader" uid="uid://784q26u8dx4u" path="res://scenes/level_picker_2/level_chooser2_progressquad.gdshader" id="9_lxj6t"]
 [ext_resource type="PackedScene" uid="uid://bpl4e3huosil1" path="res://models/level_picker/star.glb" id="11_2ypl0"]
 [ext_resource type="PackedScene" uid="uid://jwfu8lyjro4g" path="res://scenes/deck_picker_2/scroll_container_3d/scroll_container_3d.tscn" id="12_bd2ia"]
 [ext_resource type="PackedScene" uid="uid://c64dyw52sg57y" path="res://scenes/deck_picker_2/scroll_container_3d/button_3d.tscn" id="13_5jrbf"]
@@ -21,6 +22,7 @@ albedo_color = Color(0, 0, 0, 0.38039216)
 
 [sub_resource type="QuadMesh" id="QuadMesh_5jrbf"]
 material = SubResource("StandardMaterial3D_5jrbf")
+size = Vector2(10000, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twbjt"]
 bg_color = Color(0, 0, 0, 0.5882353)
@@ -122,6 +124,33 @@ fog_density = 1.0
 fog_aerial_perspective = 1.0
 fog_depth_curve = 2.5491211
 
+[sub_resource type="GDScript" id="GDScript_5jrbf"]
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_s55iu"]
+resource_local_to_scene = true
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = SubResource("GDScript_5jrbf")
+metadata/_custom_type_script = "uid://qbfvuccyt8eg"
+
+[sub_resource type="Compositor" id="Compositor_nxi3c"]
+resource_local_to_scene = true
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_s55iu")])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6llfq"]
+render_priority = 0
+shader = ExtResource("9_lxj6t")
+shader_parameter/color = Color(0.8758734, 1.4496624, 2.7885036, 0.27450982)
+shader_parameter/progress = 1.0
+shader_parameter/max_radius = 0.5
+shader_parameter/edge_softness = 0.005
+
+[sub_resource type="QuadMesh" id="QuadMesh_uyotu"]
+material = SubResource("ShaderMaterial_6llfq")
+
 [node name="DeckChooser" type="Node3D" unique_id=140853670]
 script = ExtResource("1_0d6uu")
 inventory_hide_offset = 3.0
@@ -134,7 +163,7 @@ script = ExtResource("3_5jrbf")
 spread = 1.2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryBalls" unique_id=302390914]
-transform = Transform3D(15, 0, 0, 0, -7.649493e-08, 1, 0, -1.75, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(15, 0, 0, 0, -8.940697e-08, 1, 0, -1.75, -5.9604645e-08, 0, 0, 0)
 mesh = SubResource("QuadMesh_5jrbf")
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=1903214128]
@@ -170,6 +199,63 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_twbjt")
 
+[node name="TextureRect" type="TextureRect" parent="InventoryUI/Panel" unique_id=560882124]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 32.0
+offset_right = 64.0
+offset_bottom = 96.0
+grow_vertical = 2
+rotation = -1.5707964
+texture = ExtResource("2_twbjt")
+
+[node name="TextureRect2" type="TextureRect" parent="InventoryUI/Panel" unique_id=297590456]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_right = 64.0
+offset_bottom = 32.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = 1.5707964
+texture = ExtResource("2_twbjt")
+
+[node name="MoveToPowerUpButton" type="TextureButton" parent="InventoryUI" unique_id=1813705855]
+unique_name_in_owner = true
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -96.0
+offset_right = 64.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(2, 2)
+texture_normal = ExtResource("2_twbjt")
+
+[node name="MoveToDeckButton" type="TextureButton" parent="InventoryUI" unique_id=593262951]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 32.0
+offset_right = 64.0
+offset_bottom = 96.0
+grow_vertical = 2
+rotation = -1.5707964
+scale = Vector2(2, 2)
+texture_normal = ExtResource("2_twbjt")
+
 [node name="TriangleRack" type="Node3D" parent="." unique_id=1078743937]
 transform = Transform3D(1, -8.742278e-08, -8.742278e-08, -8.742278e-08, -1, 0, -8.742278e-08, 7.642742e-15, -1, 0, -0.4781043, 0)
 
@@ -185,6 +271,7 @@ transform = Transform3D(-1.31, -1.978045e-07, -8.328066e-08, 1.978045e-07, -1.31
 [node name="Camera3D" type="Camera3D" parent="." unique_id=877367729]
 unique_name_in_owner = true
 transform = Transform3D(0.77273357, -0.20664805, 0.60014945, 0, 0.94551855, 0.32556817, -0.6347305, -0.25157747, 0.7306339, 1.657, 2.05, 11.227)
+cull_mask = 1048573
 attributes = SubResource("CameraAttributesPractical_0d6uu")
 current = true
 fov = 38.4
@@ -198,6 +285,7 @@ mesh = SubResource("QuadMesh_ckgi5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D" unique_id=2041951089]
 environment = SubResource("Environment_ghptg")
+compositor = SubResource("Compositor_nxi3c")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=561314639]
 transform = Transform3D(0.65423936, 0.53546625, 0.534085, 0, -0.706193, 0.70801944, 0.7562875, -0.4632142, -0.4620193, 0, 1.8098701, 0)
@@ -206,6 +294,12 @@ transform = Transform3D(0.65423936, 0.53546625, 0.534085, 0, -0.706193, 0.708019
 unique_name_in_owner = true
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -0.2, 1.372, 9.985)
 script = ExtResource("5_8vpxg")
+
+[node name="ProgressQuad" type="MeshInstance3D" parent="player_black" unique_id=535856919]
+transform = Transform3D(0.93606335, 0, 0.32231253, 0, 0.99, 0, -0.32231253, 0, 0.93606335, -0.24, 1.372, 9.985)
+top_level = true
+mesh = SubResource("QuadMesh_uyotu")
+skeleton = NodePath("../../ScrollbarPivot/ScrollContainer3D")
 
 [node name="CameraPositionPlayerBall" type="Marker3D" parent="." unique_id=1517699459]
 unique_name_in_owner = true
@@ -236,3 +330,8 @@ unique_name_in_owner = true
 item_scene = ExtResource("13_5jrbf")
 spacing = 1.0
 scroll_speed = 1.0
+
+[connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="Camera3D" method="_on_move_to_power_up_button_pressed"]
+[connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="InventoryUI/MoveToPowerUpButton" method="_on_pressed"]
+[connection signal="pressed" from="InventoryUI/MoveToDeckButton" to="Camera3D" method="_on_move_to_deck_button_pressed"]
+[connection signal="pressed" from="InventoryUI/MoveToDeckButton" to="InventoryUI/MoveToDeckButton" method="_on_pressed"]

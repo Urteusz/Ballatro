@@ -11,14 +11,10 @@ const MAX_DECK_SIZE = 6
 enum PowerUp {
 	NONE,
 	MIDAIR_DASH,
-	MIDAIR_CONTROL,
-	DUMMY1,
-	DUMMY2,
-	DUMMY3,
-	DUMMY4
+	#MIDAIR_CONTROL,
 }
 
-var unlocked_power_ups: Array[PowerUp] = [PowerUp.NONE, PowerUp.MIDAIR_DASH, PowerUp.DUMMY2]
+var unlocked_power_ups: Array[PowerUp] = [PowerUp.NONE, PowerUp.MIDAIR_DASH]
 var active_power_up: PowerUp = PowerUp.NONE
 
 var current_level: int = 1

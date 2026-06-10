@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/ui/main_menu/scripts/main_menu.gd" id="1_5seab"]
 [ext_resource type="PackedScene" uid="uid://72pi8chpke0y" path="res://scenes/ui/options_menu/options_menu.tscn" id="1_8i8ns"]
+[ext_resource type="Texture2D" uid="uid://dpr1c3yldh3yh" path="res://textures/logo (20260610081334).png" id="1_wv6bh"]
 [ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu/main_menu3.png" id="1_x2yjq"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
 [ext_resource type="Texture2D" uid="uid://06k08nmbrxj1" path="res://textures/ui/buttons/Button2New.png" id="3_idvnp"]
@@ -91,6 +92,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_5dd4i")
 
+[node name="Logo" type="TextureRect" parent="." unique_id=1895723961]
+z_index = 3
+layout_mode = 0
+offset_left = -3.0517578e-05
+offset_right = 2776.0
+offset_bottom = 1562.0
+scale = Vector2(0.27624017, 0.27624017)
+texture = ExtResource("1_wv6bh")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=39515806]
+z_index = 2
+layout_mode = 0
+offset_left = -3.0517578e-05
+offset_right = 39.99997
+offset_bottom = 40.0
+scale = Vector2(19.308971, 10.397036)
+color = Color(0.48235294, 0.5294118, 1, 1)
+
 [node name="TextureRect" type="TextureRect" parent="." unique_id=816188734]
 top_level = true
 z_index = 1
@@ -133,6 +152,7 @@ layout_mode = 2
 [node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=558781446]
 modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 0.45, 0.45, 1)
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 
 [node name="PlayButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1928759607]
