@@ -73,7 +73,7 @@ func _on_options_button_pressed() -> void:
 func _on_main_menu_button_pressed() -> void:
 	hide()	
 	get_tree().paused = false
-	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+	LoadManager.load_scene(ScenePaths.MAIN_MENU_NEW)
 
 
 func _on_options_menu_options_closed() -> void:
