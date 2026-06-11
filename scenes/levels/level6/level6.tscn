@@ -134,12 +134,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1309000938]
 handle_input_locally = false
 audio_listener_enable_3d = true
-size = Vector2i(960, 540)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=2113310016 node_paths=PackedStringArray("player_ball")]

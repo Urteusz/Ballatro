@@ -24,7 +24,7 @@
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="20_y367v"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/level_5/Table 5 Fan.obj" id="21_ixhut"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="22_h1mtv"]
-[ext_resource type="Script" uid="uid://tkp5glvk78m2" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
+[ext_resource type="Script" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
 [ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
 [ext_resource type="ArrayMesh" uid="uid://b8vjd1qptkgxs" path="res://models/level_7/Level7 Hammer.obj" id="23_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="24_r0ic5"]
@@ -34,6 +34,9 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
 shader = ExtResource("2_yslfd")
+shader_parameter/depth_sensitivity = 0.15
+shader_parameter/normal_sensitivity = 0.2
+shader_parameter/outline_thickness = 1.0
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
 shader_parameter/tintColor = Color(1, 1, 1, 1)
@@ -126,12 +129,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1309000938]
 handle_input_locally = false
 audio_listener_enable_3d = true
-size = Vector2i(683, 384)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=2113310016 node_paths=PackedStringArray("player_ball")]
@@ -435,6 +437,16 @@ items_to_sell = Array[String](["light", "ice", "bomb"])
 [node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
 layout_mode = 0
 anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 380.0
+offset_bottom = 120.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("25_nt2ph")]
 
