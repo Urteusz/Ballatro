@@ -607,8 +607,11 @@ func _allocate_multimeshes(counts: Dictionary) -> void:
 			var orig_mat = _find_first_mesh(temp).get_active_material(0)
 			if orig_mat:
 				mat = orig_mat.duplicate()
-				mat.render_priority = 1
-				mat.no_depth_test = true
+				if mat is BaseMaterial3D:
+					mat.render_priority = 1
+					mat.no_depth_test = true
+				elif mat is ShaderMaterial:
+					mat.render_priority = 1
 		
 		temp.free()
 		var mm_inst = MultiMeshInstance3D.new()

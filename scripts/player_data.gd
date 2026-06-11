@@ -171,8 +171,7 @@ func load_progress() -> void:
 			if save_data.has("level_stars"):
 				level_stars = save_data.level_stars
 
-			# Migration: Unlock new balls if they are missing
-			var new_balls_migration = ["pink"]
+			var new_balls_migration = []
 			var need_save = false
 			for ball in new_balls_migration:
 				if ball not in owned_balls:
