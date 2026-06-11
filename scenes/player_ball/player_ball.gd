@@ -14,7 +14,6 @@ const POWER_BAR_CYCLE_SPEED: float = 1.4
 var PowerBarScene: PackedScene = preload("res://scenes/player_ball/power_bar.tscn")
 var CrosshairScene: PackedScene = preload("res://scenes/player_ball/spin_crosshair.tscn")
 
-const SPIN_CURVE_FORCE: float = 4.5
 const SPIN_DECAY: float = 0.4
 const SPIN_TORQUE_MULT: float = 0.015
 const VERTICAL_SPIN_FORCE: float = 3.0
@@ -22,10 +21,6 @@ const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
 @export var max_charge_duration: float = 1.5
 @export var max_impulse_strength: float = 4.0
-
-@export var max_spin_offset: float = 0.7 
-@export var spin_change_speed: float = 1.8 
-@export var spin_indicator_max_offset_visual: float = 0.5
 
 @export var weak_charge_color := Color(0.1, 1.0, 0.2, 0.95)
 @export var medium_charge_color := Color(1.0, 1.0, 0.0, 0.95)
@@ -57,7 +52,6 @@ var crosshair: MeshInstance3D = null
 var is_grounded: bool = false
 var can_shoot_flag: bool = true
 
-var spin_factor: float = 0.0
 var vertical_spin_factor: float = 0.0
 var spin_active: bool = false
 
@@ -109,9 +103,8 @@ func _process(delta: float) -> void:
 		_clear_aim_line()
 	
 	if spin_active:
-		spin_factor = move_toward(spin_factor, 0.0, SPIN_DECAY * delta)
 		vertical_spin_factor = move_toward(vertical_spin_factor, 0.0, SPIN_DECAY * delta)
-		if is_equal_approx(spin_factor, 0.0) and is_equal_approx(vertical_spin_factor, 0.0):
+		if is_equal_approx(vertical_spin_factor, 0.0):
 			spin_active = false
 
 func _input(event) -> void:
@@ -169,13 +162,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		state.angular_velocity = Vector3.ZERO
 		return
 
-	if spin_active and speed > 0.5:
+	if spin_active and speed > 0.5 and abs(vertical_spin_factor) > 0.05:
 		var forward_dir = lv.normalized()
-		var curve_dir = lv.cross(Vector3.UP).normalized()
-		state.apply_central_force(-curve_dir * spin_factor * SPIN_CURVE_FORCE)
-
-		if abs(vertical_spin_factor) > 0.05:
-			state.apply_central_force(forward_dir * vertical_spin_factor * VERTICAL_SPIN_FORCE)
+		state.apply_central_force(forward_dir * vertical_spin_factor * VERTICAL_SPIN_FORCE)
 
 	if speed > 0.5 and is_grounded:
 		var forward_dir = lv.normalized()
@@ -273,23 +262,15 @@ func push_ball(impulse_power: float) -> void:
 		print("Volume:", audioStream.volume_db)
 		audioStream.play()
 	
-	if camera and "spin_offset" in camera:
-		spin_factor = camera.spin_offset
-		if "vertical_spin_offset" in camera:
-			vertical_spin_factor = camera.vertical_spin_offset
-			camera.vertical_spin_offset = 0.0
-		else:
-			vertical_spin_factor = 0.0
-		spin_active = abs(spin_factor) > 0.05 or abs(vertical_spin_factor) > 0.05
-		camera.spin_offset = 0.0
+	if camera and "vertical_spin_offset" in camera:
+		vertical_spin_factor = camera.vertical_spin_offset
+		camera.vertical_spin_offset = 0.0
+		spin_active = abs(vertical_spin_factor) > 0.05
 	else:
-		spin_factor = 0.0
 		vertical_spin_factor = 0.0
 		spin_active = false
 
 	if spin_active:
-		if abs(spin_factor) > 0.05:
-			apply_torque_impulse(Vector3.UP * spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
 		if abs(vertical_spin_factor) > 0.05:
 			var shot_dir = (camera.cursor_position - global_position).normalized()
 			shot_dir.y = 0
@@ -348,19 +329,13 @@ func _animate_crosshair() -> void:
 
 	var dir_to_cursor: Vector3 = (camera.cursor_position - global_position).normalized()
 
-	var right: Vector3 = dir_to_cursor.cross(Vector3.UP).normalized()
-	if right.length_squared() < 0.001:
-		right = Vector3.RIGHT
 	var up: Vector3 = Vector3.UP
 
-	var h_spin := 0.0
 	var v_spin := 0.0
-	if "spin_offset" in camera:
-		h_spin = camera.spin_offset
 	if "vertical_spin_offset" in camera:
 		v_spin = camera.vertical_spin_offset
 
-	var offset_dir: Vector3 = (dir_to_cursor + right * h_spin * 0.5 + up * v_spin * 0.5).normalized()
+	var offset_dir: Vector3 = (dir_to_cursor + up * v_spin * 0.5).normalized()
 	var ch_pos: Vector3 = global_position + offset_dir * (ball_radius + 0.001)
 
 	crosshair.global_position = ch_pos

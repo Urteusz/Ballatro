@@ -46,9 +46,7 @@ signal targetting_center
 signal game_won
 
 var input_enabled: bool = true
-var spin_offset: float = 0.0
 var vertical_spin_offset: float = 0.0
-const MAX_SPIN_OFFSET: float = 0.95
 const MAX_VERTICAL_SPIN_OFFSET: float = 0.95
 const SPIN_ADJUST_SPEED: float = 2.0
 
@@ -69,15 +67,6 @@ func _process(delta: float) -> void:
 	
 	if input_enabled:
 		_handle_joystick_input(real_delta)
-
-		var spin_input = 0.0
-		if Input.is_physical_key_pressed(KEY_D):
-			spin_input -= 1.0
-		if Input.is_physical_key_pressed(KEY_A):
-			spin_input += 1.0
-
-		spin_offset += spin_input * SPIN_ADJUST_SPEED * delta
-		spin_offset = clamp(spin_offset, -MAX_SPIN_OFFSET, MAX_SPIN_OFFSET)
 
 		var vertical_spin_input = 0.0
 		if Input.is_physical_key_pressed(KEY_W):

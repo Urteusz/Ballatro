@@ -7,7 +7,6 @@ var current_device: String = "keyboard" # or "gamepad"
 var prompts_keyboard = {
 	"aim": "Move mouse",
 	"spin_y": "Mouse up/down",
-	"spin_x": "A/D",
 	"charge": "LMB",
 	"cancel": "RMB",
 	"change_view": "Tab",
@@ -23,7 +22,6 @@ var prompts_keyboard = {
 var prompts_gamepad = {
 	"aim": "[img=40]res://textures/ui/pad_icon/xbox_stick_l.png[/img]",
 	"spin_y": "[img=40]res://textures/ui/pad_icon/xbox_stick_l_vertical.png[/img]",
-	"spin_x": "[img=40]res://textures/ui/pad_icon/xbox_stick_l_horizontal.png[/img]",
 	"charge": "[img=40]res://textures/ui/pad_icon/xbox_button_a.png[/img]",
 	"cancel": "[img=40]res://textures/ui/pad_icon/xbox_button_b.png[/img]",
 	"change_view": "[img=40]res://textures/ui/pad_icon/xbox_dpad_right.png[/img]",
