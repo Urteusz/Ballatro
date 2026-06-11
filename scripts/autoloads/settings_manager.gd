@@ -1,6 +1,7 @@
 extends Node
 
 const SETTINGS_PATH = "user://settings.cfg"
+const LEGACY_DEFAULT_MAX_FPS: int = 60
 
 enum WindowMode {
 	FULLSCREEN,
@@ -53,7 +54,7 @@ const DEFAULTS = {
 		"msaa": Viewport.MSAA_DISABLED,
 		"aa": PostProcessAA.SMAA,
 		"anisotropy": 3,
-		"max_fps": 60,
+		"max_fps": 240,
 		"resolution_scale_mode": Viewport.SCALING_3D_MODE_BILINEAR,
 		"resolution_scale": 1.0,
 		"ui_scale": 1.0,
@@ -94,7 +95,12 @@ func load_settings():
 					var raw_value = config.get_value(section, key)
 					settings_data[section][key] = validate_setting(section, key, raw_value)
 
+	_migrate_legacy_defaults()
 	save_settings()
+
+func _migrate_legacy_defaults() -> void:
+	if settings_data["graphics"]["max_fps"] == LEGACY_DEFAULT_MAX_FPS:
+		settings_data["graphics"]["max_fps"] = DEFAULTS["graphics"]["max_fps"]
 
 func save_settings():
 	var config = ConfigFile.new()

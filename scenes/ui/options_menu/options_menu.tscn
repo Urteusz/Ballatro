@@ -182,13 +182,13 @@ focus_neighbor_top = NodePath("../../../Controls/PadSensitivity/PadSensitivitySl
 min_value = 30.0
 max_value = 240.0
 step = 10.0
-value = 60.0
+value = 240.0
 ticks_on_borders = true
 
 [node name="MaxFPSValue" type="Label" parent="Background/CenterContainer/VBoxContainer/HBoxContainer/Graphics/Max FPS" unique_id=1515850768]
 unique_name_in_owner = true
 layout_mode = 2
-text = "60 fps"
+text = "240 FPS"
 
 [node name="VSync" type="HBoxContainer" parent="Background/CenterContainer/VBoxContainer/HBoxContainer/Graphics" unique_id=913747531]
 layout_mode = 2
