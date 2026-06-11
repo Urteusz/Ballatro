@@ -186,28 +186,37 @@ func _setup_focus_nav() -> void:
 		max_fps_slider, res_scale_mode_button, res_scale_slider, ui_scale_slider, ssao_button, ssil_button,
 		inverted_mouse_button, pad_sensitivity_slider, volume_slider, apply_button, ret, def]:
 		if c:
-			c.focus_mode = Control.FOCUS_ALL
+			c.focus_mode = Control.FOCUS_ALL if c.visible else Control.FOCUS_NONE
 
-	_nb(resolution_button, apply_button, inverted_mouse_button, window_mode_button, vsync_button)
-	_nb(vsync_button, def if def else apply_button, pad_sensitivity_slider, resolution_button, window_mode_button)
-	_nb(window_mode_button, ret if ret else (def if def else apply_button), volume_slider, vsync_button, resolution_button)
+	var bottom_left = def if def else ret
+	var bottom_right = ret if ret else def
+	var controls_bottom = def if def else (ret if ret else volume_slider)
+	var graphics_bottom = def if def else (ret if ret else ssil_button)
 
-	_nb(inverted_mouse_button, resolution_button, apply_button, volume_slider, pad_sensitivity_slider)
-	_nb(pad_sensitivity_slider, vsync_button, def if def else apply_button, inverted_mouse_button, volume_slider)
-	_nb(volume_slider, window_mode_button, ret if ret else (def if def else apply_button), pad_sensitivity_slider, inverted_mouse_button)
+	_nb(resolution_button, bottom_right, apply_button, graphics_bottom, window_mode_button)
+	_nb(apply_button, resolution_button, inverted_mouse_button, graphics_bottom, window_mode_button)
+	_nb(window_mode_button, bottom_right, pad_sensitivity_slider, resolution_button, res_scale_mode_button)
+	_nb(res_scale_mode_button, bottom_right, volume_slider, window_mode_button, res_scale_slider)
+	_nb(res_scale_slider, bottom_right, volume_slider, res_scale_mode_button, max_fps_slider)
+	_nb(max_fps_slider, bottom_right, volume_slider, res_scale_slider, vsync_button)
+	_nb(vsync_button, bottom_right, volume_slider, max_fps_slider, msaa_button)
+	_nb(msaa_button, bottom_right, volume_slider, vsync_button, aa_button)
+	_nb(aa_button, bottom_right, volume_slider, msaa_button, anisotropy_button)
+	_nb(anisotropy_button, bottom_right, volume_slider, aa_button, ssao_button)
+	_nb(ssao_button, bottom_right, volume_slider, anisotropy_button, ssil_button)
+	_nb(ssil_button, bottom_right, volume_slider, ssao_button, bottom_left)
+
+	_nb(inverted_mouse_button, apply_button, resolution_button, bottom_right, pad_sensitivity_slider)
+	_nb(pad_sensitivity_slider, window_mode_button, window_mode_button, inverted_mouse_button, volume_slider)
+	_nb(volume_slider, res_scale_mode_button, res_scale_mode_button, pad_sensitivity_slider, controls_bottom)
 
 	if def and ret:
-		_nb(apply_button,   inverted_mouse_button,  resolution_button,  ret,          def)
-		_nb(def,            pad_sensitivity_slider, vsync_button,       apply_button, ret)
-		_nb(ret,            volume_slider,          window_mode_button, def,          apply_button)
+		_nb(def, ssil_button, ret, ssil_button, resolution_button)
+		_nb(ret, def, resolution_button, volume_slider, resolution_button)
 	elif def:
-		_nb(apply_button,   inverted_mouse_button,  resolution_button,  def,          def)
-		_nb(def,            pad_sensitivity_slider, vsync_button,       apply_button, apply_button)
+		_nb(def, ssil_button, resolution_button, ssil_button, resolution_button)
 	elif ret:
-		_nb(apply_button,   inverted_mouse_button,  resolution_button,  ret,          ret)
-		_nb(ret,            volume_slider,          window_mode_button, apply_button, apply_button)
-	else:
-		_nb(apply_button,   inverted_mouse_button,  resolution_button,  inverted_mouse_button, inverted_mouse_button)
+		_nb(ret, ssil_button, resolution_button, volume_slider, resolution_button)
 
 func _nb(node, left, right, top, bottom) -> void:
 	if not node: return
@@ -215,14 +224,21 @@ func _nb(node, left, right, top, bottom) -> void:
 	node.focus_neighbor_right = node.get_path_to(right) if right else NodePath()
 	node.focus_neighbor_top = node.get_path_to(top) if top else NodePath()
 	node.focus_neighbor_bottom = node.get_path_to(bottom) if bottom else NodePath()
+	node.focus_previous = node.focus_neighbor_top
+	node.focus_next = node.focus_neighbor_bottom
 
 func _input(event) -> void:
 	if not visible:
 		return
+
+	var ui_nav_action := _get_ui_nav_action(event)
+	var ui_nav_pressed := ui_nav_action != ""
 	
 	if confirm_dialog.visible:
 		if event.is_action_pressed("ui_cancel"):
 			_on_confirm_revert()
+			get_viewport().set_input_as_handled()
+		elif _is_ui_nav_motion(event) and not ui_nav_pressed:
 			get_viewport().set_input_as_handled()
 		return
 	
@@ -240,9 +256,11 @@ func _input(event) -> void:
 			_open_dropdown.get_popup().hide()
 			get_viewport().set_input_as_handled()
 			return
+		if _is_ui_nav_motion(event) and not ui_nav_pressed:
+			get_viewport().set_input_as_handled()
+			return
 
-	if !focused and (event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") \
-		or event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right")):
+	if !focused and ui_nav_pressed:
 		resolution_button.grab_focus()
 		focused = true
 		get_viewport().set_input_as_handled()
@@ -253,6 +271,11 @@ func _input(event) -> void:
 			resolution_button.release_focus()
 			focused = false
 		_on_back_pressed()
+	elif ui_nav_pressed and _should_move_settings_focus(ui_nav_action):
+		_move_settings_focus(ui_nav_action)
+		get_viewport().set_input_as_handled()
+	elif _is_ui_nav_motion(event) and not ui_nav_pressed:
+		get_viewport().set_input_as_handled()
 
 func populate_vsync_options() -> void:
 	vsync_button.clear()
@@ -555,6 +578,8 @@ func _on_confirm_revert() -> void:
 
 func fade_in() -> void:
 	visible = true
+	focused = true
+	resolution_button.grab_focus.call_deferred()
 	root_ui.modulate.a = 0.0
 	var tween = create_tween()
 	tween.tween_property(root_ui, "modulate:a", 1.0, 0.3).set_trans(Tween.TRANS_CUBIC)
@@ -564,3 +589,62 @@ func fade_out() -> void:
 	tween.tween_property(root_ui, "modulate:a", 0.0, 0.3).set_trans(Tween.TRANS_CUBIC)
 	await tween.finished
 	visible = false
+
+func _get_ui_nav_action(event: InputEvent) -> String:
+	for action in ["ui_up", "ui_down", "ui_left", "ui_right"]:
+		if _is_ui_nav_pressed(event, action):
+			return action
+	return ""
+
+func _is_ui_nav_pressed(event: InputEvent, action: String) -> bool:
+	if InputManager and InputManager.has_method("is_ui_navigation_action_pressed_once"):
+		return InputManager.is_ui_navigation_action_pressed_once(event, action)
+	return event.is_action_pressed(action)
+
+func _is_ui_nav_motion(event: InputEvent) -> bool:
+	return InputManager and InputManager.has_method("is_ui_navigation_motion") and InputManager.is_ui_navigation_motion(event)
+
+func _should_move_settings_focus(action: String) -> bool:
+	var owner := get_viewport().gui_get_focus_owner()
+	return not (owner is HSlider and (action == "ui_left" or action == "ui_right"))
+
+func _move_settings_focus(action: String) -> void:
+	var current := get_viewport().gui_get_focus_owner() as Control
+	if not current:
+		resolution_button.grab_focus()
+		focused = true
+		return
+
+	var visited: Array[Control] = []
+	while current and current not in visited:
+		visited.append(current)
+		var neighbor_path := _get_focus_neighbor(current, action)
+		if neighbor_path.is_empty():
+			return
+		var candidate := current.get_node_or_null(neighbor_path) as Control
+		if not candidate:
+			return
+		if _can_focus(candidate):
+			candidate.grab_focus()
+			focused = true
+			return
+		current = candidate
+
+func _get_focus_neighbor(control: Control, action: String) -> NodePath:
+	match action:
+		"ui_up":
+			return control.focus_neighbor_top
+		"ui_down":
+			return control.focus_neighbor_bottom
+		"ui_left":
+			return control.focus_neighbor_left
+		"ui_right":
+			return control.focus_neighbor_right
+	return NodePath()
+
+func _can_focus(control: Control) -> bool:
+	if not control.is_visible_in_tree() or control.focus_mode == Control.FOCUS_NONE:
+		return false
+	if control is BaseButton and control.disabled:
+		return false
+	return true

@@ -2,7 +2,20 @@ extends Node
 
 signal input_device_changed(device_type: String)
 
+const UI_NAV_AXIS_DEADZONE: float = 0.5
+const UI_NAV_AXIS_RELEASE_DEADZONE: float = 0.35
+const _UI_NAV_ACTIONS = {
+	"ui_left": {"axis": JOY_AXIS_LEFT_X, "direction": -1},
+	"ui_right": {"axis": JOY_AXIS_LEFT_X, "direction": 1},
+	"ui_up": {"axis": JOY_AXIS_LEFT_Y, "direction": -1},
+	"ui_down": {"axis": JOY_AXIS_LEFT_Y, "direction": 1},
+}
+
 var current_device: String = "keyboard" # or "gamepad"
+var _ui_nav_axis_state: Dictionary = {
+	JOY_AXIS_LEFT_X: 0,
+	JOY_AXIS_LEFT_Y: 0,
+}
 
 var prompts_keyboard = {
 	"aim": "Move mouse",
@@ -60,3 +73,33 @@ func parse_prompts(text: String) -> String:
 	for key in dict.keys():
 		parsed_text = parsed_text.replace("[act:" + key + "]", dict[key])
 	return parsed_text
+
+func is_ui_navigation_motion(event: InputEvent) -> bool:
+	if not event is InputEventJoypadMotion:
+		return false
+	return event.axis == JOY_AXIS_LEFT_X or event.axis == JOY_AXIS_LEFT_Y
+
+func is_ui_navigation_action_pressed_once(event: InputEvent, action: String) -> bool:
+	if event is InputEventJoypadMotion and _UI_NAV_ACTIONS.has(action):
+		var nav_data: Dictionary = _UI_NAV_ACTIONS[action]
+		var axis: int = int(nav_data["axis"])
+		if event.axis != axis:
+			return false
+
+		if abs(event.axis_value) < UI_NAV_AXIS_RELEASE_DEADZONE:
+			_ui_nav_axis_state[axis] = 0
+			return false
+
+		if abs(event.axis_value) < UI_NAV_AXIS_DEADZONE:
+			return false
+
+		var direction := 1 if event.axis_value > 0.0 else -1
+		if direction != int(nav_data["direction"]):
+			return false
+		if _ui_nav_axis_state.get(axis, 0) == direction:
+			return false
+
+		_ui_nav_axis_state[axis] = direction
+		return true
+
+	return event.is_action_pressed(action)

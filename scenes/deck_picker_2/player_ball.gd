@@ -63,7 +63,10 @@ func _process(delta: float) -> void:
 	else:
 		rotation_velocity = rotation_velocity.move_toward(Vector2.ZERO, damping * delta)
 		
-	if is_dragging:
+	# Ładowanie do startu: mysz (przeciąganie po kuli) albo przytrzymanie akceptacji na padzie.
+	var holding := is_dragging or Input.is_action_pressed("ui_accept")
+
+	if holding:
 		hold_progress += delta
 		if hold_progress > hold_delay:
 			var active_hold = hold_progress - hold_delay

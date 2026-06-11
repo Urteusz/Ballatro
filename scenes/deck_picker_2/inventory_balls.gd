@@ -14,6 +14,8 @@ var initial_global_pos: Vector3
 var max_scroll_distance: float = 0.0
 var target_scroll_x: float = 0.0
 var current_scroll_x: float = 0.0
+var inventory_balls: Array[Node3D] = []
+var focused_ball_index: int = -1
 
 func _ready() -> void:
 	initial_global_pos = global_position
@@ -24,16 +26,20 @@ func _process(delta: float) -> void:
 		return
 	
 	var scroll_dir := 0.0
-	var viewport = get_viewport()
-	
-	if viewport:
-		var mouse_pos = viewport.get_mouse_position()
-		var vp_size = viewport.get_visible_rect().size
-		
-		if mouse_pos.x < edge_scroll_margin:
-			scroll_dir = 1.0
-		elif mouse_pos.x > vp_size.x - edge_scroll_margin:
-			scroll_dir = -1.0
+	var on_gamepad := InputManager and InputManager.current_device == "gamepad"
+
+	# Na padzie pasek podąża za zaznaczoną kulą (patrz _scroll_focus_into_view),
+	# więc przewijanie krawędziami myszy jest wyłączone, żeby się nie biły.
+	if not on_gamepad:
+		var viewport = get_viewport()
+		if viewport:
+			var mouse_pos = viewport.get_mouse_position()
+			var vp_size = viewport.get_visible_rect().size
+
+			if mouse_pos.x < edge_scroll_margin:
+				scroll_dir = 1.0
+			elif mouse_pos.x > vp_size.x - edge_scroll_margin:
+				scroll_dir = -1.0
 	
 	target_scroll_x += scroll_dir * scroll_speed * delta
 	target_scroll_x = clamp(target_scroll_x, -max_scroll_distance, max_scroll_distance)
@@ -77,12 +83,14 @@ func spawn_unequipped_balls() -> void:
 		
 		var new_ball = ball_data.scene.instantiate()
 		new_ball.set_meta("ball_data", ball_data)
+		new_ball.set_meta("inventory_base_scale", new_ball.scale)
 		new_ball.input_event.connect(_on_inventory_ball_pressed.bind(new_ball))
 		if new_ball is RigidBody3D:
 			new_ball.freeze = true
 			new_ball.rotate_x(deg_to_rad(-90))
 
 		add_child(new_ball)
+		inventory_balls.append(new_ball)
 		
 		if new_ball is RigidBody3D:
 			new_ball.input_ray_pickable = true
@@ -140,10 +148,14 @@ func _disable_all_particles(node: Node) -> void:
 		_disable_all_particles(child)
 
 func _on_ball_mouse_entered(ball: Node3D) -> void:
-	_animate_scale(ball, Vector3.ONE * 1.2)
+	var index := inventory_balls.find(ball)
+	if index != -1:
+		_set_focused_ball(index)
 
 func _on_ball_mouse_exited(ball: Node3D) -> void:
-	_animate_scale(ball, Vector3.ONE)
+	if focused_ball_index >= 0 and focused_ball_index < inventory_balls.size() and inventory_balls[focused_ball_index] == ball:
+		if not InputManager or InputManager.current_device != "gamepad":
+			clear_focus()
 
 func _animate_scale(ball: Node3D, target_scale: Vector3) -> void:
 	if ball.has_meta("scale_tween"):
@@ -160,10 +172,74 @@ func _on_inventory_ball_pressed(_camera, event, _pos, _normal, _shape, ball_inst
 		var ball_data = ball_instance.get_meta("ball_data")
 		ball_swapped.emit(ball_data)
 
+func focus_first() -> void:
+	if inventory_balls.is_empty():
+		focused_ball_index = -1
+		return
+	_set_focused_ball(0)
+
+func move_focus(step: int) -> void:
+	if inventory_balls.is_empty():
+		focused_ball_index = -1
+		return
+	if focused_ball_index < 0:
+		_set_focused_ball(0)
+		return
+	_set_focused_ball(wrapi(focused_ball_index + step, 0, inventory_balls.size()))
+
+func select_focused() -> void:
+	if focused_ball_index < 0 or focused_ball_index >= inventory_balls.size():
+		return
+	var ball := inventory_balls[focused_ball_index]
+	if is_instance_valid(ball):
+		ball_swapped.emit(ball.get_meta("ball_data"))
+
+func clear_focus() -> void:
+	if focused_ball_index >= 0 and focused_ball_index < inventory_balls.size():
+		var ball := inventory_balls[focused_ball_index]
+		if is_instance_valid(ball):
+			_animate_scale(ball, _get_base_scale(ball))
+	focused_ball_index = -1
+
+func _set_focused_ball(index: int) -> void:
+	if inventory_balls.is_empty():
+		return
+
+	var new_index := wrapi(index, 0, inventory_balls.size())
+	if new_index == focused_ball_index:
+		return
+
+	if focused_ball_index >= 0 and focused_ball_index < inventory_balls.size():
+		var old_ball := inventory_balls[focused_ball_index]
+		if is_instance_valid(old_ball):
+			_animate_scale(old_ball, _get_base_scale(old_ball))
+
+	focused_ball_index = new_index
+	var new_ball := inventory_balls[focused_ball_index]
+	if is_instance_valid(new_ball):
+		_animate_scale(new_ball, _get_base_scale(new_ball) * 1.2)
+
+	if InputManager and InputManager.current_device == "gamepad":
+		_scroll_focus_into_view()
+
+# Przesuwa pasek tak, aby zaznaczona kula znalazła się na środku (w granicach przewijania).
+func _scroll_focus_into_view() -> void:
+	if focused_ball_index < 0 or inventory_balls.size() <= 1 or max_scroll_distance <= 0.0:
+		return
+	var centered := (float(inventory_balls.size() - 1) / 2.0 - float(focused_ball_index)) * spread
+	target_scroll_x = clamp(centered, -max_scroll_distance, max_scroll_distance)
+
+func _get_base_scale(ball: Node3D) -> Vector3:
+	if ball.has_meta("inventory_base_scale"):
+		return ball.get_meta("inventory_base_scale") as Vector3
+	return Vector3.ONE
+
 func refresh_inventory() -> void:
 	target_scroll_x = 0.0
 	current_scroll_x = 0.0
 	global_position = initial_global_pos
+	focused_ball_index = -1
+	inventory_balls.clear()
 	
 	for child in get_children():
 		if child.has_meta("ball_data"):

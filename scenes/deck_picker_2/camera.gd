@@ -7,6 +7,7 @@ const BLUR_AMOUNT: float = 0.12
 @onready var camera_position_player_ball: Marker3D = %CameraPositionPlayerBall
 @onready var camera_position_deck: Marker3D = %CameraPositionDeck
 @onready var player_ball: Node3D = %player_black
+@onready var power_up_selector: Node = %ScrollContainer3D
 # these should just receive a signal
 #	but i cba
 @onready var move_to_power_up_button: TextureButton = %MoveToPowerUpButton
@@ -20,6 +21,7 @@ var looking_at_deck: bool = true
 var tween: Tween
 var is_locked: bool = false
 var is_moving_to_deck: bool = true
+var deck_ball_focus_active: bool = false
 
 var hold_progress: float = 0.0
 var base_ball_scale: Vector3 = Vector3.ONE
@@ -33,24 +35,37 @@ func _input(event: InputEvent) -> void:
 	if is_locked:
 		return
 	
-	if Input.is_action_just_pressed("ui_cancel") and looking_at_deck:
+	if event.is_action_pressed("ui_cancel") and looking_at_deck:
+		if deck_ball_focus_active:
+			return
 		if LoadManager:
 			LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 		return
 	
-	if Input.is_action_just_pressed("ui_right") and is_moving_to_deck: 
-		is_moving_to_deck = false
-		looking_at_deck = false
-		move_to_power_up_button.visible = false
-		move_to_deck_button.visible = true
-		move_to(camera_position_player_ball.global_transform, BLUR_AMOUNT)
-		
-	if (Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_cancel")) and not is_moving_to_deck: 
-		is_moving_to_deck = true
-		looking_at_deck = true
-		move_to_power_up_button.visible = true
-		move_to_deck_button.visible = false
-		move_to(camera_position_deck.global_transform, 0.0)
+	if is_moving_to_deck and (_is_ui_nav_pressed(event, "ui_right") or event.is_action_pressed("ui_details")):
+		_show_power_up_view()
+		get_viewport().set_input_as_handled()
+		return
+
+	if not is_moving_to_deck and _is_ui_nav_pressed(event, "ui_right"):
+		if power_up_selector and power_up_selector.has_method("move_focus"):
+			power_up_selector.move_focus(1)
+		get_viewport().set_input_as_handled()
+		return
+
+	if not is_moving_to_deck and _is_ui_nav_pressed(event, "ui_left"):
+		var moved_power_up_focus := false
+		if power_up_selector and power_up_selector.has_method("move_focus"):
+			moved_power_up_focus = bool(power_up_selector.move_focus(-1))
+		if not moved_power_up_focus:
+			_show_deck_view()
+		get_viewport().set_input_as_handled()
+		return
+
+	if (event.is_action_pressed("ui_details") or event.is_action_pressed("ui_cancel")) and not is_moving_to_deck:
+		_show_deck_view()
+		get_viewport().set_input_as_handled()
+		return
 
 func _process(delta: float) -> void:
 	var is_pressing = false
@@ -125,6 +140,11 @@ func _is_hovering(mouse_pos: Vector2, target_node: Node3D) -> bool:
 # setting of state in these two is the same as at the top of this file
 #	rewrite this
 func _on_move_to_power_up_button_pressed() -> void:
+	_show_power_up_view()
+
+func _show_power_up_view() -> void:
+	if deck_ball_focus_active:
+		return
 	is_moving_to_deck = false
 	move_to_power_up_button.visible = false
 	move_to_deck_button.visible = true
@@ -133,8 +153,21 @@ func _on_move_to_power_up_button_pressed() -> void:
 
 
 func _on_move_to_deck_button_pressed() -> void:
+	_show_deck_view()
+
+func _show_deck_view() -> void:
 	is_moving_to_deck = true
 	looking_at_deck = true
 	move_to_power_up_button.visible = true
 	move_to_deck_button.visible = false
 	move_to(camera_position_deck.global_transform, 0.0)
+
+func set_deck_ball_focus_active(active: bool) -> void:
+	deck_ball_focus_active = active
+
+func _is_ui_nav_pressed(event: InputEvent, action: String) -> bool:
+	if deck_ball_focus_active:
+		return false
+	if InputManager and InputManager.has_method("is_ui_navigation_action_pressed_once"):
+		return InputManager.is_ui_navigation_action_pressed_once(event, action)
+	return event.is_action_pressed(action)

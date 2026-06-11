@@ -24,6 +24,10 @@ func _ready() -> void:
 	if original_material:
 		mesh_instance.material_override = original_material.duplicate()
 		material = mesh_instance.material_override as ShaderMaterial
+		_update_visuals()
+		var start_depth := press_depth if is_latched else 0.0
+		mesh_instance.position.z = start_depth
+		material.set_shader_parameter("z_offset", start_depth)
 	else:
 		push_error("Button3D::Ready: Failed to retrieve the original material!")
 
