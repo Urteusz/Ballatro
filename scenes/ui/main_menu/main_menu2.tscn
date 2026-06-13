@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://cqqqlcny2t3v2"]
 
 [ext_resource type="Texture2D" uid="uid://dpr1c3yldh3yh" path="res://textures/logo (20260610081334).png" id="3_gpxwu"]
+[ext_resource type="Script" uid="uid://2ktafe142p5q" path="res://scenes/ui/main_menu/logo.gd" id="4_fc4go"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="11_dshgm"]
 [ext_resource type="Script" uid="uid://dxovafvsjsk36" path="res://scenes/ui/main_menu/impulse.gd" id="11_hnsyg"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="12_gpff5"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="13_ue210"]
 [ext_resource type="Texture2D" uid="uid://dr7t7awb357c0" path="res://textures/checkerboard.png" id="14_5a0or"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="15_i53o0"]
-[ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/ui/main_menu/scripts/main_menu_ball.gd" id="16_yynp6"]
 [ext_resource type="PackedScene" uid="uid://72pi8chpke0y" path="res://scenes/ui/options_menu/options_menu.tscn" id="17_evqmi"]
 [ext_resource type="Script" uid="uid://ba4mlc5cmgwqx" path="res://scenes/ui/main_menu/bars.gd" id="18_cxrfh"]
 
@@ -20,7 +20,7 @@ bg_color = Color(0.48235294, 0.5294118, 1, 1)
 bg_color = Color(0.77254903, 0.8117647, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpxwu"]
-bg_color = Color(0.77254903, 0.8117647, 1, 1)
+bg_color = Color(0.6392157, 0.6901961, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fskk0"]
 bg_color = Color(0.48235294, 0.5294118, 1, 1)
@@ -358,13 +358,15 @@ mouse_filter = 2
 color = Color(0.8902203, 0.90719837, 0.95888036, 1)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=444225169]
-offset_left = 953.0
-offset_top = 520.0
-offset_right = 3729.0
-offset_bottom = 2082.0
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 2836.0
+offset_bottom = 1612.0
 scale = Vector2(0.35039943, 0.35039943)
-mouse_filter = 2
+pivot_offset = Vector2(1388, 781)
 texture = ExtResource("3_gpxwu")
+script = ExtResource("4_fc4go")
+scale_amount = 1.03
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=377743824]
 texture_filter = 1
@@ -410,7 +412,7 @@ shape = SubResource("BoxShape3D_noarx")
 
 [node name="Ball1" parent="SubViewportContainer/SubViewport/Balls" unique_id=173607576 instance=ExtResource("15_i53o0")]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.92652863, 0.37622428, 0, -0.37622428, 0.92652863, 0, 0.48252046, -0.66541624)
-script = ExtResource("16_yynp6")
+script = null
 
 [node name="Ball2" parent="SubViewportContainer/SubViewport/Balls" unique_id=1752905333 instance=ExtResource("15_i53o0")]
 transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.4792326, 0.483, -1.488207)
@@ -475,3 +477,5 @@ impulse_strength = 1.0
 [connection signal="pressed" from="CanvasLayer/Control/PlayButton" to="CanvasLayer/Control" method="_on_play_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/OptionsButton" to="CanvasLayer/Control" method="_on_options_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/QuitButton" to="CanvasLayer/Control" method="_on_quit_button_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/TextureRect" to="CanvasLayer/TextureRect" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/TextureRect" to="CanvasLayer/TextureRect" method="_on_mouse_exited"]
