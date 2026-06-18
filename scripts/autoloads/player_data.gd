@@ -41,6 +41,7 @@ var football_ball_data = load("res://scenes/balls/ball_data/football.tres")
 var basketball_ball_data = load("res://scenes/balls/ball_data/basketball.tres")
 var tenisball_ball_data = load("res://scenes/balls/ball_data/tenisball.tres")
 var pink_ball_data = load("res://scenes/balls/ball_data/pink_ball.tres")
+var opona_ball_data = load("res://scenes/balls/ball_data/opona_ball.tres")
 
 var ball_data_map = {
 	"red": red_ball_data,
@@ -61,7 +62,8 @@ var ball_data_map = {
 	"football": football_ball_data,
 	"basketball": basketball_ball_data,
 	"tenisball": tenisball_ball_data,
-	"pink": pink_ball_data
+	"pink": pink_ball_data,
+	"opona": opona_ball_data
 }
 
 const SAVE_PATH = "user://player_progress.save"

@@ -11,7 +11,8 @@ const BALL_POSITIONS: Array[Vector3] = [
 
 @export var ball_hover_offset: float = 0.4
 @export var inventory_hide_offset: float = -3.0
-var inventory_home_y: float = 0.0
+var inventory_home_pos: Vector3
+var inventory_hidden_pos: Vector3
 @onready var inventory: Node3D = $%InventoryBalls
 
 @export var float_offset: float = 0.02
@@ -26,7 +27,6 @@ var inventory_home_y: float = 0.0
 @onready var balls_container: Node3D = %DeckBalls
 @onready var ball_selected_marker: Marker3D = %BallSelectedPosition
 @onready var arrow_button: TextureButton = %ArrowButton
-@onready var ball_list_panel: Panel = %Panel
 var base_y: float = 0.0
 
 var selected_ball: Node3D = null
@@ -55,11 +55,14 @@ func _ready() -> void:
 	arrow_hidden_y = arrow_home_y + 150.0
 	arrow_button.position.y = arrow_hidden_y
 
-	panel_hidden_y = panel_home_y + ball_list_panel.size.y
-	ball_list_panel.position.y = panel_hidden_y
+	inventory_home_pos = inventory.global_position
+	var up_axis = Vector3.UP
+	if camera:
+		up_axis = camera.global_transform.basis.y.normalized()
+	inventory_hidden_pos = inventory_home_pos + (up_axis * inventory_hide_offset)
 
-	inventory_home_y = inventory.position.z
-	inventory.position.z = inventory_home_y + inventory_hide_offset
+	inventory.set("initial_global_pos", inventory_hidden_pos)
+	inventory.global_position = inventory_hidden_pos
 	inventory.visible = false
 
 	inventory.ball_swapped.connect(_handle_swap)
@@ -136,6 +139,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_pressed():
 			if _is_hovering(event.position, selected_ball):
 				is_dragging = true
+			elif inventory.visible and event.position.y > get_viewport().get_visible_rect().size.y * 0.6:
+				pass
 			else:
 				_deselect_ball()
 		else:
@@ -422,7 +427,6 @@ func _move_ball_to_camera_center(ball: Node3D) -> void:
 	ball.set_meta("active_tween", tween)
 	tween.tween_property(ball, "global_transform", ball_selected_marker.global_transform, 0.2)
 
-	# arrow button stuff
 	var arrow_tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	arrow_tween.tween_property(arrow_button, "position:y", arrow_home_y, 0.4)
 
@@ -432,11 +436,9 @@ func _move_ball_to_camera_center(ball: Node3D) -> void:
 	inventory.visible = true
 	inventory.focus_first()
 
-	# panel
 	var bottom_ui_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	bottom_ui_tween.set_parallel(true)
-	bottom_ui_tween.tween_property(ball_list_panel, "position:y", panel_home_y, 0.1)
-	bottom_ui_tween.tween_property(inventory, "position:z", inventory_home_y, 0.1)
+	bottom_ui_tween.tween_property(inventory, "initial_global_pos", inventory_home_pos, 0.1)
 
 func _deselect_ball() -> void:
 	if selected_ball == null:
@@ -463,8 +465,7 @@ func _deselect_ball() -> void:
 
 	var bottom_ui_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	bottom_ui_tween.set_parallel(true)
-	bottom_ui_tween.tween_property(ball_list_panel, "position:y", panel_hidden_y, 0.1)
-	bottom_ui_tween.tween_property(inventory, "position:z", inventory_home_y + inventory_hide_offset, 0.1)
+	bottom_ui_tween.tween_property(inventory, "initial_global_pos", inventory_hidden_pos, 0.1)
 
 	await bottom_ui_tween.finished
 

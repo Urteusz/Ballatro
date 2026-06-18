@@ -66,7 +66,6 @@ func _on_change_level_button_pressed() -> void:
 	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
 func _on_options_button_pressed() -> void:
-	get_tree().paused = false
 	hide()
 	options.fade_in()
 

@@ -16,22 +16,82 @@
 [ext_resource type="PackedScene" uid="uid://jwfu8lyjro4g" path="res://scenes/deck_picker_2/scroll_container_3d/scroll_container_3d.tscn" id="12_bd2ia"]
 [ext_resource type="PackedScene" uid="uid://c64dyw52sg57y" path="res://scenes/deck_picker_2/scroll_container_3d/button_3d.tscn" id="13_5jrbf"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5jrbf"]
-transparency = 1
-albedo_color = Color(0, 0, 0, 0.38039216)
+[sub_resource type="Shader" id="Shader_lxj6t"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.6.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx, depth_test_disabled;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform vec4 bg_color : source_color = vec4(0.0, 0.0, 0.0, 0.5);
+uniform vec4 border_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float border_width : hint_range(0.0, 0.5) = 0.05;
+
+void vertex() {
+    UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+    vec2 base_uv = UV;
+
+    vec4 albedo_tex = texture(texture_albedo, base_uv);
+    ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+    float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+    METALLIC = metallic_tex * metallic;
+    SPECULAR = specular;
+
+    vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+    float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+    ROUGHNESS = roughness_tex * roughness;
+    ALPHA *= albedo.a * albedo_tex.a;
+
+    vec2 border = step(vec2(border_width), base_uv) * step(base_uv, vec2(1.0 - border_width));
+    float is_inside = border.x * border.y;
+    vec4 custom_color = mix(border_color, bg_color, is_inside);
+
+    ALBEDO *= custom_color.rgb;
+    ALPHA *= custom_color.a;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uyotu"]
+render_priority = 0
+shader = SubResource("Shader_lxj6t")
+shader_parameter/albedo = Color(0, 0, 0, 0.38039216)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/bg_color = Color(0, 0, 0, 0.5)
+shader_parameter/border_color = Color(2.7083335, 2.7083335, 2.7083335, 1)
+shader_parameter/border_width = 0.05
 
 [sub_resource type="QuadMesh" id="QuadMesh_5jrbf"]
-material = SubResource("StandardMaterial3D_5jrbf")
+material = SubResource("ShaderMaterial_uyotu")
 size = Vector2(10000, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twbjt"]
-bg_color = Color(0, 0, 0, 0.5882353)
-draw_center = false
-border_width_top = 15
-border_color = Color(0.49803922, 0.63529414, 0.7882353, 1)
-shadow_color = Color(0, 0, 0, 0.05882353)
-shadow_size = 10
-anti_aliasing_size = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ss3rk"]
 resource_name = "Material.001"
@@ -153,14 +213,11 @@ material = SubResource("ShaderMaterial_6llfq")
 
 [node name="DeckChooser" type="Node3D" unique_id=140853670]
 script = ExtResource("1_0d6uu")
-inventory_hide_offset = 3.0
-panel_home_y = 800.0
 
 [node name="InventoryBalls" type="Node3D" parent="." unique_id=505108240]
 unique_name_in_owner = true
 transform = Transform3D(0.7, 0, 0, 0, 0.6893654, 0.12155373, 0, -0.12155373, 0.6893654, 0, 0.67, 1.7)
 script = ExtResource("3_5jrbf")
-spread = 1.2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InventoryBalls" unique_id=302390914]
 transform = Transform3D(15, 0, 0, 0, -8.940697e-08, 1, 0, -1.75, -5.9604645e-08, 0, 0, 0)
@@ -186,45 +243,6 @@ scale = Vector2(2, 2)
 pivot_offset = Vector2(32, 90)
 mouse_filter = 2
 texture_normal = ExtResource("2_twbjt")
-
-[node name="Panel" type="Panel" parent="InventoryUI" unique_id=1599568439]
-unique_name_in_owner = true
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -422.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_twbjt")
-
-[node name="TextureRect" type="TextureRect" parent="InventoryUI/Panel" unique_id=560882124]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = 32.0
-offset_right = 64.0
-offset_bottom = 96.0
-grow_vertical = 2
-rotation = -1.5707964
-texture = ExtResource("2_twbjt")
-
-[node name="TextureRect2" type="TextureRect" parent="InventoryUI/Panel" unique_id=297590456]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -32.0
-offset_right = 64.0
-offset_bottom = 32.0
-grow_horizontal = 0
-grow_vertical = 2
-rotation = 1.5707964
-texture = ExtResource("2_twbjt")
 
 [node name="MoveToPowerUpButton" type="TextureButton" parent="InventoryUI" unique_id=1813705855]
 unique_name_in_owner = true
@@ -331,7 +349,7 @@ item_scene = ExtResource("13_5jrbf")
 spacing = 1.0
 scroll_speed = 1.0
 
-[connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="Camera3D" method="_on_move_to_power_up_button_pressed"]
 [connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="InventoryUI/MoveToPowerUpButton" method="_on_pressed"]
-[connection signal="pressed" from="InventoryUI/MoveToDeckButton" to="Camera3D" method="_on_move_to_deck_button_pressed"]
+[connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="Camera3D" method="_on_move_to_power_up_button_pressed"]
 [connection signal="pressed" from="InventoryUI/MoveToDeckButton" to="InventoryUI/MoveToDeckButton" method="_on_pressed"]
+[connection signal="pressed" from="InventoryUI/MoveToDeckButton" to="Camera3D" method="_on_move_to_deck_button_pressed"]

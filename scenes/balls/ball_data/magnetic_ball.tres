@@ -9,6 +9,7 @@ script = ExtResource("1_gwoop")
 scene = ExtResource("1_5rb1n")
 texture = ExtResource("3_122ua")
 base_value = 80
+display_name = "Magnetic Ball+"
 shop_cost = 4000
 shop_description = "A magnetic ball that attracts nearby balls on collision, changing the course of play."
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

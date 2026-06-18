@@ -192,27 +192,28 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ep5rh")
 
-[node name="VideoLayer_Empty" type="VideoStreamPlayer" parent="." unique_id=2095466571]
-z_index = 1200
-material = SubResource("ShaderMaterial_0ag1g")
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=461754412]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+ratio = 1.7778
+stretch_mode = 3
+
+[node name="VideoLayer_Empty" type="VideoStreamPlayer" parent="AspectRatioContainer" unique_id=2095466571]
+z_index = 1200
+material = SubResource("ShaderMaterial_0ag1g")
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 autoplay = true
 expand = true
 
-[node name="VideoLayer_Fill" type="VideoStreamPlayer" parent="." unique_id=245950885]
+[node name="VideoLayer_Fill" type="VideoStreamPlayer" parent="AspectRatioContainer" unique_id=245950885]
 z_index = 1200
 material = SubResource("ShaderMaterial_0ag1g")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 autoplay = true

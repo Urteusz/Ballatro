@@ -9,6 +9,7 @@ signal ball_swapped(inventory_ball_data)
 @export var scroll_speed: float  = 15.0
 @export var edge_scroll_margin: float = 100.0
 @export var scroll_smoothing: float = 10.0
+@export var drag_scroll_sensitivity: float = 0.007
 
 var initial_global_pos: Vector3
 var max_scroll_distance: float = 0.0
@@ -17,9 +18,29 @@ var current_scroll_x: float = 0.0
 var inventory_balls: Array[Node3D] = []
 var focused_ball_index: int = -1
 
+var pressed_ball: Node3D = null
+var is_dragging_scroll: bool = false
+var drag_accum: float = 0.0
+
 func _ready() -> void:
 	initial_global_pos = global_position
 	spawn_unequipped_balls()
+
+func _input(event: InputEvent) -> void:
+	if not is_visible_in_tree() or max_scroll_distance <= 0:
+		return
+		
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			is_dragging_scroll = true
+			drag_accum = 0.0
+		else:
+			is_dragging_scroll = false
+			
+	if event is InputEventMouseMotion and is_dragging_scroll:
+		drag_accum += abs(event.relative.x) + abs(event.relative.y)
+		target_scroll_x += event.relative.x * drag_scroll_sensitivity
+		target_scroll_x = clamp(target_scroll_x, -max_scroll_distance, max_scroll_distance)
 
 func _process(delta: float) -> void:
 	if max_scroll_distance <= 0:
@@ -27,10 +48,11 @@ func _process(delta: float) -> void:
 	
 	var scroll_dir := 0.0
 	var on_gamepad := InputManager and InputManager.current_device == "gamepad"
+	var on_keyboard := InputManager and InputManager.current_device == "keyboard"
 
 	# Na padzie pasek podąża za zaznaczoną kulą (patrz _scroll_focus_into_view),
 	# więc przewijanie krawędziami myszy jest wyłączone, żeby się nie biły.
-	if not on_gamepad:
+	if not on_gamepad and not on_keyboard:
 		var viewport = get_viewport()
 		if viewport:
 			var mouse_pos = viewport.get_mouse_position()
@@ -67,8 +89,9 @@ func spawn_unequipped_balls() -> void:
 		
 	var base_transform := global_transform
 	var base_position := initial_global_pos
-	var right_vector := base_transform.basis.x
-	var up_vector := base_transform.basis.y
+	
+	var right_vector := base_transform.basis.x.normalized()
+	var up_vector := base_transform.basis.y.normalized()
 	
 	var y_offset := up_vector * ball_radius
 	var start_x_scalar: float = -(float(num_balls - 1) / 2.0) * spread
@@ -127,7 +150,6 @@ func configure_ball_light(ball_instance: Node3D) -> void:
 	var light = _find_light_recursive(ball_instance)
 	if light:
 		light.omni_range = 0.5
-		#light.light_energy = 0.05
 	_disable_all_particles(ball_instance)
 
 func _find_light_recursive(node: Node) -> OmniLight3D:
@@ -168,15 +190,21 @@ func _animate_scale(ball: Node3D, target_scale: Vector3) -> void:
 	tween.tween_property(ball, "scale", target_scale, 0.15)
 
 func _on_inventory_ball_pressed(_camera, event, _pos, _normal, _shape, ball_instance: Node3D) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var ball_data = ball_instance.get_meta("ball_data")
-		ball_swapped.emit(ball_data)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			pressed_ball = ball_instance
+		elif not event.pressed and pressed_ball == ball_instance:
+			if drag_accum <= 5.0:
+				var ball_data = ball_instance.get_meta("ball_data")
+				ball_swapped.emit(ball_data)
+			pressed_ball = null
 
 func focus_first() -> void:
 	if inventory_balls.is_empty():
 		focused_ball_index = -1
 		return
 	_set_focused_ball(0)
+	_scroll_focus_into_view()
 
 func move_focus(step: int) -> void:
 	if inventory_balls.is_empty():
@@ -184,8 +212,10 @@ func move_focus(step: int) -> void:
 		return
 	if focused_ball_index < 0:
 		_set_focused_ball(0)
+		_scroll_focus_into_view()
 		return
 	_set_focused_ball(wrapi(focused_ball_index + step, 0, inventory_balls.size()))
+	_scroll_focus_into_view()
 
 func select_focused() -> void:
 	if focused_ball_index < 0 or focused_ball_index >= inventory_balls.size():
@@ -218,9 +248,6 @@ func _set_focused_ball(index: int) -> void:
 	var new_ball := inventory_balls[focused_ball_index]
 	if is_instance_valid(new_ball):
 		_animate_scale(new_ball, _get_base_scale(new_ball) * 1.2)
-
-	if InputManager and InputManager.current_device == "gamepad":
-		_scroll_focus_into_view()
 
 # Przesuwa pasek tak, aby zaznaczona kula znalazła się na środku (w granicach przewijania).
 func _scroll_focus_into_view() -> void:

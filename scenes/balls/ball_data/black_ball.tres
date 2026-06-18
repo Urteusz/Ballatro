@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="BallData" load_steps=4 format=3 uid="uid://cm44xbajm8fs6"]
+[gd_resource type="Resource" script_class="BallData" format=3 uid="uid://cm44xbajm8fs6"]
 
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="1_ksp2b"]
 [ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_phvfd"]
@@ -9,5 +9,6 @@ script = ExtResource("1_phvfd")
 scene = ExtResource("1_ksp2b")
 texture = ExtResource("3_2f5ea")
 base_value = 50
+display_name = "Black Ball"
 shop_cost = 0
 shop_description = "A typical colored ball, nothing special."

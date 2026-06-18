@@ -29,7 +29,6 @@ enum PostProcessAA {
 	DISABLED,
 	FXAA,
 	SMAA,
-	TAA,
 }
 
 const SCALING_3D_MODES = {
@@ -151,9 +150,6 @@ func apply_graphics_settings():
 			PostProcessAA.SMAA:
 				vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_SMAA
 				vp.use_taa = false
-			PostProcessAA.TAA:
-				vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
-				vp.use_taa = true
 				
 		var environment: Environment = null
 		var camera = vp.get_camera_3d()

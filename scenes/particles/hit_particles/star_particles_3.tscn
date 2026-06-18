@@ -10,8 +10,8 @@ particle_flag_damping_as_friction = true
 spread = 180.0
 initial_velocity_min = 1.0
 initial_velocity_max = 3.0
-scale_min = 0.099999994
-scale_max = 0.7
+scale_min = 0.049999997
+scale_max = 0.099999994
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_828j1"]
 render_priority = 1
@@ -28,10 +28,10 @@ particles_anim_loop = false
 [sub_resource type="QuadMesh" id="QuadMesh_yfye5"]
 material = SubResource("StandardMaterial3D_828j1")
 
-[node name="StarParticles" type="GPUParticles3D"]
+[node name="StarParticles" type="GPUParticles3D" unique_id=1221732126]
 emitting = false
 amount = 10
-lifetime = 0.9400000000000001
+lifetime = 0.94
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0

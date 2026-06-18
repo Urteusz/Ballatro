@@ -141,10 +141,6 @@ func _on_res_scale_mode_selected(index: int) -> void:
 func _update_aa_availability(current_scale_mode: int) -> void:
 	if current_scale_mode == Viewport.SCALING_3D_MODE_FSR2:
 		aa_button.disabled = true
-		for i in range(aa_button.item_count):
-			if aa_button.get_item_id(i) == SettingsManager.PostProcessAA.TAA:
-				aa_button.select(i)
-				break
 	else:
 		aa_button.disabled = false
 		var saved_aa = SettingsManager.get_setting("graphics", "aa")

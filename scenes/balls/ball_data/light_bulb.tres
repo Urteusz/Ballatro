@@ -7,5 +7,6 @@
 script = ExtResource("2_8ulus")
 scene = ExtResource("1_ygyh3")
 base_value = 130
+display_name = "Light Bulb"
 shop_cost = 7500
 shop_description = "A glowing ball that helps illuminate dark levels."

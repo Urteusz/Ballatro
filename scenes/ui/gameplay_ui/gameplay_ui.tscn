@@ -232,11 +232,11 @@ grow_vertical = 0
 
 [node name="HintLabel" type="RichTextLabel" parent="ControlGameplay" unique_id=1081873546]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.9760417
+anchor_top = 0.97037035
+anchor_right = 0.9760417
+anchor_bottom = 0.97037035
 offset_left = -639.0
 offset_top = -269.0
 grow_horizontal = 0
@@ -247,6 +247,7 @@ text = "[right]Instructions[/right]"
 fit_content = true
 scroll_active = false
 vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="WinConfetti" type="CPUParticles2D" parent="ControlGameplay" unique_id=1412567298]
 position = Vector2(640, 0)

@@ -33,7 +33,7 @@ shader_parameter/depth_sensitivity = 0.15
 shader_parameter/normal_sensitivity = 0.2
 shader_parameter/outline_thickness = 1.0
 shader_parameter/lineHighlight = 0.2
-shader_parameter/lineShadow = 2.0
+shader_parameter/lineShadow = 1.0
 shader_parameter/tintColor = Color(0.18, 0.17, 0.72, 1)
 shader_parameter/tintStrength = 0.0
 
@@ -324,15 +324,6 @@ grow_vertical = 1
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("17_e4fnj")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 

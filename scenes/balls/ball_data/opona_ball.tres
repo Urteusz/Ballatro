@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BallData" format=3 uid="uid://c708a6ewqk2p7"]
+
+[ext_resource type="PackedScene" uid="uid://dtmvkhksui88f" path="res://scenes/balls/opona.tscn" id="1_s27rv"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="2_rptn1"]
+
+[resource]
+script = ExtResource("2_rptn1")
+scene = ExtResource("1_s27rv")
+base_value = 500
+display_name = "Opona"
+shop_cost = 3500
+shop_description = "A ball that bounces harder off the walls."
+metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
