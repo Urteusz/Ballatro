@@ -413,6 +413,7 @@ max_emission_energy = 10.0
 star_distance_min = 3500.0
 star_distance_max = 3500.0
 star_base_size = 12.0
+min_start_distance = 60.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("23_sx8sq")
