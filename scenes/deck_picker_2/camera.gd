@@ -143,7 +143,7 @@ func _on_move_to_power_up_button_pressed() -> void:
 	_show_power_up_view()
 
 func _show_power_up_view() -> void:
-	if deck_ball_focus_active:
+	if deck_ball_focus_active or is_locked:
 		return
 	is_moving_to_deck = false
 	move_to_power_up_button.visible = false

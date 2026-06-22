@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://bujm8fi7lbtf1"]
+[gd_scene format=4 uid="uid://sh6ko8n0kyo"]
 
 [ext_resource type="Script" uid="uid://p2jes822lmm3" path="res://scenes/deck_picker_2/deck_choose.gd" id="1_0d6uu"]
 [ext_resource type="Script" uid="uid://c7frvm1jkpht4" path="res://scenes/deck_picker_2/camera.gd" id="1_1k2nv"]
@@ -348,12 +348,6 @@ unique_name_in_owner = true
 item_scene = ExtResource("13_5jrbf")
 spacing = 1.0
 scroll_speed = 1.0
-
-[node name="Label" type="Label" parent="." unique_id=1273388715]
-offset_right = 40.0
-offset_bottom = 14.0
-theme_override_font_sizes/font_size = 586
-text = "FIX DJKLASDJKLASJKLDASJKLDASLJK"
 
 [connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="InventoryUI/MoveToPowerUpButton" method="_on_pressed"]
 [connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="Camera3D" method="_on_move_to_power_up_button_pressed"]

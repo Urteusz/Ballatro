@@ -149,6 +149,7 @@ script = ExtResource("1_necjb")
 player_ball = NodePath("../Table/PlayerBall")
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=2064730997]
+visible = false
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 

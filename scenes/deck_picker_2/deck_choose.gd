@@ -9,6 +9,8 @@ const BALL_POSITIONS: Array[Vector3] = [
 	Vector3(0.0, 0.0, 0.0),
 ]
 
+@onready var move_to_power_up_button: TextureButton = %MoveToPowerUpButton
+
 @export var ball_hover_offset: float = 0.4
 @export var inventory_hide_offset: float = -3.0
 var inventory_home_pos: Vector3
@@ -422,6 +424,8 @@ func _move_ball_to_camera_center(ball: Node3D) -> void:
 
 	if camera:
 		camera.is_locked = true
+	if move_to_power_up_button:
+		move_to_power_up_button.visible = false
 
 	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	ball.set_meta("active_tween", tween)
@@ -470,6 +474,8 @@ func _deselect_ball() -> void:
 	await bottom_ui_tween.finished
 
 	inventory.visible = false
+	if move_to_power_up_button:
+		move_to_power_up_button.visible = true
 
 	if not deck_balls.is_empty():
 		focused_deck_ball_index = -1

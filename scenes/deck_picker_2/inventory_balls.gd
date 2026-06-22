@@ -32,8 +32,10 @@ func _input(event: InputEvent) -> void:
 		
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			is_dragging_scroll = true
-			drag_accum = 0.0
+			var screen_height = get_viewport().get_visible_rect().size.y
+			if event.position.y > screen_height * 0.6:
+				is_dragging_scroll = true
+				drag_accum = 0.0
 		else:
 			is_dragging_scroll = false
 			

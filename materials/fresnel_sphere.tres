@@ -52,7 +52,7 @@ void fragment() {
 [resource]
 render_priority = 0
 shader = SubResource("Shader_w8s0e")
-shader_parameter/albedo = Color(0.7810221, 0.59245735, 0.7506151, 0.08627451)
+shader_parameter/albedo = Color(0.4446, 0.4446, 0.78, 0.08627451)
 shader_parameter/albedo_texture_size = Vector2i(0, 0)
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
@@ -65,4 +65,4 @@ shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/fresnel_amount = 1.0
 shader_parameter/fresnel_power = 5.0
-shader_parameter/fresnel_color = Color(2.2229998, 0.78728867, 0.30748484, 1)
+shader_parameter/fresnel_color = Color(0.22783926, 0.060122877, 2.222829, 1)

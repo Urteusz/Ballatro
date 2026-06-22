@@ -525,7 +525,7 @@ func _generate_static_planet_orbits(blueprints: Array) -> void:
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_LINES)
 	var mat = StandardMaterial3D.new()
-	mat.render_priority = 1
+	mat.render_priority = 10
 	mat.no_depth_test = true
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -562,7 +562,7 @@ func _create_torus_ring(radius: float, color: Color, tilt: Basis) -> MeshInstanc
 	mesh.rings = 32
 	
 	var mat = StandardMaterial3D.new()
-	mat.render_priority = 1
+	mat.render_priority = 10
 	mat.no_depth_test = true
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
