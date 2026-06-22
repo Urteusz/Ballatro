@@ -7,11 +7,11 @@
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="4_70mfr"]
 [ext_resource type="ArrayMesh" uid="uid://fuo2ey8ldk6s" path="res://models/level_1/table_level_1/rim.obj" id="5_5prdx"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
-[ext_resource type="ArrayMesh" uid="uid://cllyja83senci" path="res://models/level_1/table_level_1/walls.obj" id="7_st3il"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_wi5kd"]
 [ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="10_e4fnj"]
+[ext_resource type="ArrayMesh" uid="uid://cjfc6u08v1p50" path="res://models/level_1/table_level_1/tall_walls.obj" id="10_p1fx4"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="14_lv1b3"]
@@ -84,8 +84,8 @@ shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.690000032775
 shader_parameter/invisible_distance = 6.7490003205775
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ei1ye"]
-data = PackedVector3Array(1.7851, 1.6466999, 2.3917, 1.7851, 0.0121, 2.3917, 1.7851, 1.6466999, -2.3917, 1.7851, 1.6466999, -2.3917, 1.7851, 0.0121, 2.3917, 1.7851, 0.0121, -2.3917, -1.7851, 0.0121, -2.3917, -1.7851, 0.0121, 2.3917, -1.7851, 1.6466999, -2.3917, -1.7851, 1.6466999, -2.3917, -1.7851, 0.0121, 2.3917, -1.7851, 1.6466999, 2.3917, -1.7851, 0.0121, 2.3917, 1.7851, 0.0121, 2.3917, -1.7851, 1.6466999, 2.3917, -1.7851, 1.6466999, 2.3917, 1.7851, 0.0121, 2.3917, 1.7851, 1.6466999, 2.3917, 1.7851, 0.0121, -2.3917, -1.7851, 0.0121, -2.3917, 1.7851, 1.6466999, -2.3917, 1.7851, 1.6466999, -2.3917, -1.7851, 0.0121, -2.3917, -1.7851, 1.6466999, -2.3917)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_p1fx4"]
+data = PackedVector3Array(1.7851, 10.8947, 2.3917, 1.7851, 0.0121, 2.3917, 1.7851, 10.8947, -2.3917, 1.7851, 10.8947, -2.3917, 1.7851, 0.0121, 2.3917, 1.7851, 0.0121, -2.3917, -1.7851, 0.0121, -2.3917, -1.7851, 0.0121, 2.3917, -1.7851, 10.8947, -2.3917, -1.7851, 10.8947, -2.3917, -1.7851, 0.0121, 2.3917, -1.7851, 10.8947, 2.3917, -1.7851, 0.0121, 2.3917, 1.7851, 0.0121, 2.3917, -1.7851, 10.8947, 2.3917, -1.7851, 10.8947, 2.3917, 1.7851, 0.0121, 2.3917, 1.7851, 10.8947, 2.3917, 1.7851, 0.0121, -2.3917, -1.7851, 0.0121, -2.3917, 1.7851, 10.8947, -2.3917, 1.7851, 10.8947, -2.3917, -1.7851, 0.0121, -2.3917, -1.7851, 10.8947, -2.3917)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ke34q"]
 size = Vector3(4.189209, 1, 3.668579)
@@ -101,6 +101,10 @@ size = Vector3(3.4182444, 1, 4.663923)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p1fx4"]
 size = Vector3(119.76561, 1, 138.33061)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_x0doa"]
+data = PackedVector3Array(-19.635, 23.3375, 35.2425, 19.635, 23.3375, 35.2425, -19.635, -23.3375, 35.2425, 19.635, 23.3375, 35.2425, 19.635, -23.3375, 35.2425, -19.635, -23.3375, 35.2425, 19.635, 23.3375, -35.2425, -19.635, 23.3375, -35.2425, 19.635, -23.3375, -35.2425, -19.635, 23.3375, -35.2425, -19.635, -23.3375, -35.2425, 19.635, -23.3375, -35.2425, 19.635, 23.3375, 35.2425, 19.635, 23.3375, -35.2425, 19.635, -23.3375, 35.2425, 19.635, 23.3375, -35.2425, 19.635, -23.3375, -35.2425, 19.635, -23.3375, 35.2425, -19.635, 23.3375, -35.2425, -19.635, 23.3375, 35.2425, -19.635, -23.3375, -35.2425, -19.635, 23.3375, 35.2425, -19.635, -23.3375, 35.2425, -19.635, -23.3375, -35.2425, 19.635, 23.3375, 35.2425, -19.635, 23.3375, 35.2425, 19.635, 23.3375, -35.2425, -19.635, 23.3375, 35.2425, -19.635, 23.3375, -35.2425, 19.635, 23.3375, -35.2425, -19.635, -23.3375, 35.2425, 19.635, -23.3375, 35.2425, -19.635, -23.3375, -35.2425, 19.635, -23.3375, 35.2425, 19.635, -23.3375, -35.2425, -19.635, -23.3375, -35.2425)
+backface_collision = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
@@ -169,17 +173,16 @@ shape = SubResource("ConcavePolygonShape3D_or0go")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.168132, 16.172523)
 physics_material_override = SubResource("PhysicsMaterial_e4fnj")
 
-[node name="TableWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" unique_id=1668717834 node_paths=PackedStringArray("object_node")]
+[node name="TallWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" unique_id=965637538 node_paths=PackedStringArray("object_node")]
 transform = Transform3D(-5, 0, 7.54979e-07, 0, 5, 0, -7.54979e-07, 0, -5, 0, -8.67, 16.154)
-mesh = ExtResource("7_st3il")
-skeleton = NodePath("")
+mesh = ExtResource("10_p1fx4")
 surface_material_override/0 = SubResource("ShaderMaterial_u8udk")
 script = ExtResource("9_wi5kd")
 object_node = NodePath("../../PlayerBall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Walls" unique_id=746057426]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Walls" unique_id=485241868]
 transform = Transform3D(-5, 0, 7.54979e-07, 0, 5, 0, -7.54979e-07, 0, -5, 0, -8.67, 16.154)
-shape = SubResource("ConcavePolygonShape3D_ei1ye")
+shape = SubResource("ConcavePolygonShape3D_p1fx4")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=205270197 node_paths=PackedStringArray("game_manager", "player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.566394)
@@ -265,8 +268,13 @@ script = ExtResource("19_x0doa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -1.3938522)
 shape = SubResource("BoxShape3D_p1fx4")
 
-[node name="room" parent="SubViewportContainer/SubViewport" unique_id=26455145 instance=ExtResource("22_v0ouj")]
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport" unique_id=383498852]
+
+[node name="room" parent="SubViewportContainer/SubViewport/StaticBody3D" unique_id=26455145 instance=ExtResource("22_v0ouj")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/StaticBody3D" unique_id=543270353]
+shape = SubResource("ConcavePolygonShape3D_x0doa")
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1620794859]
 

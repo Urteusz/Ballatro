@@ -144,6 +144,11 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2t1am")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu1na"]
+albedo_color = Color(0.71, 0.49770996, 0.2201, 1)
+distance_fade_mode = 2
+distance_fade_max_distance = 2.0
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kdd1l"]
 bounce = 0.1
 
@@ -280,6 +285,7 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -0.562383, 0, -0.1754192)
 [node name="TableRim" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/TableRim/Node" unique_id=1666588774]
 transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0)
 mesh = SubResource("ArrayMesh_55rpr")
+surface_material_override/0 = SubResource("StandardMaterial3D_bu1na")
 
 [node name="TableWalls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=251581165 groups=["table"]]
 transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 5.0723343, 0)

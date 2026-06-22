@@ -349,6 +349,12 @@ item_scene = ExtResource("13_5jrbf")
 spacing = 1.0
 scroll_speed = 1.0
 
+[node name="Label" type="Label" parent="." unique_id=1273388715]
+offset_right = 40.0
+offset_bottom = 14.0
+theme_override_font_sizes/font_size = 586
+text = "FIX DJKLASDJKLASJKLDASJKLDASLJK"
+
 [connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="InventoryUI/MoveToPowerUpButton" method="_on_pressed"]
 [connection signal="pressed" from="InventoryUI/MoveToPowerUpButton" to="Camera3D" method="_on_move_to_power_up_button_pressed"]
 [connection signal="pressed" from="InventoryUI/MoveToDeckButton" to="InventoryUI/MoveToDeckButton" method="_on_pressed"]

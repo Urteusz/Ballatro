@@ -91,7 +91,7 @@ size = Vector3(7.2821045, 1, 5.9804993)
 size = Vector3(6.7201233, 1, 6.82164)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ylxqd"]
-size = Vector3(119.76561, 1, 138.33061)
+size = Vector3(431.09912, 1, 355.27667)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uj8rt"]
 
@@ -252,7 +252,7 @@ collision_mask = 5
 script = ExtResource("14_ylxqd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=616166928]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -1.3938522)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.024223, 0, 29.843014)
 shape = SubResource("BoxShape3D_ylxqd")
 
 [node name="Fan" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1675685963]
