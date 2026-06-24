@@ -8,8 +8,6 @@ const BLUR_AMOUNT: float = 0.12
 @onready var camera_position_deck: Marker3D = %CameraPositionDeck
 @onready var player_ball: Node3D = %player_black
 @onready var power_up_selector: Node = %ScrollContainer3D
-# these should just receive a signal
-#	but i cba
 @onready var move_to_power_up_button: TextureButton = %MoveToPowerUpButton
 @onready var move_to_deck_button: TextureButton = %MoveToDeckButton
 
@@ -21,7 +19,6 @@ var looking_at_deck: bool = true
 var tween: Tween
 var is_locked: bool = false
 var is_moving_to_deck: bool = true
-var deck_ball_focus_active: bool = false
 
 var hold_progress: float = 0.0
 var base_ball_scale: Vector3 = Vector3.ONE
@@ -36,13 +33,11 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("ui_cancel") and looking_at_deck:
-		if deck_ball_focus_active:
-			return
 		if LoadManager:
 			LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 		return
 	
-	if is_moving_to_deck and (_is_ui_nav_pressed(event, "ui_right") or event.is_action_pressed("ui_details")):
+	if is_moving_to_deck and event.is_action_pressed("ui_details"):
 		_show_power_up_view()
 		get_viewport().set_input_as_handled()
 		return
@@ -137,20 +132,17 @@ func _is_hovering(mouse_pos: Vector2, target_node: Node3D) -> bool:
 	var d2 = l.dot(l) - tca * tca
 	return d2 <= radius * radius
 
-# setting of state in these two is the same as at the top of this file
-#	rewrite this
 func _on_move_to_power_up_button_pressed() -> void:
 	_show_power_up_view()
 
 func _show_power_up_view() -> void:
-	if deck_ball_focus_active or is_locked:
+	if is_locked:
 		return
 	is_moving_to_deck = false
 	move_to_power_up_button.visible = false
 	move_to_deck_button.visible = true
 	looking_at_deck = false
 	move_to(camera_position_player_ball.global_transform, BLUR_AMOUNT)
-
 
 func _on_move_to_deck_button_pressed() -> void:
 	_show_deck_view()
@@ -162,12 +154,7 @@ func _show_deck_view() -> void:
 	move_to_deck_button.visible = false
 	move_to(camera_position_deck.global_transform, 0.0)
 
-func set_deck_ball_focus_active(active: bool) -> void:
-	deck_ball_focus_active = active
-
 func _is_ui_nav_pressed(event: InputEvent, action: String) -> bool:
-	if deck_ball_focus_active:
-		return false
 	if InputManager and InputManager.has_method("is_ui_navigation_action_pressed_once"):
 		return InputManager.is_ui_navigation_action_pressed_once(event, action)
 	return event.is_action_pressed(action)

@@ -35,9 +35,7 @@ var selected_ball: Node3D = null
 var is_animating: bool = false
 var deck_balls: Array[Node3D] = []
 var focused_deck_ball_index: int = -1
-var ball_focus_active: bool = false
 
-# Układ kul w siatce: rzędy od góry ekranu, w rzędzie indeksy od lewej.
 var deck_rows: Array = []
 var ball_grid_pos: Dictionary = {}
 
@@ -68,23 +66,13 @@ func _ready() -> void:
 	inventory.visible = false
 
 	inventory.ball_swapped.connect(_handle_swap)
+	call_deferred("_set_focused_deck_ball", 0)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if selected_ball == null:
 		if is_animating:
 			return
 		if camera and camera.looking_at_deck:
-			if not ball_focus_active:
-				if event.is_action_pressed("ui_accept"):
-					_enter_ball_focus()
-					get_viewport().set_input_as_handled()
-				return
-
-			if event.is_action_pressed("ui_cancel"):
-				_exit_ball_focus()
-				get_viewport().set_input_as_handled()
-				return
-
 			if _is_ui_nav_pressed(event, "ui_left"):
 				_move_deck_focus_horizontal(-1)
 				get_viewport().set_input_as_handled()
@@ -280,22 +268,6 @@ func _move_focused_deck_ball_to_center() -> void:
 	if is_instance_valid(ball):
 		_move_ball_to_camera_center(ball)
 
-func _enter_ball_focus() -> void:
-	if deck_balls.is_empty():
-		return
-	ball_focus_active = true
-	if camera and camera.has_method("set_deck_ball_focus_active"):
-		camera.set_deck_ball_focus_active(true)
-	if focused_deck_ball_index < 0:
-		_set_focused_deck_ball(0)
-
-func _exit_ball_focus() -> void:
-	ball_focus_active = false
-	_clear_focused_deck_ball()
-	if camera and camera.has_method("set_deck_ball_focus_active"):
-		camera.set_deck_ball_focus_active(false)
-
-# Lewo/prawo: ruch w obrębie tego samego rzędu (bez zawijania).
 func _move_deck_focus_horizontal(step: int) -> void:
 	if deck_balls.is_empty() or selected_ball != null:
 		return
@@ -311,12 +283,14 @@ func _move_deck_focus_horizontal(step: int) -> void:
 	var grid: Vector2i = ball_grid_pos[focused_deck_ball_index]
 	var row_arr: Array = deck_rows[grid.x]
 	var new_col := clampi(grid.y + step, 0, row_arr.size() - 1)
+	
 	if new_col == grid.y:
+		if step == 1 and camera and camera.has_method("_show_power_up_view"):
+			camera._show_power_up_view()
 		return
+		
 	_set_focused_deck_ball(row_arr[new_col])
 
-# Góra/dół: zmiana rzędu z zachowaniem strony (lewa->lewa, prawa->prawa, środek->środek).
-# step: -1 = w górę (wyższy rząd), 1 = w dół (niższy rząd)
 func _move_deck_focus_vertical(step: int) -> void:
 	if deck_balls.is_empty() or selected_ball != null:
 		return
@@ -336,7 +310,6 @@ func _move_deck_focus_vertical(step: int) -> void:
 	var cur_arr: Array = deck_rows[grid.x]
 	var target_arr: Array = deck_rows[new_row]
 
-	# Pozycja względna w poziomie (0 = lewa krawędź, 1 = prawa krawędź rzędu).
 	var frac := 0.5
 	if cur_arr.size() > 1:
 		frac = float(grid.y) / float(cur_arr.size() - 1)
@@ -353,7 +326,6 @@ func _sort_deck_balls_for_navigation() -> void:
 	deck_balls.sort_custom(_deck_ball_screen_order)
 	_build_deck_rows()
 
-# Grupuje posortowane kule w rzędy po pozycji Y na ekranie.
 func _build_deck_rows() -> void:
 	deck_rows.clear()
 	ball_grid_pos.clear()
@@ -391,8 +363,6 @@ func _get_deck_base_y(ball: Node3D) -> float:
 	return base_y
 
 func _on_deck_ball_mouse_entered(ball: Node3D) -> void:
-	if InputManager and InputManager.current_device == "gamepad" and not ball_focus_active:
-		return
 	var index := deck_balls.find(ball)
 	if index != -1:
 		_set_focused_deck_ball(index)
